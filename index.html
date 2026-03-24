@@ -34,7 +34,140 @@ html { scroll-behavior: smooth; }
 
 body { background:var(--bg); color:var(--text); font-family:var(--font-body); font-size:14px; min-height:100vh; overflow-x:hidden; }
 #star-bg { position:fixed; inset:0; z-index:0; pointer-events:none; }
-.app { position:relative; z-index:1; max-width:740px; margin:0 auto; padding:16px 16px 80px; }
+
+/* ── Two-column layout ── */
+.app {
+  position:relative; z-index:1; max-width:1000px; margin:0 auto;
+  padding:16px 16px 80px;
+  display:grid; grid-template-columns:1fr 224px; gap:20px; align-items:start;
+}
+.main-col { min-width:0; }
+
+/* ── Sidebar ── */
+.sidebar {
+  position:sticky; top:16px; align-self:start;
+  max-height:calc(100vh - 32px); overflow-y:auto; scrollbar-width:none;
+  display:flex; flex-direction:column; gap:10px;
+}
+.sidebar::-webkit-scrollbar { display:none; }
+
+.sb-cal-cta {
+  background:linear-gradient(135deg,rgba(138,106,255,0.2),rgba(138,106,255,0.08));
+  border:2px solid rgba(138,106,255,0.5); border-radius:var(--radius);
+  padding:16px 12px; text-align:center; cursor:pointer; transition:all 0.2s; user-select:none;
+}
+.sb-cal-cta:hover { background:rgba(138,106,255,0.28); box-shadow:0 0 20px rgba(138,106,255,0.25); }
+.sb-cal-icon  { font-size:26px; margin-bottom:6px; }
+.sb-cal-title { font-family:var(--font-pixel); font-size:8px; color:var(--purple); letter-spacing:1px; margin-bottom:4px; }
+.sb-cal-sub   { font-size:10px; color:var(--text-dim); line-height:1.4; }
+
+.sb-section { background:var(--card); border:1px solid var(--border); border-radius:var(--radius); overflow:hidden; }
+.sb-section-title {
+  font-family:var(--font-pixel); font-size:7px; color:var(--text-dim);
+  letter-spacing:1px; padding:9px 12px; background:var(--card2); text-transform:uppercase;
+}
+.sb-section-title.past-hdr { cursor:pointer; display:flex; justify-content:space-between; align-items:center; }
+.sb-section-title.past-hdr:hover { color:var(--text-mid); }
+
+.sb-occ-item {
+  display:flex; align-items:center; gap:8px; padding:9px 10px;
+  border-top:1px solid var(--border); cursor:pointer; transition:background 0.15s;
+}
+.sb-occ-item:hover { background:rgba(255,255,255,0.04); }
+.sb-occ-item.sb-current { background:rgba(46,204,113,0.07); }
+.sb-occ-icon  { font-size:17px; flex-shrink:0; }
+.sb-occ-info  { flex:1; min-width:0; }
+.sb-occ-name  { font-size:10px; font-weight:700; line-height:1.3; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.sb-occ-hijri { font-size:9px; color:var(--text-dim); margin-top:1px; }
+.sb-cd {
+  flex-shrink:0; font-family:var(--font-pixel); font-size:7px;
+  padding:2px 5px; border-radius:4px;
+  background:rgba(255,255,255,0.05); color:var(--text-dim); min-width:30px; text-align:center;
+}
+.sb-cd.now { background:rgba(46,204,113,0.15); color:var(--green); }
+
+#sb-past-list { display:none; }
+#sb-past-list.open { display:block; }
+
+/* ── Up Next section ── */
+.up-next-card {
+  background:var(--card); border:1px solid var(--border); border-radius:var(--radius);
+  margin-bottom:10px; overflow:hidden; border-left:3px solid; transition:all 0.2s;
+}
+.un-header {
+  display:flex; align-items:center; gap:10px;
+  padding:12px 14px; cursor:pointer; user-select:none;
+}
+.un-header:hover { background:rgba(255,255,255,0.02); }
+.un-icon   { font-size:24px; flex-shrink:0; }
+.un-meta   { flex:1; min-width:0; }
+.un-title  { font-family:var(--font-pixel); font-size:8px; letter-spacing:0.5px; line-height:1.5; }
+.un-hijri  { font-size:10px; color:var(--text-dim); margin-top:2px; }
+.un-right  { display:flex; flex-direction:column; align-items:flex-end; gap:4px; flex-shrink:0; }
+.un-cd     { font-family:var(--font-pixel); font-size:9px; }
+.un-chevron { font-size:10px; color:var(--text-dim); transition:transform 0.25s; }
+.up-next-card.open .un-chevron { transform:rotate(180deg); }
+.un-body   { display:none; padding:0 14px 14px; border-top:1px solid var(--border); }
+.up-next-card.open .un-body { display:block; }
+
+/* ── All Occasions toggle ── */
+.all-occ-toggle {
+  display:flex; align-items:center; justify-content:center; gap:8px;
+  padding:10px; margin:12px 0 6px;
+  background:var(--card); border:1px solid var(--border); border-radius:var(--radius);
+  cursor:pointer; font-family:var(--font-pixel); font-size:7px;
+  color:var(--text-dim); letter-spacing:1px; transition:all 0.2s; user-select:none;
+}
+.all-occ-toggle:hover { color:var(--text-mid); border-color:var(--border-gold); }
+.all-occ-toggle-icon { transition:transform 0.25s; }
+.all-occ-toggle.open .all-occ-toggle-icon { transform:rotate(180deg); }
+#timeline-wrap { display:none; }
+#timeline-wrap.open { display:block; }
+
+/* ── Calendar Builder Modal ── */
+.cb-modal-overlay {
+  position:fixed; inset:0; z-index:200;
+  background:rgba(0,0,0,0.78);
+  display:flex; align-items:flex-end; justify-content:center;
+  opacity:0; pointer-events:none; transition:opacity 0.28s;
+}
+.cb-modal-overlay.open { opacity:1; pointer-events:all; }
+.cb-modal-sheet {
+  background:var(--surface); border-radius:18px 18px 0 0;
+  max-height:92vh; width:100%; max-width:980px;
+  overflow-y:auto; padding:0 0 40px;
+  transform:translateY(100%);
+  transition:transform 0.35s cubic-bezier(0.32,0.72,0,1);
+  scrollbar-width:thin; scrollbar-color:var(--border) transparent;
+}
+.cb-modal-overlay.open .cb-modal-sheet { transform:translateY(0); }
+.cb-modal-hdr {
+  display:flex; align-items:center; justify-content:space-between;
+  padding:16px 20px 12px; border-bottom:1px solid var(--border);
+  position:sticky; top:0; background:var(--surface); z-index:1;
+}
+.cb-modal-hdr-title { font-family:var(--font-pixel); font-size:9px; color:var(--purple); letter-spacing:1px; }
+.cb-modal-close {
+  width:28px; height:28px; border-radius:50%;
+  background:rgba(255,255,255,0.08); border:1px solid var(--border);
+  color:var(--text); font-size:14px; cursor:pointer;
+  display:flex; align-items:center; justify-content:center; transition:all 0.2s;
+}
+.cb-modal-close:hover { background:rgba(255,255,255,0.16); }
+.cb-modal-body { padding:16px 20px 0; }
+
+/* ── Floating Action Button (mobile) ── */
+.cal-fab {
+  display:none; position:fixed; bottom:20px; right:16px; z-index:150;
+  background:linear-gradient(135deg,#7c4dff,#4a26d1);
+  border:none; border-radius:28px; padding:12px 18px; gap:8px;
+  color:#fff; font-family:var(--font-pixel); font-size:7px;
+  letter-spacing:0.5px; cursor:pointer;
+  box-shadow:0 4px 20px rgba(138,106,255,0.5);
+  align-items:center; transition:all 0.2s;
+}
+.cal-fab:hover { box-shadow:0 6px 28px rgba(138,106,255,0.7); transform:translateY(-2px); }
+.cal-fab-icon { font-size:16px; }
 
 /* ── Header ── */
 .maw-header { text-align:center; padding:28px 0 20px; }
@@ -445,6 +578,11 @@ body { background:var(--bg); color:var(--text); font-family:var(--font-body); fo
 .cb-result a { color:#4285f4; }
 
 /* Responsive */
+@media (max-width:700px) {
+  .app { grid-template-columns:1fr; gap:0; }
+  .sidebar { display:none; }
+  .cal-fab { display:flex; }
+}
 @media (max-width:480px) {
   .weekly-grid { grid-template-columns:1fr; }
   .planner-grid { grid-template-columns:1fr; }
@@ -460,29 +598,170 @@ body { background:var(--bg); color:var(--text); font-family:var(--font-body); fo
 </head>
 <body>
 <canvas id="star-bg"></canvas>
+
+<!-- ══ CALENDAR BUILDER MODAL ══ -->
+<div class="cb-modal-overlay" id="cb-modal" onclick="cbModalBgClick(event)">
+  <div class="cb-modal-sheet">
+    <div class="cb-modal-hdr">
+      <div class="cb-modal-hdr-title">🗓️ BUILD MY IBADAH CALENDAR</div>
+      <button class="cb-modal-close" onclick="closeCbModal()">✕</button>
+    </div>
+    <div class="cb-modal-body" id="cb-modal-body">
+      <div class="cal-builder">
+        <div class="cb-section-title">✦ BUILD YOUR PERSONALISED IBADAH CALENDAR</div>
+
+        <!-- Step 1: Prayer time source -->
+        <div class="cb-fetch-row">
+          <div class="cb-fetch-label">📍 Step 1 — Auto-fill prayer times for your city (or set manually below)</div>
+          <div class="cb-fetch-inputs">
+            <input type="text" id="cb-city" placeholder="City (e.g. London, Dubai, Toronto)">
+            <input type="text" id="cb-country" placeholder="Country code (e.g. GB)" style="max-width:130px">
+            <button class="btn-fetch" onclick="cbFetchTimes()">⚡ FETCH TIMES</button>
+          </div>
+          <div class="cb-fetch-status" id="cb-fetch-status">Enter your city above to auto-fill prayer times, or set them manually below.</div>
+        </div>
+
+        <!-- Step 2: Prayer times grid -->
+        <div style="font-size:10px;color:var(--text-dim);font-weight:700;margin-bottom:8px;letter-spacing:0.5px">⏱ STEP 2 — YOUR PRAYER TIMES (edit as needed)</div>
+        <div class="cb-times-grid">
+          <div class="cb-time-field"><label>🌅 Fajr</label><input type="time" id="cb-fajr" value="05:30" oninput="cbUpdateSleepPreview()"></div>
+          <div class="cb-time-field"><label>☀️ Dhuhr</label><input type="time" id="cb-dhuhr" value="13:00"></div>
+          <div class="cb-time-field"><label>🌤 Asr</label><input type="time" id="cb-asr" value="16:30"></div>
+          <div class="cb-time-field"><label>🌇 Maghrib</label><input type="time" id="cb-maghrib" value="19:00"></div>
+          <div class="cb-time-field"><label>🌙 Isha</label><input type="time" id="cb-isha" value="20:30"></div>
+          <div class="cb-time-field"><label>💤 Bedtime</label><input type="time" id="cb-bedtime" value="22:30" oninput="cbUpdateSleepPreview()"></div>
+        </div>
+
+        <!-- Step 3: Feature selection -->
+        <div style="font-size:10px;color:var(--text-dim);font-weight:700;margin-bottom:10px;letter-spacing:0.5px">☑ STEP 3 — SELECT WHAT TO INCLUDE</div>
+        <div class="cb-groups">
+
+          <!-- Prayers & Daily Adhkar -->
+          <div class="cb-group">
+            <div class="cb-group-title">🕌 DAILY PRAYERS &amp; ADHKAR</div>
+            <label class="cb-check">
+              <input type="checkbox" id="cb-prayers">
+              5 Daily Prayer blocks — tentative 15-min slots in your calendar (Fajr · Dhuhr · Asr · Maghrib · Isha)
+            </label>
+            <label class="cb-check">
+              <input type="checkbox" id="cb-morning-adhkar">
+              🌅 Morning Adhkar — after Fajr (~15 min, links back to app)
+            </label>
+            <label class="cb-check">
+              <input type="checkbox" id="cb-evening-adhkar">
+              🌆 Evening Adhkar — after Asr (~15 min, links back to app)
+            </label>
+            <label class="cb-check">
+              <input type="checkbox" id="cb-sleep-adhkar" onchange="cbToggleSleep()">
+              💤 Pre-Sleep Routine — Wind Down + Bedtime Adhkar (recurring daily)
+            </label>
+            <div class="cb-sub" id="cb-sleep-sub" style="display:none">
+              <label>Your bedtime: <strong id="cb-sleep-preview">10:30 PM</strong></label>
+              <div class="cb-sub-note">Generates two events: "💤 Wind Down" 15 min before bedtime · "📿 Bedtime Adhkar" 5 min before (Ayat al-Kursi, Ikhlas/Falaq/Nas ×3, sleeping dua) — with link to app.</div>
+            </div>
+          </div>
+
+          <!-- Tahajjud -->
+          <div class="cb-group">
+            <div class="cb-group-title">🌃 TAHAJJUD — NIGHT PRAYER</div>
+            <label class="cb-check">
+              <input type="checkbox" id="cb-tahajjud" onchange="cbToggleTahajjud()">
+              🌃 Tahajjud — Wake up before Fajr for night prayer (recurring daily)
+            </label>
+            <div class="cb-sub" id="cb-tahajjud-sub" style="display:none">
+              <label>
+                Wake up before Fajr by:
+                <input type="range" id="cb-tahajjud-offset" min="20" max="90" value="45" oninput="cbUpdateTahajjudLabel()">
+                <span id="cb-tahajjud-label" style="font-family:var(--font-pixel);font-size:9px;color:var(--purple);min-width:48px">45 min</span>
+              </label>
+              <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--text-dim);margin-top:2px">
+                <span>← Quick 2 rakats</span><span>Full Qiyam al-Layl →</span>
+              </div>
+              <div class="cb-sub-note" id="cb-tahajjud-note">Wake up 45 min before Fajr. Time for 4–6 rakats + dua. "The best prayer after obligatory is the night prayer." (Muslim 1163)</div>
+            </div>
+          </div>
+
+          <!-- Sunnah Fasts -->
+          <div class="cb-group">
+            <div class="cb-group-title">🌙 SUNNAH FASTS</div>
+            <label class="cb-check">
+              <input type="checkbox" id="cb-mon-thu" onchange="cbToggleMonThu()">
+              📅 Mon &amp; Thu Fasting — Suhoor alarm + Iftar reminder (recurring weekly)
+            </label>
+            <div class="cb-sub" id="cb-mon-thu-sub" style="display:none">
+              <label>Suhoor alarm: <input type="time" id="cb-fast-suhoor" value="05:00"></label>
+              <label>Iftar reminder: <input type="time" id="cb-fast-iftar" value="19:00"></label>
+              <div class="cb-sub-note">Generates Suhoor wake-up + Iftar reminder every Monday and Thursday.</div>
+            </div>
+            <label class="cb-check">
+              <input type="checkbox" id="cb-white-days" onchange="cbToggleWhiteDays()">
+              🌕 White Moon Days — 13/14/15 of each Hijri month, Ayyam al-Beed (1447 AH dates)
+            </label>
+            <div class="cb-sub" id="cb-white-sub" style="display:none">
+              <label><input type="checkbox" id="cb-white-same" checked onchange="cbToggleWhiteSame()"> Use same Suhoor/Iftar times as Mon/Thu above</label>
+              <div id="cb-white-times" style="display:none;margin-top:6px">
+                <label>Suhoor: <input type="time" id="cb-white-suhoor" value="05:00"></label>
+                <label>Iftar: <input type="time" id="cb-white-iftar" value="19:00"></label>
+              </div>
+              <div class="cb-sub-note">Suhoor + Iftar events for each White Day across 1447 AH (~10 months). Ramadan omitted — obligatory fasting. Dhul Hijjah 13th omitted — Tashriq (fasting prohibited).</div>
+            </div>
+          </div>
+
+          <!-- Eid al-Adha -->
+          <div class="cb-group">
+            <div class="cb-group-title">🐑 EID AL-ADHA — 3 DAYS</div>
+            <label class="cb-check">
+              <input type="checkbox" id="cb-adha-days">
+              🐑 Eid al-Adha 3-Day guide — Jun 6, 7, 8 2026 (practices, sunnahs, Takbeer al-Tashriq + link to app)
+            </label>
+          </div>
+        </div>
+
+        <!-- Generate -->
+        <div class="cb-generate">
+          <button class="btn-generate" onclick="cbGenerate(false)">📥 Generate · Apple / Outlook (.ics)</button>
+          <button class="btn-generate gcal" onclick="cbGenerate(true)">G+ Generate · Google (.ics → import)</button>
+        </div>
+        <div class="cb-result" id="cb-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ MOBILE FAB ══ -->
+<button class="cal-fab" onclick="openCbModal()">
+  <span class="cal-fab-icon">📅</span> BUILD CALENDAR
+</button>
+
 <div class="app">
 
-  <!-- HEADER -->
-  <header class="maw-header">
-    <span class="maw-crescent">🌙</span>
-    <div class="maw-title">MAWASIM</div>
-    <div class="maw-arabic">مَوَاسِم</div>
-    <div class="maw-subtitle">Islamic Sacred Seasons · 1447 AH · 2025–2026</div>
-    <div class="maw-meaning">"The appointed seasons of worship"</div>
-  </header>
+  <!-- ══════════ MAIN COLUMN ══════════ -->
+  <div class="main-col">
 
-  <!-- LOOK AHEAD STRIP -->
-  <div class="section-hdr">🔭 Coming Up</div>
-  <div class="look-ahead-wrap">
-    <div class="look-ahead-strip" id="look-ahead"></div>
-  </div>
+    <!-- HEADER -->
+    <header class="maw-header">
+      <span class="maw-crescent">🌙</span>
+      <div class="maw-title">MAWASIM</div>
+      <div class="maw-arabic">مَوَاسِم</div>
+      <div class="maw-subtitle">Islamic Sacred Seasons · 1447 AH · 2025–2026</div>
+      <div class="maw-meaning">"The appointed seasons of worship"</div>
+    </header>
 
-  <!-- SPOTLIGHT -->
-  <div id="spotlight"></div>
+    <!-- SPOTLIGHT -->
+    <div id="spotlight"></div>
 
-  <!-- FULL YEAR TIMELINE -->
-  <div class="section-hdr">📅 Full Year — 1447 AH</div>
-  <div class="timeline" id="timeline"></div>
+    <!-- UP NEXT (next 2 upcoming occasions) -->
+    <div class="section-hdr">📍 Up Next</div>
+    <div id="up-next"></div>
+
+    <!-- ALL OCCASIONS TOGGLE -->
+    <div class="all-occ-toggle" id="all-occ-toggle" onclick="toggleAllOccasions()">
+      <span class="all-occ-toggle-icon">▼</span>
+      <span>SEE ALL 1447 AH OCCASIONS</span>
+    </div>
+    <div id="timeline-wrap">
+      <div class="timeline" id="timeline"></div>
+    </div>
 
   <!-- SHAWWAL TRACKER -->
   <div class="section-hdr">📿 6 Days of Shawwāl — Tracker</div>
@@ -542,126 +821,6 @@ body { background:var(--bg); color:var(--text); font-family:var(--font-body); fo
     </button>
   </div>
 
-  <!-- PERSONAL CALENDAR BUILDER -->
-  <div class="section-hdr">🗓️ Personal Ibadah Calendar Builder</div>
-  <div class="cal-builder">
-    <div class="cb-section-title">✦ BUILD YOUR PERSONALISED IBADAH CALENDAR</div>
-
-    <!-- Step 1: Prayer time source -->
-    <div class="cb-fetch-row">
-      <div class="cb-fetch-label">📍 Step 1 — Auto-fill prayer times for your city (or set manually below)</div>
-      <div class="cb-fetch-inputs">
-        <input type="text" id="cb-city" placeholder="City (e.g. London, Dubai, Toronto)">
-        <input type="text" id="cb-country" placeholder="Country code (e.g. GB)" style="max-width:130px">
-        <button class="btn-fetch" onclick="cbFetchTimes()">⚡ FETCH TIMES</button>
-      </div>
-      <div class="cb-fetch-status" id="cb-fetch-status">Enter your city above to auto-fill prayer times, or set them manually below.</div>
-    </div>
-
-    <!-- Step 2: Prayer times grid -->
-    <div style="font-size:10px;color:var(--text-dim);font-weight:700;margin-bottom:8px;letter-spacing:0.5px">⏱ STEP 2 — YOUR PRAYER TIMES (edit as needed)</div>
-    <div class="cb-times-grid">
-      <div class="cb-time-field"><label>🌅 Fajr</label><input type="time" id="cb-fajr" value="05:30" oninput="cbUpdateSleepPreview()"></div>
-      <div class="cb-time-field"><label>☀️ Dhuhr</label><input type="time" id="cb-dhuhr" value="13:00"></div>
-      <div class="cb-time-field"><label>🌤 Asr</label><input type="time" id="cb-asr" value="16:30"></div>
-      <div class="cb-time-field"><label>🌇 Maghrib</label><input type="time" id="cb-maghrib" value="19:00"></div>
-      <div class="cb-time-field"><label>🌙 Isha</label><input type="time" id="cb-isha" value="20:30"></div>
-      <div class="cb-time-field"><label>💤 Bedtime</label><input type="time" id="cb-bedtime" value="22:30" oninput="cbUpdateSleepPreview()"></div>
-    </div>
-
-    <!-- Step 3: Feature selection -->
-    <div style="font-size:10px;color:var(--text-dim);font-weight:700;margin-bottom:10px;letter-spacing:0.5px">☑ STEP 3 — SELECT WHAT TO INCLUDE</div>
-    <div class="cb-groups">
-
-      <!-- Prayers & Daily Adhkar -->
-      <div class="cb-group">
-        <div class="cb-group-title">🕌 DAILY PRAYERS & ADHKAR</div>
-        <label class="cb-check">
-          <input type="checkbox" id="cb-prayers">
-          5 Daily Prayer blocks — tentative 15-min slots in your calendar (Fajr · Dhuhr · Asr · Maghrib · Isha)
-        </label>
-        <label class="cb-check">
-          <input type="checkbox" id="cb-morning-adhkar">
-          🌅 Morning Adhkar — after Fajr (~15 min, links back to app)
-        </label>
-        <label class="cb-check">
-          <input type="checkbox" id="cb-evening-adhkar">
-          🌆 Evening Adhkar — after Asr (~15 min, links back to app)
-        </label>
-        <label class="cb-check">
-          <input type="checkbox" id="cb-sleep-adhkar" onchange="cbToggleSleep()">
-          💤 Pre-Sleep Routine — Wind Down + Bedtime Adhkar (recurring daily)
-        </label>
-        <div class="cb-sub" id="cb-sleep-sub" style="display:none">
-          <label>Your bedtime: <strong id="cb-sleep-preview">10:30 PM</strong></label>
-          <div class="cb-sub-note">Generates two events: "💤 Wind Down" 15 min before bedtime · "📿 Bedtime Adhkar" 5 min before (Ayat al-Kursi, Ikhlas/Falaq/Nas ×3, sleeping dua) — with link to app.</div>
-        </div>
-      </div>
-
-      <!-- Tahajjud -->
-      <div class="cb-group">
-        <div class="cb-group-title">🌃 TAHAJJUD — NIGHT PRAYER</div>
-        <label class="cb-check">
-          <input type="checkbox" id="cb-tahajjud" onchange="cbToggleTahajjud()">
-          🌃 Tahajjud — Wake up before Fajr for night prayer (recurring daily)
-        </label>
-        <div class="cb-sub" id="cb-tahajjud-sub" style="display:none">
-          <label>
-            Wake up before Fajr by:
-            <input type="range" id="cb-tahajjud-offset" min="20" max="90" value="45" oninput="cbUpdateTahajjudLabel()">
-            <span id="cb-tahajjud-label" style="font-family:var(--font-pixel);font-size:9px;color:var(--purple);min-width:48px">45 min</span>
-          </label>
-          <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--text-dim);margin-top:2px">
-            <span>← Quick 2 rakats</span><span>Full Qiyam al-Layl →</span>
-          </div>
-          <div class="cb-sub-note" id="cb-tahajjud-note">Wake up 45 min before Fajr. Time for 4–6 rakats + dua. "The best prayer after obligatory is the night prayer." (Muslim 1163)</div>
-        </div>
-      </div>
-
-      <!-- Sunnah Fasts -->
-      <div class="cb-group">
-        <div class="cb-group-title">🌙 SUNNAH FASTS</div>
-        <label class="cb-check">
-          <input type="checkbox" id="cb-mon-thu" onchange="cbToggleMonThu()">
-          📅 Mon &amp; Thu Fasting — Suhoor alarm + Iftar reminder (recurring weekly)
-        </label>
-        <div class="cb-sub" id="cb-mon-thu-sub" style="display:none">
-          <label>Suhoor alarm: <input type="time" id="cb-fast-suhoor" value="05:00"></label>
-          <label>Iftar reminder: <input type="time" id="cb-fast-iftar" value="19:00"></label>
-          <div class="cb-sub-note">Generates Suhoor wake-up + Iftar reminder every Monday and Thursday.</div>
-        </div>
-        <label class="cb-check">
-          <input type="checkbox" id="cb-white-days" onchange="cbToggleWhiteDays()">
-          🌕 White Moon Days — 13/14/15 of each Hijri month, Ayyam al-Beed (1447 AH dates)
-        </label>
-        <div class="cb-sub" id="cb-white-sub" style="display:none">
-          <label><input type="checkbox" id="cb-white-same" checked onchange="cbToggleWhiteSame()"> Use same Suhoor/Iftar times as Mon/Thu above</label>
-          <div id="cb-white-times" style="display:none;margin-top:6px">
-            <label>Suhoor: <input type="time" id="cb-white-suhoor" value="05:00"></label>
-            <label>Iftar: <input type="time" id="cb-white-iftar" value="19:00"></label>
-          </div>
-          <div class="cb-sub-note">Suhoor + Iftar events for each White Day across 1447 AH (~10 months). Ramadan omitted — obligatory fasting. Dhul Hijjah 13th omitted — Tashriq (fasting prohibited).</div>
-        </div>
-      </div>
-
-      <!-- Eid al-Adha -->
-      <div class="cb-group">
-        <div class="cb-group-title">🐑 EID AL-ADHA — 3 DAYS</div>
-        <label class="cb-check">
-          <input type="checkbox" id="cb-adha-days">
-          🐑 Eid al-Adha 3-Day guide — Jun 6, 7, 8 2026 (practices, sunnahs, Takbeer al-Tashriq + link to app)
-        </label>
-      </div>
-    </div>
-
-    <!-- Generate -->
-    <div class="cb-generate">
-      <button class="btn-generate" onclick="cbGenerate(false)">📥 Generate · Apple / Outlook (.ics)</button>
-      <button class="btn-generate gcal" onclick="cbGenerate(true)">G+ Generate · Google (.ics → import)</button>
-    </div>
-    <div class="cb-result" id="cb-result"></div>
-  </div>
-
   <!-- WEEKLY SUNNAHS -->
   <div class="section-hdr">🔄 Recurring Sunnah Practices</div>
   <div class="weekly-grid">
@@ -687,12 +846,20 @@ body { background:var(--bg); color:var(--text); font-family:var(--font-body); fo
     </div>
   </div>
 
-  <footer class="app-footer">
-    <div>Mawasim · Islamic Sacred Seasons · 1447 AH</div>
-    <div>All dates are approximate — subject to moon sighting in your region</div>
-    <div class="arabic-footer">وَبَشِّرِ الصَّابِرِينَ</div>
-  </footer>
-</div>
+    <footer class="app-footer">
+      <div>Mawasim · Islamic Sacred Seasons · 1447 AH</div>
+      <div>All dates are approximate — subject to moon sighting in your region</div>
+      <div class="arabic-footer">وَبَشِّرِ الصَّابِرِينَ</div>
+    </footer>
+
+  </div><!-- end .main-col -->
+
+  <!-- ══════════ SIDEBAR ══════════ -->
+  <aside class="sidebar" id="sidebar">
+    <!-- Populated by renderSidebar() -->
+  </aside>
+
+</div><!-- end .app -->
 
 <script>
 'use strict';
@@ -1375,14 +1542,22 @@ function toggleOcc(id) {
 function openOccasion(id) {
   state.openId = id;
   save();
-  // If this occasion is in the past section, reveal that section first
+  // Ensure the full timeline is visible
+  const wrap = document.getElementById('timeline-wrap');
+  const btn  = document.getElementById('all-occ-toggle');
+  if (wrap && !wrap.classList.contains('open')) {
+    wrap.classList.add('open');
+    if (btn) { btn.classList.add('open'); btn.querySelector('.all-occ-toggle-icon').textContent = '▲'; btn.querySelector('span:last-child').textContent = 'HIDE ALL OCCASIONS'; }
+    if (!document.getElementById('timeline').children.length) renderTimeline();
+  }
+  // Reveal past section inside timeline if needed
   const occ = OCC.find(o => o.id === id);
   if (occ && occStatus(occ) === 'past') {
     document.getElementById('past-occasions')?.classList.add('open');
     document.getElementById('past-toggle')?.classList.add('open');
   }
   const el = document.getElementById('occ-' + id);
-  if (el) { el.classList.add('open'); setTimeout(() => el.scrollIntoView({behavior:'smooth', block:'start'}), 150); }
+  if (el) { el.classList.add('open'); setTimeout(() => el.scrollIntoView({behavior:'smooth', block:'start'}), 200); }
   syncOccOpenState(id);
 }
 
@@ -1707,30 +1882,148 @@ function cbGenerate(forGoogle) {
 }
 
 /* ══════════════════════════════════════════════════════════
+   CALENDAR BUILDER MODAL
+   ══════════════════════════════════════════════════════════ */
+function openCbModal() {
+  document.getElementById('cb-modal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeCbModal() {
+  document.getElementById('cb-modal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+function cbModalBgClick(e) {
+  if (e.target === document.getElementById('cb-modal')) closeCbModal();
+}
+
+/* ══════════════════════════════════════════════════════════
+   SIDEBAR — compact occasion list
+   ══════════════════════════════════════════════════════════ */
+function renderSidebar() {
+  const upcoming = OCC.filter(o => occStatus(o) !== 'past');
+  const past     = OCC.filter(o => occStatus(o) === 'past').slice().reverse();
+
+  function occRow(o) {
+    const st   = occStatus(o);
+    const days = daysUntil(o.date);
+    const cdText = st === 'current' ? 'NOW'
+                 : days === 0 ? 'TODAY' : days === 1 ? 'TMRW'
+                 : days + 'd';
+    const cdCls  = st === 'current' ? 'sb-cd now' : 'sb-cd';
+    const rowCls = st === 'current' ? 'sb-occ-item sb-current' : 'sb-occ-item';
+    return `<div class="${rowCls}" onclick="sbOpenOcc('${o.id}')" style="border-left:3px solid ${o.color}44">
+      <span class="sb-occ-icon">${o.icon}</span>
+      <div class="sb-occ-info">
+        <div class="sb-occ-name" style="color:${o.color}">${o.title}</div>
+        <div class="sb-occ-hijri">${o.hijri}</div>
+      </div>
+      <div class="${cdCls}">${cdText}</div>
+    </div>`;
+  }
+
+  const pastHtml = past.length ? `
+    <div class="sb-section">
+      <div class="sb-section-title past-hdr" onclick="sbTogglePast()">
+        <span>📚 PAST (${past.length})</span>
+        <span id="sb-past-chevron">▼</span>
+      </div>
+      <div id="sb-past-list">${past.map(occRow).join('')}</div>
+    </div>` : '';
+
+  document.getElementById('sidebar').innerHTML = `
+    <div class="sb-cal-cta" onclick="openCbModal()">
+      <div class="sb-cal-icon">📅</div>
+      <div class="sb-cal-title">BUILD MY CALENDAR</div>
+      <div class="sb-cal-sub">Prayers · Fasts · Adhkar · Reminders</div>
+    </div>
+    <div class="sb-section">
+      <div class="sb-section-title">📍 UPCOMING</div>
+      ${upcoming.map(occRow).join('')}
+    </div>
+    ${pastHtml}
+  `;
+}
+
+function sbTogglePast() {
+  const list = document.getElementById('sb-past-list');
+  const chev = document.getElementById('sb-past-chevron');
+  if (!list) return;
+  const open = list.classList.toggle('open');
+  if (chev) chev.textContent = open ? '▲' : '▼';
+}
+
+/* Clicking a sidebar occasion: reveal timeline if needed, then scroll + open */
+function sbOpenOcc(id) {
+  const wrap = document.getElementById('timeline-wrap');
+  const btn  = document.getElementById('all-occ-toggle');
+  if (wrap && !wrap.classList.contains('open')) {
+    wrap.classList.add('open');
+    if (btn) { btn.classList.add('open'); btn.querySelector('.all-occ-toggle-icon').textContent = '▲'; btn.querySelector('span:last-child').textContent = 'HIDE ALL OCCASIONS'; }
+    if (!document.getElementById('timeline').children.length) renderTimeline();
+  }
+  openOccasion(id);
+}
+
+/* ══════════════════════════════════════════════════════════
+   UP NEXT — next 2 occasions in main column
+   ══════════════════════════════════════════════════════════ */
+function renderUpNext() {
+  const spotlight = OCC.find(o => occStatus(o) === 'current') || OCC.find(o => occStatus(o) === 'upcoming');
+  const next2 = OCC.filter(o => occStatus(o) !== 'past' && o !== spotlight).slice(0, 2);
+
+  if (!next2.length) {
+    document.getElementById('up-next').innerHTML = '';
+    return;
+  }
+  document.getElementById('up-next').innerHTML = next2.map(o => {
+    const days = daysUntil(o.date);
+    const cd   = days === 0 ? 'TODAY' : days === 1 ? 'TOMORROW' : 'IN ' + days + ' DAYS';
+    return `<div class="up-next-card" id="un-${o.id}" style="border-left-color:${o.color}">
+      <div class="un-header" onclick="toggleUpNext('${o.id}')">
+        <span class="un-icon">${o.icon}</span>
+        <div class="un-meta">
+          <div class="un-title" style="color:${o.color}">${o.title}</div>
+          <div class="un-hijri">${o.hijri} · ${o.gregorian}</div>
+        </div>
+        <div class="un-right">
+          <div class="un-cd" style="color:${o.color}">${cd}</div>
+          <div class="un-chevron">▼</div>
+        </div>
+      </div>
+      <div class="un-body">${occBodyHTML(o)}</div>
+    </div>`;
+  }).join('');
+}
+
+function toggleUpNext(id) {
+  const card = document.getElementById('un-' + id);
+  if (card) card.classList.toggle('open');
+}
+
+/* ══════════════════════════════════════════════════════════
+   ALL OCCASIONS TOGGLE (reveal full timeline below fold)
+   ══════════════════════════════════════════════════════════ */
+function toggleAllOccasions() {
+  const wrap = document.getElementById('timeline-wrap');
+  const btn  = document.getElementById('all-occ-toggle');
+  if (!wrap || !btn) return;
+  const open = wrap.classList.toggle('open');
+  btn.classList.toggle('open', open);
+  btn.querySelector('.all-occ-toggle-icon').textContent = open ? '▲' : '▼';
+  btn.querySelector('span:last-child').textContent = open ? 'HIDE ALL OCCASIONS' : 'SEE ALL 1447 AH OCCASIONS';
+  if (open && !document.getElementById('timeline').children.length) renderTimeline();
+}
+
+/* ══════════════════════════════════════════════════════════
    INIT
    ══════════════════════════════════════════════════════════ */
 document.addEventListener('DOMContentLoaded', () => {
   load();
   initStars();
-  renderLookAhead();
   renderSpotlight();
-  renderTimeline();
+  renderUpNext();
+  renderSidebar();
   renderShawwal();
-
-  // Auto-open and scroll to the current or next upcoming occasion
-  const anchor = OCC.find(o => occStatus(o)==='current') || OCC.find(o => occStatus(o)==='upcoming');
-  if (anchor) {
-    if (!state.openId) {
-      state.openId = anchor.id;
-      const el = document.getElementById('occ-'+anchor.id);
-      if (el) el.classList.add('open');
-    }
-    // Scroll to the "TIMELINE" section header, so user lands just above the timeline
-    setTimeout(() => {
-      const el = document.getElementById('occ-'+anchor.id);
-      if (el) el.scrollIntoView({ behavior:'smooth', block:'start' });
-    }, 400);
-  }
 });
 </script>
 </body>

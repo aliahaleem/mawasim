@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Mawasim — مَوَاسِم · Islamic Sacred Seasons 1447 AH</title>
-<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Quicksand:wght@400;500;600;700&family=Amiri:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700;800&family=Amiri:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
@@ -27,7 +27,7 @@ html { scroll-behavior: smooth; }
   --border:      rgba(255,215,0,0.1);
   --border-gold: rgba(255,215,0,0.3);
   --radius:      10px;
-  --font-pixel:  'Press Start 2P', monospace;
+  --font-pixel:  'Quicksand', sans-serif;
   --font-body:   'Quicksand', sans-serif;
   --font-arabic: 'Amiri', 'Traditional Arabic', serif;
 }
@@ -465,7 +465,7 @@ body { background:var(--bg); color:var(--text); font-family:var(--font-body); fo
 .planner-note { font-size:10px; color:var(--text-dim); margin-top:10px; line-height:1.6; }
 
 /* ══════════════════════════════════════════════
-   SHAWWAL TRACKER
+   SHAWWAL TRACKER (bottom section)
    ══════════════════════════════════════════════ */
 .shawwal-tracker { background:var(--card); border:1px solid var(--border-gold); border-radius:var(--radius); padding:14px 16px; margin:10px 0; }
 .tracker-title { font-family:var(--font-pixel); font-size:7px; color:var(--gold); letter-spacing:1px; margin-bottom:12px; }
@@ -474,6 +474,56 @@ body { background:var(--bg); color:var(--text); font-family:var(--font-body); fo
 .tracker-dot.fasted { background:var(--green); border-color:var(--green); color:#fff; }
 .tracker-dot:hover { border-color:var(--gold); color:var(--gold); }
 .tracker-count { font-size:12px; color:var(--text-mid); }
+
+/* ══════════════════════════════════════════════
+   SHAWWAL BANNER (top — shown only during Shawwal)
+   ══════════════════════════════════════════════ */
+#sw-banner {
+  display:none;
+  background:linear-gradient(135deg,rgba(46,204,113,0.07),rgba(255,215,0,0.04));
+  border:1px solid rgba(46,204,113,0.28);
+  border-left:4px solid var(--green);
+  border-radius:var(--radius); padding:16px; margin-bottom:14px;
+}
+.swb-hdr { display:flex; align-items:center; gap:12px; margin-bottom:12px; }
+.swb-hdr-icon { font-size:30px; }
+.swb-hdr-meta { flex:1; min-width:0; }
+.swb-hdr-title { font-family:var(--font-pixel); font-size:9px; color:var(--green); letter-spacing:1px; }
+.swb-hdr-deadline { font-size:11px; color:var(--text-mid); margin-top:3px; }
+.swb-hdr-deadline strong { color:var(--gold); }
+.swb-score { font-family:var(--font-pixel); font-size:24px; color:var(--green); line-height:1; flex-shrink:0; }
+.swb-score span { font-size:13px; color:var(--text-dim); }
+.swb-score.done { color:var(--gold); }
+
+.swb-hadith {
+  display:flex; gap:8px; align-items:flex-start;
+  background:rgba(255,215,0,0.06); border:1px solid rgba(255,215,0,0.2); border-radius:8px;
+  padding:10px 12px; font-size:11px; color:var(--text-mid); line-height:1.6; margin-bottom:12px;
+}
+.swb-hadith-icon { font-size:15px; flex-shrink:0; margin-top:1px; }
+.swb-hadith-ref { color:var(--gold); font-style:italic; font-weight:600; }
+
+.swb-count { font-size:12px; color:var(--text-mid); margin:6px 0 14px; }
+.swb-count.complete { color:var(--green); font-weight:700; }
+
+.swb-tips { border-top:1px solid var(--border); padding-top:14px; }
+.swb-tips-title { font-family:var(--font-pixel); font-size:7px; color:var(--text-dim); letter-spacing:1px; margin-bottom:12px; text-transform:uppercase; }
+.swb-tip { margin-bottom:14px; }
+.swb-tip-label { font-size:11px; font-weight:700; color:var(--text); margin-bottom:6px; }
+.swb-tip-dates { display:flex; flex-wrap:wrap; gap:5px; margin-bottom:7px; }
+.swb-date-chip { padding:3px 9px; background:rgba(138,106,255,0.1); border:1px solid rgba(138,106,255,0.3); border-radius:20px; font-size:10px; color:var(--purple); font-family:var(--font-pixel); }
+.swb-date-chip.white { background:rgba(255,215,0,0.1); border-color:rgba(255,215,0,0.3); color:var(--gold); }
+.swb-date-chip.overlap { background:rgba(46,204,113,0.12); border-color:rgba(46,204,113,0.4); color:var(--green); }
+.swb-proof {
+  font-size:10px; color:var(--text-dim); line-height:1.55; font-style:italic;
+  padding:6px 10px; border-left:2px solid var(--border); margin-top:2px;
+}
+.swb-proof cite { color:var(--gold); font-style:normal; font-weight:600; }
+.swb-tip-note {
+  font-size:11px; color:var(--text-mid); line-height:1.5;
+  background:rgba(46,204,113,0.07); border:1px solid rgba(46,204,113,0.2);
+  border-radius:6px; padding:9px 11px; margin-top:4px;
+}
 
 /* ══════════════════════════════════════════════
    WEEKLY SUNNAHS
@@ -577,6 +627,54 @@ body { background:var(--bg); color:var(--text); font-family:var(--font-body); fo
 .cb-result.show { display:block; }
 .cb-result a { color:#4285f4; }
 
+/* ══════════════════════════════════════════════
+   FONT SIZE OVERRIDES — Quicksand replaces pixel font.
+   Sizes are scaled up since Quicksand reads much
+   smaller than Press Start 2P at the same px value.
+   ══════════════════════════════════════════════ */
+.maw-title        { font-size:clamp(24px,5vw,36px); font-weight:800; letter-spacing:6px; }
+.spot-title       { font-size:clamp(15px,3vw,21px); font-weight:800; }
+.spot-countdown   { font-size:18px; font-weight:800; letter-spacing:1px; }
+.spot-badge       { font-size:10px; font-weight:800; }
+.spot-link        { font-size:11px; font-weight:700; }
+.section-hdr      { font-size:11px; font-weight:800; }
+.occ-title        { font-size:clamp(12px,2.5vw,14px); font-weight:800; white-space:normal; }
+.occ-status       { font-size:10px; font-weight:700; }
+.sub-hdr          { font-size:11px; font-weight:800; }
+.btn-speak        { font-size:10px; font-weight:700; }
+.occ-link-btn     { font-size:11px; font-weight:700; }
+.prep-section-title { font-size:11px; font-weight:800; }
+.prep-lead-num    { font-size:13px; font-weight:800; }
+.btn-ics-all      { font-size:10px; font-weight:700; }
+.btn-ics-single   { font-size:10px; font-weight:700; }
+.btn-gcal         { font-size:10px; font-weight:700; }
+.past-toggle      { font-size:11px; font-weight:700; }
+.tracker-title    { font-size:11px; font-weight:700; }
+.tracker-dot      { font-size:11px; font-weight:700; }
+.planner-title    { font-size:12px; font-weight:800; }
+.btn-ramadan-ics  { font-size:11px; font-weight:700; }
+.weekly-title     { font-size:12px; font-weight:800; }
+.export-title     { font-size:13px; font-weight:800; }
+.btn-export-all   { font-size:12px; font-weight:700; }
+.cb-section-title { font-size:12px; font-weight:800; }
+.btn-fetch        { font-size:11px; font-weight:700; }
+.cb-group-title   { font-size:11px; font-weight:700; }
+.btn-generate     { font-size:11px; font-weight:700; }
+.sb-cal-title     { font-size:13px; font-weight:800; }
+.sb-section-title { font-size:10px; font-weight:700; }
+.sb-cd            { font-size:10px; }
+.un-title         { font-size:12px; font-weight:700; }
+.un-cd            { font-size:11px; font-weight:700; }
+.all-occ-toggle   { font-size:11px; font-weight:700; }
+.cb-modal-hdr-title { font-size:14px; font-weight:800; }
+.cal-fab          { font-size:11px; font-weight:800; }
+.swb-hdr-title    { font-size:13px; font-weight:800; }
+.swb-tips-title   { font-size:10px; font-weight:700; }
+.la-title         { font-size:11px; font-weight:700; }
+.la-countdown     { font-size:15px; font-weight:800; }
+.la-countdown span { font-size:11px; font-weight:600; }
+.la-now-badge     { font-size:10px; font-weight:700; }
+
 /* Responsive */
 @media (max-width:700px) {
   .app { grid-template-columns:1fr; gap:0; }
@@ -603,12 +701,12 @@ body { background:var(--bg); color:var(--text); font-family:var(--font-body); fo
 <div class="cb-modal-overlay" id="cb-modal" onclick="cbModalBgClick(event)">
   <div class="cb-modal-sheet">
     <div class="cb-modal-hdr">
-      <div class="cb-modal-hdr-title">🗓️ BUILD MY IBADAH CALENDAR</div>
+      <div class="cb-modal-hdr-title">📲 IMPORT REMINDERS TO CALENDAR</div>
       <button class="cb-modal-close" onclick="closeCbModal()">✕</button>
     </div>
     <div class="cb-modal-body" id="cb-modal-body">
       <div class="cal-builder">
-        <div class="cb-section-title">✦ BUILD YOUR PERSONALISED IBADAH CALENDAR</div>
+        <div class="cb-section-title">✦ IMPORT PERSONALISED REMINDERS TO YOUR CALENDAR</div>
 
         <!-- Step 1: Prayer time source -->
         <div class="cb-fetch-row">
@@ -672,7 +770,7 @@ body { background:var(--bg); color:var(--text); font-family:var(--font-body); fo
               <label>
                 Wake up before Fajr by:
                 <input type="range" id="cb-tahajjud-offset" min="20" max="90" value="45" oninput="cbUpdateTahajjudLabel()">
-                <span id="cb-tahajjud-label" style="font-family:var(--font-pixel);font-size:9px;color:var(--purple);min-width:48px">45 min</span>
+                <span id="cb-tahajjud-label" style="font-family:var(--font-pixel);font-size:12px;font-weight:700;color:var(--purple);min-width:48px">45 min</span>
               </label>
               <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--text-dim);margin-top:2px">
                 <span>← Quick 2 rakats</span><span>Full Qiyam al-Layl →</span>
@@ -730,7 +828,7 @@ body { background:var(--bg); color:var(--text); font-family:var(--font-body); fo
 
 <!-- ══ MOBILE FAB ══ -->
 <button class="cal-fab" onclick="openCbModal()">
-  <span class="cal-fab-icon">📅</span> BUILD CALENDAR
+  <span class="cal-fab-icon">📲</span> IMPORT REMINDERS
 </button>
 
 <div class="app">
@@ -750,6 +848,9 @@ body { background:var(--bg); color:var(--text); font-family:var(--font-body); fo
     <!-- SPOTLIGHT -->
     <div id="spotlight"></div>
 
+    <!-- SHAWWAL BANNER (auto-shown during Shawwal) -->
+    <div id="sw-banner"></div>
+
     <!-- UP NEXT (next 2 upcoming occasions) -->
     <div class="section-hdr">📍 Up Next</div>
     <div id="up-next"></div>
@@ -764,11 +865,16 @@ body { background:var(--bg); color:var(--text); font-family:var(--font-body); fo
     </div>
 
   <!-- SHAWWAL TRACKER -->
-  <div class="section-hdr">📿 6 Days of Shawwāl — Tracker</div>
+  <div class="section-hdr" id="shawwal-section-hdr">📿 6 Days of Shawwāl — Tracker</div>
   <div class="shawwal-tracker">
     <div class="tracker-title">MARK EACH SHAWWAL FAST YOU COMPLETE</div>
     <div class="tracker-dots" id="shawwal-dots"></div>
     <div class="tracker-count" id="shawwal-count">0 / 6 completed</div>
+    <div class="swb-proof" style="margin-top:10px;border-left-color:rgba(255,215,0,0.4)">
+      "Whoever fasts Ramadan then follows it with six days of Shawwal — it is as if he fasted the entire year."
+      <cite style="color:var(--gold);font-style:normal;font-weight:600"> — Sahih Muslim 1164</cite>
+      <br><br>This is because Ramadan (30 days × 10 reward) + Shawwal 6 (× 10 reward) = 360 days = a full year.
+    </div>
   </div>
 
   <!-- RAMADAN PLANNER -->
@@ -1376,8 +1482,8 @@ function renderSpotlight() {
   const linkBtn  = target.link ? `<a class="spot-link" href="${target.link}">${target.linkLabel||'OPEN FULL GUIDE →'}</a>` : `<button class="spot-link" onclick="openOccasion('${target.id}')">VIEW DETAILS →</button>`;
   const calBtns  = PREP[target.id]
     ? `<div style="display:flex;gap:6px;flex-wrap:wrap;justify-content:center;margin-top:4px">
-        <button class="spot-link ics" style="font-size:7px" onclick="downloadOccPrepICS('${target.id}')">📥 Prep .ics · Apple/Outlook</button>
-        <button class="spot-link" style="font-size:7px;background:rgba(66,133,244,0.1);border-color:rgba(66,133,244,0.4);color:#4285f4" onclick="addSpotlightToGoogle('${target.id}')">G+ Add Event · Google Cal</button>
+        <button class="spot-link ics" onclick="downloadOccPrepICS('${target.id}')">📥 Prep .ics · Apple/Outlook</button>
+        <button class="spot-link" style="background:rgba(66,133,244,0.1);border-color:rgba(66,133,244,0.4);color:#4285f4" onclick="addSpotlightToGoogle('${target.id}')">G+ Add Event · Google Cal</button>
       </div>` : '';
   document.getElementById('spotlight').innerHTML =
     `<div class="spotlight" style="border-color:${target.color}44;background:linear-gradient(135deg,${target.color}14,${target.color}06)">
@@ -1449,7 +1555,7 @@ function occBodyHTML(o) {
 
   const duas = o.duas.map(d =>
     `<div class="dua-block" style="border-color:${o.color}55">
-      <div style="font-size:9px;color:${o.color};font-family:var(--font-pixel);letter-spacing:1px;margin-bottom:8px;text-transform:uppercase">${d.label}</div>
+      <div style="font-size:12px;font-weight:800;color:${o.color};font-family:var(--font-pixel);letter-spacing:1px;margin-bottom:8px;text-transform:uppercase">${d.label}</div>
       <div class="dua-arabic">${d.arabic}</div>
       <div class="dua-tr">${d.tr}</div>
       <div class="dua-en">${d.en}</div>
@@ -1562,6 +1668,45 @@ function openOccasion(id) {
 }
 
 /* ══════════════════════════════════════════════════════════
+   SHAWWAL — DATES & HELPERS
+   1 Shawwal 1447 = 20 Mar 2026  ·  ~30 Shawwal = 18 Apr 2026
+   ══════════════════════════════════════════════════════════ */
+const SHAWWAL_START  = new Date(2026, 2, 20); // 20 Mar
+const SHAWWAL_END    = new Date(2026, 3, 18); // ~18 Apr (30 Shawwal)
+const SHAWWAL_FIRST_FAST = new Date(2026, 2, 21); // 2 Shawwal — can't fast on Eid
+// 13, 14, 15 Shawwal = Apr 1, 2, 3
+const SHAWWAL_WHITE  = [new Date(2026,3,1), new Date(2026,3,2), new Date(2026,3,3)];
+
+function isInShawwal() {
+  const t = new Date(); t.setHours(0,0,0,0);
+  return t >= SHAWWAL_START && t <= SHAWWAL_END;
+}
+
+function swDaysLeft() {
+  const t = new Date(); t.setHours(0,0,0,0);
+  return Math.max(0, Math.ceil((SHAWWAL_END.getTime() - t.getTime()) / 86400000));
+}
+
+function swMonThuRemaining() {
+  const t = new Date(); t.setHours(0,0,0,0);
+  const from = new Date(Math.max(t.getTime(), SHAWWAL_FIRST_FAST.getTime()));
+  const out = [];
+  for (let d = new Date(from); d <= SHAWWAL_END; d.setDate(d.getDate()+1)) {
+    if (d.getDay() === 1 || d.getDay() === 4) out.push(new Date(d));
+  }
+  return out;
+}
+
+function swWhiteDaysRemaining() {
+  const t = new Date(); t.setHours(0,0,0,0);
+  return SHAWWAL_WHITE.filter(d => d >= t);
+}
+
+function swFmtDate(d) {
+  return d.toLocaleDateString('en-GB', {weekday:'short', day:'numeric', month:'short'});
+}
+
+/* ══════════════════════════════════════════════════════════
    SHAWWAL TRACKER
    ══════════════════════════════════════════════════════════ */
 function renderShawwal() {
@@ -1571,11 +1716,97 @@ function renderShawwal() {
   document.getElementById('shawwal-count').textContent = f.length+' / 6 completed'+(f.length===6?' — Alhamdulillah! 🎉':'');
 }
 
+/* ══════════════════════════════════════════════════════════
+   SHAWWAL BANNER — shown at top during Shawwal
+   ══════════════════════════════════════════════════════════ */
+function renderShawwalBanner() {
+  const banner = document.getElementById('sw-banner');
+  if (!banner) return;
+
+  if (!isInShawwal()) { banner.style.display = 'none'; return; }
+  banner.style.display = 'block';
+
+  const fasted   = state.shawwal || [];
+  const done     = fasted.length;
+  const left     = 6 - done;
+  const daysLeft = swDaysLeft();
+  const monThu   = swMonThuRemaining();
+  const white    = swWhiteDaysRemaining();
+
+  // Build dot HTML (shared toggle — also refreshes banner)
+  const dotsHtml = Array.from({length:6}, (_,i) =>
+    `<div class="tracker-dot ${fasted.includes(i)?'fasted':''}" onclick="toggleShawwal(${i})">${fasted.includes(i)?'✓':i+1}</div>`
+  ).join('');
+
+  // Mon/Thu chips — mark Apr 2 (Thu) specially since it's also a White Day
+  const monThuChips = monThu.length
+    ? monThu.map(d => {
+        const isWhiteOverlap = SHAWWAL_WHITE.some(w => w.getTime()===d.getTime());
+        return `<span class="swb-date-chip${isWhiteOverlap?' overlap':''}" title="${isWhiteOverlap?'Also a White Moon Day!':''}">${swFmtDate(d)}${isWhiteOverlap?' ✨':''}</span>`;
+      }).join('')
+    : '<span style="color:var(--text-dim);font-size:10px;font-style:italic">No Mon/Thu fasts left this Shawwal</span>';
+
+  const whiteChips = white.length
+    ? white.map(d => {
+        const isThuOverlap = d.getDay() === 4;
+        return `<span class="swb-date-chip white" title="${isThuOverlap?'Also a Thursday fast!':''}">${swFmtDate(d)}${isThuOverlap?' ✨':''}</span>`;
+      }).join('')
+    : '<span style="color:var(--text-dim);font-size:10px;font-style:italic">White Moon Days have passed for this Shawwal</span>';
+
+  const tipsHtml = left > 0 ? `
+    <div class="swb-tips">
+      <div class="swb-tips-title">💡 Strategic Fasting — Maximise Your Remaining Days</div>
+
+      <div class="swb-tip">
+        <div class="swb-tip-label">📅 Mon &amp; Thu fasts remaining in Shawwal (${monThu.length} days)</div>
+        <div class="swb-tip-dates">${monThuChips}</div>
+        <div class="swb-proof">"The Prophet ﷺ used to fast Mondays and Thursdays. He said: On those two days deeds are presented to the Lord of the worlds, and I love for my deeds to be presented while I am fasting."
+          <cite>— Tirmidhi 747, Sahih</cite>
+        </div>
+      </div>
+
+      <div class="swb-tip">
+        <div class="swb-tip-label">🌕 White Moon Days (Ayyam al-Beed) — 13, 14, 15 Shawwal = Apr 1, 2, 3</div>
+        <div class="swb-tip-dates">${whiteChips}</div>
+        <div class="swb-proof">"The Prophet ﷺ used to command us to fast the White Days — the 13th, 14th and 15th of every month — and he said: They are like fasting the entire month."
+          <cite>— Nasa'i 2432, Abu Dawud 2449 — Sahih</cite>
+        </div>
+      </div>
+
+      <div class="swb-tip-note">✨ <strong>Smart tip:</strong> Thu 2 Apr is both a <em>Thursday fast</em> and <em>White Day 14</em> — one fast earns both rewards. Fasting these 6 strategically completes your Shawwal sunnah while gaining maximum reward.</div>
+    </div>` : '';
+
+  banner.innerHTML = `
+    <div class="swb-hdr">
+      <span class="swb-hdr-icon">📿</span>
+      <div class="swb-hdr-meta">
+        <div class="swb-hdr-title">6 DAYS OF SHAWWĀL — سِتٌّ مِنْ شَوَّال</div>
+        <div class="swb-hdr-deadline">Shawwal ends ~18 Apr · <strong>${daysLeft} day${daysLeft!==1?'s':''} remaining</strong></div>
+      </div>
+      <div class="swb-score ${done===6?'done':''}">${done}<span>/6</span></div>
+    </div>
+
+    <div class="swb-hadith">
+      <span class="swb-hadith-icon">📜</span>
+      <span>"Whoever fasts Ramadan then follows it with six days of Shawwal — it is as if he fasted the entire year."
+        <span class="swb-hadith-ref">— Sahih Muslim 1164</span>
+        <br><span style="font-size:10px;color:var(--text-dim)">Ramadan (30 days × 10 reward) + 6 Shawwal (× 10) = 360 days = a full year of fasting.</span>
+      </span>
+    </div>
+
+    <div class="tracker-dots">${dotsHtml}</div>
+    <div class="swb-count ${done===6?'complete':''}">
+      ${done===6 ? '✅ Alhamdulillah! All 6 completed 🎉' : done + ' / 6 completed · ' + left + ' fast' + (left!==1?'s':'') + ' still to go'}
+    </div>
+    ${tipsHtml}
+  `;
+}
+
 function toggleShawwal(i) {
   if (!state.shawwal) state.shawwal=[];
   const idx = state.shawwal.indexOf(i);
   if (idx===-1) state.shawwal.push(i); else state.shawwal.splice(idx,1);
-  save(); renderShawwal();
+  save(); renderShawwal(); renderShawwalBanner();
 }
 
 /* ══════════════════════════════════════════════════════════
@@ -1933,7 +2164,7 @@ function renderSidebar() {
   document.getElementById('sidebar').innerHTML = `
     <div class="sb-cal-cta" onclick="openCbModal()">
       <div class="sb-cal-icon">📅</div>
-      <div class="sb-cal-title">BUILD MY CALENDAR</div>
+      <div class="sb-cal-title">IMPORT TO CALENDAR</div>
       <div class="sb-cal-sub">Prayers · Fasts · Adhkar · Reminders</div>
     </div>
     <div class="sb-section">
@@ -2021,6 +2252,7 @@ document.addEventListener('DOMContentLoaded', () => {
   load();
   initStars();
   renderSpotlight();
+  renderShawwalBanner();
   renderUpNext();
   renderSidebar();
   renderShawwal();

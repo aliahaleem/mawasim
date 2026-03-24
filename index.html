@@ -806,7 +806,7 @@ body { background:var(--bg); color:var(--text); font-family:var(--font-body); fo
         <!-- Step 3: Feature selection -->
         <div style="font-size:10px;color:var(--text-dim);font-weight:700;margin-bottom:4px;letter-spacing:0.5px">☑ STEP 3 — SELECT WHAT TO INCLUDE</div>
         <div style="font-size:11px;color:var(--green);margin-bottom:12px;line-height:1.5;padding:8px 10px;background:rgba(46,204,113,0.06);border:1px solid rgba(46,204,113,0.15);border-radius:6px">
-          ✅ We've pre-selected the most recommended items. Uncheck anything you don't need, or check additional options below.
+          ✅ Everything is selected by default — just uncheck what you don't need, then hit Generate.
         </div>
         <div class="cb-groups">
 
@@ -826,10 +826,10 @@ body { background:var(--bg); color:var(--text); font-family:var(--font-body); fo
               🌆 Evening Adhkar — after Asr (~15 min, links back to app)
             </label>
             <label class="cb-check">
-              <input type="checkbox" id="cb-sleep-adhkar" onchange="cbToggleSleep()">
+              <input type="checkbox" id="cb-sleep-adhkar" checked onchange="cbToggleSleep()">
               💤 Pre-Sleep Routine — Wind Down + Bedtime Adhkar (recurring daily)
             </label>
-            <div class="cb-sub" id="cb-sleep-sub" style="display:none">
+            <div class="cb-sub" id="cb-sleep-sub">
               <label>Your bedtime: <strong id="cb-sleep-preview">10:30 PM</strong></label>
               <div class="cb-sub-note">Generates two events: "💤 Wind Down" 15 min before bedtime · "📿 Bedtime Adhkar" 5 min before (Ayat al-Kursi, Ikhlas/Falaq/Nas ×3, sleeping dua) — with link to app.</div>
             </div>
@@ -839,10 +839,10 @@ body { background:var(--bg); color:var(--text); font-family:var(--font-body); fo
           <div class="cb-group">
             <div class="cb-group-title">🌃 TAHAJJUD — NIGHT PRAYER</div>
             <label class="cb-check">
-              <input type="checkbox" id="cb-tahajjud" onchange="cbToggleTahajjud()">
+              <input type="checkbox" id="cb-tahajjud" checked onchange="cbToggleTahajjud()">
               🌃 Tahajjud — Wake up before Fajr for night prayer (recurring daily)
             </label>
-            <div class="cb-sub" id="cb-tahajjud-sub" style="display:none">
+            <div class="cb-sub" id="cb-tahajjud-sub">
               <label>
                 Wake up before Fajr by:
                 <input type="range" id="cb-tahajjud-offset" min="20" max="90" value="45" oninput="cbUpdateTahajjudLabel()">
@@ -2032,9 +2032,12 @@ function cbHHMMtoDate(baseDate, hhmm) {
 }
 
 // Single builder for both recurring (opts.rrule set) and one-off (opts.rrule absent) events.
+// opts.uid — if provided, creates a deterministic UID so re-imports update instead of duplicate.
 function cbEventLines(opts) {
   const end = new Date(opts.start.getTime() + opts.durationMin * 60000);
-  const uid = 'maw-cb-' + Date.now() + Math.floor(Math.random()*99999) + '@mawasim';
+  const uid = opts.uid
+    ? 'maw-' + opts.uid + '@mawasim'
+    : 'maw-cb-' + Date.now() + Math.floor(Math.random()*99999) + '@mawasim';
   const l   = [
     'BEGIN:VEVENT', 'UID:'+uid, 'DTSTAMP:'+nowTs(),
     'DTSTART:'+icsDateTime(opts.start), 'DTEND:'+icsDateTime(end),
@@ -2056,14 +2059,14 @@ function cbAppURL() { return window.location.href.split('#')[0]; }
 
 function cbGenPrayers(ev, fajr, dhuhr, asr, maghrib, isha) {
   const b = cbBase(), url = cbAppURL();
-  [['🌅 Fajr Prayer',    fajr,    20],
-   ['☀️ Dhuhr Prayer',   dhuhr,   15],
-   ['🌤 Asr Prayer',     asr,     15],
-   ['🌇 Maghrib Prayer', maghrib, 10],
-   ['🌙 Isha Prayer',    isha,    20],
-  ].forEach(([title, t, dur]) =>
+  [['🌅 Fajr Prayer',    fajr,    20, 'fajr'],
+   ['☀️ Dhuhr Prayer',   dhuhr,   15, 'dhuhr'],
+   ['🌤 Asr Prayer',     asr,     15, 'asr'],
+   ['🌇 Maghrib Prayer', maghrib, 10, 'maghrib'],
+   ['🌙 Isha Prayer',    isha,    20, 'isha'],
+  ].forEach(([title, t, dur, key]) =>
     ev.push(...cbEventLines({
-      start: cbHHMMtoDate(b, t), durationMin: dur,
+      start: cbHHMMtoDate(b, t), durationMin: dur, uid: 'prayer-' + key,
       title, alarm: 5, rrule: 'FREQ=DAILY', transparent: true,
       desc: title + ' (~' + dur + ' min). Tentative block — adjust in your calendar.\n\nMawasim app: ' + url,
     }))
@@ -2071,19 +2074,19 @@ function cbGenPrayers(ev, fajr, dhuhr, asr, maghrib, isha) {
 }
 
 // Shared helper: recurring daily adhkar block offset from a base prayer time
-function cbGenAdhkar(ev, baseTime, offsetMin, title, desc) {
+function cbGenAdhkar(ev, baseTime, offsetMin, title, desc, uidKey) {
   const s = cbHHMMtoDate(cbBase(), baseTime); s.setMinutes(s.getMinutes() + offsetMin);
-  ev.push(...cbEventLines({ start:s, durationMin:15, title, desc, alarm:0, rrule:'FREQ=DAILY', transparent:true }));
+  ev.push(...cbEventLines({ start:s, durationMin:15, title, desc, uid: uidKey, alarm:0, rrule:'FREQ=DAILY', transparent:true }));
 }
 
 function cbGenMorningAdhkar(ev, fajr) {
   cbGenAdhkar(ev, fajr, 10, '🌅 Morning Adhkar — أذكار الصباح',
-    'After Fajr:\n• Ayat al-Kursi\n• Al-Ikhlas / Al-Falaq / An-Nas ×3\n• Sayyid al-Istighfar\n• Morning dua\n\nFull text + audio: ' + cbAppURL());
+    'After Fajr:\n• Ayat al-Kursi\n• Al-Ikhlas / Al-Falaq / An-Nas ×3\n• Sayyid al-Istighfar\n• Morning dua\n\nFull text + audio: ' + cbAppURL(), 'adhkar-morning');
 }
 
 function cbGenEveningAdhkar(ev, asr) {
   cbGenAdhkar(ev, asr, 10, '🌆 Evening Adhkar — أذكار المساء',
-    'After Asr:\n• Ayat al-Kursi\n• Al-Ikhlas / Al-Falaq / An-Nas ×3\n• Sayyid al-Istighfar\n• Evening dua\n\nFull text + audio: ' + cbAppURL());
+    'After Asr:\n• Ayat al-Kursi\n• Al-Ikhlas / Al-Falaq / An-Nas ×3\n• Sayyid al-Istighfar\n• Evening dua\n\nFull text + audio: ' + cbAppURL(), 'adhkar-evening');
 }
 
 function cbGenSleepAdhkar(ev, bedtime) {
@@ -2092,11 +2095,13 @@ function cbGenSleepAdhkar(ev, bedtime) {
   const adhk = cbHHMMtoDate(b, bedtime); adhk.setMinutes(adhk.getMinutes() - 5);
   ev.push(...cbEventLines({
     start: wind, durationMin: 10, rrule: 'FREQ=DAILY', transparent: false, alarm: 0,
+    uid: 'sleep-winddown',
     title: '💤 Wind Down — Prepare for Sleep',
     desc: 'Put the phone down. Prepare for sleep.\n"The Prophet ﷺ disliked staying up after Isha without good reason." (Bukhari)',
   }));
   ev.push(...cbEventLines({
     start: adhk, durationMin: 10, rrule: 'FREQ=DAILY', transparent: false, alarm: 5,
+    uid: 'sleep-adhkar',
     title: '📿 Bedtime Adhkar — أذكار النوم',
     desc: 'Before sleep:\n• Ayat al-Kursi (1×)\n• Al-Ikhlas / Al-Falaq / An-Nas (×3 — blow into hands, wipe over body)\n• Sleeping dua: اللَّهُمَّ بِاسْمِكَ أَمُوتُ وَأَحْيَا\n• Lie on right side\n\nFull text + audio: ' + cbAppURL(),
   }));
@@ -2106,6 +2111,7 @@ function cbGenTahajjud(ev, fajr, offsetMin) {
   const s = cbHHMMtoDate(cbBase(), fajr); s.setMinutes(s.getMinutes() - offsetMin);
   ev.push(...cbEventLines({
     start: s, durationMin: Math.max(Math.min(offsetMin - 5, 40), 15),
+    uid: 'tahajjud',
     title: '🌃 Tahajjud — قيام الليل (' + offsetMin + ' min before Fajr)',
     alarm: 5, rrule: 'FREQ=DAILY', transparent: false,
     desc: 'Night prayer — ' + offsetMin + ' min before Fajr.\n• Pray 2, 4, 6 or 8 rakats (pairs)\n• Long dua in sujood\n• Recite Quran\n• End with Witr if not prayed after Isha\n\n"The best prayer after the obligatory is the night prayer." (Muslim 1163)\n\n' + cbAppURL(),
@@ -2120,12 +2126,14 @@ function cbGenMonThu(ev, suhoor, iftar) {
   const mon = new Date(today); mon.setDate(today.getDate() + dToMon);
   ev.push(...cbEventLines({
     start: cbHHMMtoDate(mon, suhoor), durationMin: 30,
+    uid: 'fast-monthu-suhoor',
     title: '⏰ Suhoor — Mon & Thu Fast · الإثنين والخميس', alarm: 10,
     rrule: 'FREQ=WEEKLY;BYDAY=MO,TH', transparent: false,
     desc: 'Pre-dawn meal for Mon/Thu sunnah fast.\n"The Prophet ﷺ fasted Mondays and Thursdays." (Tirmidhi 747)\n\nBreak fast at Maghrib (~' + iftar + ').',
   }));
   ev.push(...cbEventLines({
     start: cbHHMMtoDate(mon, iftar), durationMin: 20,
+    uid: 'fast-monthu-iftar',
     title: '🌅 Iftar — Break Mon/Thu Fast', alarm: 10,
     rrule: 'FREQ=WEEKLY;BYDAY=MO,TH', transparent: false,
     desc: 'Break your Monday/Thursday sunnah fast.\nDua: ' + IFTAR_DUA,
@@ -2138,13 +2146,16 @@ function cbGenWhiteDays(ev, suhoor, iftar) {
       const base = new Date(dd[0], dd[1], dd[2]);
       const ord  = ['13th','14th','15th'][i];
       const day  = i + 13;
+      const dateKey = dd[0] + '' + dd[1] + '' + dd[2];
       ev.push(...cbEventLines({
         start: cbHHMMtoDate(base, suhoor), durationMin: 30,
+        uid: 'white-suhoor-' + dateKey,
         title: '⏰ Suhoor · ' + ord + ' ' + wm.m + ' — White Day Fast', alarm: 10,
         desc: 'Ayyam al-Beed — ' + ord + ' ' + wm.m + ' 1447 AH.\n"Fasting 3 days of each month equals fasting the whole month." (Nasa\'i — Sahih)\nBreak at Maghrib (~' + iftar + ').',
       }));
       ev.push(...cbEventLines({
         start: cbHHMMtoDate(base, iftar), durationMin: 20,
+        uid: 'white-iftar-' + dateKey,
         title: '🌕 Iftar · ' + ord + ' ' + wm.m + ' — White Day Fast', alarm: 10,
         desc: 'Break your White Day fast (' + ord + ' ' + wm.m + ' 1447).\nDua: ' + IFTAR_DUA,
       }));
@@ -2185,6 +2196,7 @@ function cbGenShawwal6(ev, suhoor, iftar, strategic) {
     const sDate = new Date(d); sDate.setHours(parseInt(suhoor.split(':')[0]), parseInt(suhoor.split(':')[1]), 0, 0);
     ev.push(...cbEventLines({
       start: sDate, durationMin: 30, alarm: 30,
+      uid: 'shawwal-suhoor-' + num,
       title: '🌙 Shawwal Fast ' + num + '/6 — Suhoor · ' + label,
       desc: 'Suhoor for Shawwal fast ' + num + '/6' + bonus + '.\n\nIntention: نَوَيْتُ صَوْمَ غَدٍ لِلَّهِ تَعَالَى\n\n"Whoever fasts Ramadan then follows it with six days of Shawwal — it is as if he fasted the entire year." (Muslim 1164)\n\n' + url,
     }));
@@ -2192,6 +2204,7 @@ function cbGenShawwal6(ev, suhoor, iftar, strategic) {
     const iDate = new Date(d); iDate.setHours(parseInt(iftar.split(':')[0]), parseInt(iftar.split(':')[1]), 0, 0);
     ev.push(...cbEventLines({
       start: iDate, durationMin: 20, alarm: 10,
+      uid: 'shawwal-iftar-' + num,
       title: '🌅 Shawwal Fast ' + num + '/6 — Iftar · ' + label,
       desc: 'Break your Shawwal fast ' + num + '/6' + bonus + '.\n\nDua: ' + IFTAR_DUA + '\n\n' + url,
     }));
@@ -2271,6 +2284,7 @@ function cbGenDailyInspo(ev, timeStr) {
     const s = cbHHMMtoDate(d, timeStr);
     ev.push(...cbEventLines({
       start: s, durationMin: 5, alarm: 0,
+      uid: 'inspo-day' + day,
       title: '✨ Daily Inspiration #' + ((day % DAILY_INSPO.length) + 1),
       desc: q.text + '\n\n— ' + q.ref + '\n\nMawasim: ' + url,
       transparent: true,
@@ -2287,9 +2301,9 @@ function cbGenAdha3Days(ev) {
       desc:'Ayyam al-Tashriq:\n\n• Takbeer al-Tashriq after every fard prayer\n• Continue Udhiyah if not done\n• Days of eating, drinking, dhikr — fasting PROHIBITED\n\n' + url },
     { date:[2026,5,8], alarm:0,  title:'🌙 Eid al-Adha Day 3 · 12 Dhul Hijjah (Tashriq)',
       desc:'Final Tashriq Day:\n\n• Takbeer al-Tashriq after every fard prayer\n• Last day for Udhiyah\n• Hajj pilgrims: last day to stone the Jamarat\n\n' + url },
-  ].forEach(e => {
+  ].forEach((e, idx) => {
     const s = new Date(e.date[0], e.date[1], e.date[2]); s.setHours(7, 0, 0, 0);
-    ev.push(...cbEventLines({ start:s, durationMin:60, title:e.title, desc:e.desc, alarm:e.alarm }));
+    ev.push(...cbEventLines({ start:s, durationMin:60, uid: 'adha-day' + (idx+1), title:e.title, desc:e.desc, alarm:e.alarm }));
   });
 }
 
@@ -2359,8 +2373,15 @@ function cbGenerate(forGoogle) {
 
   r.innerHTML = '✓ <strong>' + done.length + ' feature' + (done.length > 1 ? 's' : '') + ' generated</strong>:<br>'
     + done.map(g => '· ' + g).join('<br>')
-    + '<br><br>📱 <strong>Apple Calendar / Outlook:</strong> The .ics file opens automatically — accept the import prompt.<br>'
-    + '📋 <strong>Google Calendar:</strong> Go to <a href="https://calendar.google.com" target="_blank">calendar.google.com</a> → Settings ⚙ → Import & Export → Import the downloaded .ics file.';
+    + '<br><br>📱 <strong>Apple Calendar / Outlook:</strong> The .ics file opens automatically — accept the import prompt.'
+    + '<br><br>📋 <strong>Google Calendar — first-time setup:</strong>'
+    + '<br>1. Open <a href="https://calendar.google.com/calendar/r/settings/createcalendar" target="_blank">Google Calendar → Create new calendar</a>'
+    + '<br>2. Name it <strong>"Mawasim"</strong> → click Create'
+    + '<br>3. Go to <a href="https://calendar.google.com/calendar/r/settings/export" target="_blank">Settings → Import & Export</a>'
+    + '<br>4. Choose the downloaded .ics file and select your new <strong>"Mawasim"</strong> calendar'
+    + '<br>5. Click Import ✓'
+    + '<br><br>This gives you a dedicated <strong>Mawasim</strong> toggle in your sidebar — you can show/hide all reminders with one click.'
+    + '<br><br>🔄 <strong>Re-importing:</strong> Events use stable IDs, so re-importing the same file will update existing events rather than create duplicates (works reliably on Apple/Outlook; on Google, delete the Mawasim calendar and re-create it for a clean refresh).';
   r.classList.add('show');
 }
 

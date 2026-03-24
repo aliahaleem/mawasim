@@ -187,6 +187,31 @@ body { background:var(--bg); color:var(--text); font-family:var(--font-body); fo
 .maw-promo strong { color:var(--text); }
 .maw-promo em { color:var(--gold); font-style:normal; }
 
+/* ── Daily Inspiration card ── */
+.daily-inspo {
+  background:linear-gradient(135deg,rgba(255,215,0,0.05),rgba(138,106,255,0.04));
+  border:1px solid rgba(255,215,0,0.18); border-left:4px solid var(--gold);
+  border-radius:var(--radius); padding:16px 18px; margin-bottom:16px;
+  position:relative; overflow:hidden;
+}
+.di-quote {
+  font-size:15px; color:var(--text); line-height:1.75;
+  font-style:italic; margin-bottom:8px;
+}
+.di-ref { font-size:11px; color:var(--gold); font-style:normal; font-weight:700; }
+.di-label {
+  display:flex; align-items:center; justify-content:space-between; gap:8px;
+  margin-bottom:10px;
+}
+.di-label-text { font-size:10px; font-weight:700; color:var(--text-dim); letter-spacing:0.5px; text-transform:uppercase; }
+.di-shuffle {
+  padding:4px 10px; border:1px solid rgba(255,215,0,0.2); border-radius:20px;
+  background:rgba(255,215,0,0.06); color:var(--gold); font-size:10px;
+  cursor:pointer; transition:all 0.2s; user-select:none;
+}
+.di-shuffle:hover { background:rgba(255,215,0,0.14); border-color:rgba(255,215,0,0.35); }
+.di-num { font-size:9px; color:var(--text-dim); margin-top:6px; }
+
 /* ── Section Header ── */
 .section-hdr { font-family:var(--font-pixel); font-size:7px; color:var(--gold-dim); letter-spacing:2px; text-transform:uppercase; margin:28px 0 14px; display:flex; align-items:center; gap:10px; }
 .section-hdr::after { content:''; flex:1; height:1px; background:var(--border); }
@@ -864,6 +889,21 @@ body { background:var(--bg); color:var(--text); font-family:var(--font-body); fo
             </div>
           </div>
 
+          <!-- Daily Inspiration -->
+          <div class="cb-group">
+            <div class="cb-group-title">✨ DAILY INSPIRATION — QURAN &amp; HADITH</div>
+            <label class="cb-check">
+              <input type="checkbox" id="cb-daily-inspo" checked onchange="cbToggleInspo()">
+              ✨ Daily Inspirational Reminder — one authentic hadith or Quran verse every day (loops yearly)
+            </label>
+            <div class="cb-sub" id="cb-inspo-sub">
+              <label>Reminder time:
+                <input type="time" id="cb-inspo-time" value="12:00">
+              </label>
+              <div class="cb-sub-note">A daily calendar notification with an uplifting verse or hadith — perfect for a midday boost. 52 curated entries from Quran and Sahih collections, cycling through the year so you never run out.</div>
+            </div>
+          </div>
+
           <!-- Eid al-Adha -->
           <div class="cb-group">
             <div class="cb-group-title">🐑 EID AL-ADHA — 3 DAYS</div>
@@ -909,6 +949,9 @@ body { background:var(--bg); color:var(--text); font-family:var(--font-body); fo
         No account needed. No ads. Just ibadah.
       </div>
     </header>
+
+    <!-- DAILY INSPIRATION -->
+    <div id="daily-inspo"></div>
 
     <!-- SPOTLIGHT -->
     <div id="spotlight"></div>
@@ -1960,6 +2003,7 @@ function cbToggleMonThu()    { document.getElementById('cb-mon-thu-sub').style.d
 function cbToggleWhiteDays() { document.getElementById('cb-white-sub').style.display    = document.getElementById('cb-white-days').checked     ? 'block':'none'; }
 function cbToggleWhiteSame() { document.getElementById('cb-white-times').style.display  = document.getElementById('cb-white-same').checked     ? 'none':'block'; }
 function cbToggleShawwal()   { document.getElementById('cb-shawwal-sub').style.display  = document.getElementById('cb-shawwal6').checked        ? 'block':'none'; }
+function cbToggleInspo()     { document.getElementById('cb-inspo-sub').style.display    = document.getElementById('cb-daily-inspo').checked      ? 'block':'none'; }
 
 function cbUpdateSleepPreview() {
   const el = document.getElementById('cb-sleep-preview'); if (!el) return;
@@ -2154,6 +2198,86 @@ function cbGenShawwal6(ev, suhoor, iftar, strategic) {
   });
 }
 
+/* ══════════════════════════════════════════════════════════
+   DAILY INSPIRATION — 52 AUTHENTIC QURAN & HADITH QUOTES
+   Loops through the year (365 / 52 ≈ 7 cycles).
+   ══════════════════════════════════════════════════════════ */
+const DAILY_INSPO = [
+  { text:'"Verily, with hardship comes ease."', ref:'Quran 94:6' },
+  { text:'"And whoever puts their trust in Allah, He will be enough for them."', ref:'Quran 65:3' },
+  { text:'"So remember Me; I will remember you."', ref:'Quran 2:152' },
+  { text:'"Allah does not burden a soul beyond that it can bear."', ref:'Quran 2:286' },
+  { text:'"And say: My Lord, increase me in knowledge."', ref:'Quran 20:114' },
+  { text:'"Is not Allah sufficient for His servant?"', ref:'Quran 39:36' },
+  { text:'"Indeed, Allah is with the patient."', ref:'Quran 2:153' },
+  { text:'"And He found you lost and guided you."', ref:'Quran 93:7' },
+  { text:'"Call upon Me; I will respond to you."', ref:'Quran 40:60' },
+  { text:'"And whoever fears Allah — He will make for him a way out."', ref:'Quran 65:2' },
+  { text:'"My mercy encompasses all things."', ref:'Quran 7:156' },
+  { text:'"And We have certainly made the Quran easy to remember. So is there anyone who will be mindful?"', ref:'Quran 54:17' },
+  { text:'"Do not lose hope in the mercy of Allah."', ref:'Quran 39:53' },
+  { text:'"He is with you wherever you are."', ref:'Quran 57:4' },
+  { text:'"And your Lord is going to give you, and you will be satisfied."', ref:'Quran 93:5' },
+  { text:'"If you are grateful, I will surely increase you."', ref:'Quran 14:7' },
+  { text:'"And We created you in pairs."', ref:'Quran 78:8' },
+  { text:'"Which of the favors of your Lord would you deny?"', ref:'Quran 55:13' },
+  { text:'"And in the heavens is your provision and whatever you are promised."', ref:'Quran 51:22' },
+  { text:'"Those who believe and whose hearts find comfort in the remembrance of Allah. Surely in the remembrance of Allah do hearts find comfort."', ref:'Quran 13:28' },
+  { text:'"Indeed, the mercy of Allah is near to those who do good."', ref:'Quran 7:56' },
+  { text:'"And it may be that you dislike a thing which is good for you."', ref:'Quran 2:216' },
+  { text:'"Allah is the Light of the heavens and the earth."', ref:'Quran 24:35' },
+  { text:'"And We are closer to him than his jugular vein."', ref:'Quran 50:16' },
+  { text:'"And He is the Forgiving, the Loving."', ref:'Quran 85:14' },
+  { text:'"Be mindful of Allah and He will protect you. Be mindful of Allah and you will find Him before you."', ref:'Tirmidhi 2516 — Sahih' },
+  { text:'"The best of you are those who are best to their families."', ref:'Tirmidhi 3895 — Sahih' },
+  { text:'"Smiling at your brother is an act of charity."', ref:'Tirmidhi 1956 — Sahih' },
+  { text:'"Whoever believes in Allah and the Last Day, let him speak good or remain silent."', ref:'Bukhari 6018, Muslim 47' },
+  { text:'"The strong person is not the one who can wrestle someone else down. The strong person is the one who can control himself when he is angry."', ref:'Bukhari 6114, Muslim 2609' },
+  { text:'"None of you truly believes until he loves for his brother what he loves for himself."', ref:'Bukhari 13, Muslim 45' },
+  { text:'"Take advantage of five before five: your youth before old age, your health before sickness, your wealth before poverty, your free time before busyness, and your life before death."', ref:'Al-Hakim — Sahih' },
+  { text:'"The most beloved deeds to Allah are those done consistently, even if they are small."', ref:'Bukhari 6464, Muslim 783' },
+  { text:'"Whoever follows a path in pursuit of knowledge, Allah will make easy for him a path to Paradise."', ref:'Muslim 2699' },
+  { text:'"The supplication of a fasting person is not rejected."', ref:'Ibn Majah 1753 — Hasan' },
+  { text:'"When Allah loves a servant, He tests him."', ref:'Tirmidhi 2396 — Sahih' },
+  { text:'"Patience is a light."', ref:'Muslim 223' },
+  { text:'"The world is a prison for the believer and a paradise for the disbeliever."', ref:'Muslim 2956' },
+  { text:'"Allah is beautiful and He loves beauty."', ref:'Muslim 91' },
+  { text:'"The best dhikr is La ilaha illAllah, and the best dua is Alhamdulillah."', ref:'Tirmidhi 3383 — Hasan' },
+  { text:'"Do not belittle any good deed, even meeting your brother with a cheerful face."', ref:'Muslim 2626' },
+  { text:'"Whoever is not grateful to people is not grateful to Allah."', ref:'Tirmidhi 1954 — Sahih' },
+  { text:'"The most complete believers in faith are those with the best character."', ref:'Tirmidhi 1162 — Sahih' },
+  { text:'"Make things easy and do not make them difficult. Give glad tidings and do not drive people away."', ref:'Bukhari 69, Muslim 1734' },
+  { text:'"Richness is not having many possessions. Rather, true richness is the richness of the soul."', ref:'Bukhari 6446, Muslim 1051' },
+  { text:'"A good word is charity."', ref:'Bukhari 2989, Muslim 1009' },
+  { text:'"The dua of a Muslim for his brother in his absence is answered. At his head an angel is appointed and every time he makes dua for his brother with good, the angel says: Ameen, and the same for you."', ref:'Muslim 2733' },
+  { text:'"Whoever removes a worldly hardship from a believer, Allah will remove from him one of the hardships of the Day of Resurrection."', ref:'Muslim 2699' },
+  { text:'"He who has in his heart the weight of a mustard seed of pride shall not enter Paradise."', ref:'Muslim 91' },
+  { text:'"Allah does not look at your appearance or your wealth, but He looks at your hearts and your deeds."', ref:'Muslim 2564' },
+  { text:'"If the Final Hour comes while you have a seedling in your hands, and it is possible to plant it before the Hour comes, then plant it."', ref:'Ahmad 12902 — Sahih' },
+  { text:'"Verily, actions are judged by intentions."', ref:'Bukhari 1, Muslim 1907' },
+];
+
+function cbGenDailyInspo(ev, timeStr) {
+  const b = cbBase();
+  const startDate = new Date(2025, 6, 7); // 1 Muharram 1447
+  const endDate   = new Date(2026, 5, 25); // end of 1447 AH year
+  const totalDays = Math.ceil((endDate - startDate) / 86400000);
+  const url = cbAppURL();
+
+  for (let day = 0; day < totalDays; day++) {
+    const d = new Date(startDate);
+    d.setDate(d.getDate() + day);
+    const q = DAILY_INSPO[day % DAILY_INSPO.length];
+    const s = cbHHMMtoDate(d, timeStr);
+    ev.push(...cbEventLines({
+      start: s, durationMin: 5, alarm: 0,
+      title: '✨ Daily Inspiration #' + ((day % DAILY_INSPO.length) + 1),
+      desc: q.text + '\n\n— ' + q.ref + '\n\nMawasim: ' + url,
+      transparent: true,
+    }));
+  }
+}
+
 function cbGenAdha3Days(ev) {
   const url = cbAppURL();
   [
@@ -2182,6 +2306,7 @@ function cbGenerate(forGoogle) {
     monThu:        document.getElementById('cb-mon-thu').checked,
     whiteDays:     document.getElementById('cb-white-days').checked,
     shawwal6:      document.getElementById('cb-shawwal6').checked,
+    dailyInspo:    document.getElementById('cb-daily-inspo').checked,
     adhaDays:      document.getElementById('cb-adha-days').checked,
   };
   const r = document.getElementById('cb-result');
@@ -2216,6 +2341,11 @@ function cbGenerate(forGoogle) {
     const swStrategic = document.getElementById('cb-shawwal-strategic').checked;
     cbGenShawwal6(ev, fSuhoor, fIftar, swStrategic);
     done.push('6 Days of Shawwal — Suhoor + Iftar' + (swStrategic ? ' (strategic dates)' : ' (consecutive)'));
+  }
+  if (checks.dailyInspo)    {
+    const inspoTime = document.getElementById('cb-inspo-time').value || '12:00';
+    cbGenDailyInspo(ev, inspoTime);
+    done.push('Daily Inspiration — ' + DAILY_INSPO.length + ' Quran & Hadith quotes looping all year at ' + inspoTime);
   }
   if (checks.adhaDays)      { cbGenAdha3Days(ev);                                  done.push('Eid al-Adha — 3-Day guide events (Jun 6–8, 2026)'); }
 
@@ -2368,11 +2498,43 @@ function toggleAllOccasions() {
 }
 
 /* ══════════════════════════════════════════════════════════
+   DAILY INSPIRATION — on main page
+   Uses day-of-year to pick today's quote from DAILY_INSPO.
+   ══════════════════════════════════════════════════════════ */
+function dayOfYear() {
+  const now = new Date(), start = new Date(now.getFullYear(), 0, 0);
+  return Math.floor((now - start) / 86400000);
+}
+
+function renderDailyInspo(forceIdx) {
+  const el = document.getElementById('daily-inspo');
+  if (!el) return;
+  const idx = (forceIdx != null) ? forceIdx : (dayOfYear() % DAILY_INSPO.length);
+  const q = DAILY_INSPO[idx];
+  el.innerHTML = `
+    <div class="daily-inspo">
+      <div class="di-label">
+        <span class="di-label-text">✨ Today's Inspiration</span>
+        <span class="di-shuffle" onclick="shuffleInspo()">🔀 Another</span>
+      </div>
+      <div class="di-quote">${q.text}</div>
+      <div class="di-ref">— ${q.ref}</div>
+      <div class="di-num">${idx + 1} of ${DAILY_INSPO.length}</div>
+    </div>`;
+}
+
+function shuffleInspo() {
+  const idx = Math.floor(Math.random() * DAILY_INSPO.length);
+  renderDailyInspo(idx);
+}
+
+/* ══════════════════════════════════════════════════════════
    INIT
    ══════════════════════════════════════════════════════════ */
 document.addEventListener('DOMContentLoaded', () => {
   load();
   initStars();
+  renderDailyInspo();
   renderSpotlight();
   renderShawwalBanner();
   renderUpNext();

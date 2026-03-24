@@ -576,7 +576,8 @@ body { background:var(--bg); color:var(--text); font-family:var(--font-body); fo
 .cb-fetch-row { background:rgba(138,106,255,0.06); border:1px solid rgba(138,106,255,0.2); border-radius:8px; padding:14px; margin-bottom:16px; }
 .cb-fetch-label { font-size:11px; color:var(--text-mid); font-weight:700; margin-bottom:8px; }
 .cb-fetch-inputs { display:flex; gap:8px; flex-wrap:wrap; align-items:center; }
-.cb-fetch-inputs input {
+.cb-fetch-inputs input,
+.cb-fetch-inputs select {
   flex:1; min-width:110px; padding:8px 10px;
   background:var(--card); border:1px solid rgba(138,106,255,0.3);
   border-radius:6px; color:var(--text); font-family:var(--font-body); font-size:13px;
@@ -713,10 +714,48 @@ body { background:var(--bg); color:var(--text); font-family:var(--font-body); fo
           <div class="cb-fetch-label">📍 Step 1 — Auto-fill prayer times for your city (or set manually below)</div>
           <div class="cb-fetch-inputs">
             <input type="text" id="cb-city" placeholder="City (e.g. London, Dubai, Toronto)">
-            <input type="text" id="cb-country" placeholder="Country code (e.g. GB)" style="max-width:130px">
+            <select id="cb-country" style="max-width:220px">
+              <option value="">Select country code…</option>
+              <option value="US">🇺🇸 United States (US)</option>
+              <option value="GB">🇬🇧 United Kingdom (GB)</option>
+              <option value="CA">🇨🇦 Canada (CA)</option>
+              <option value="AU">🇦🇺 Australia (AU)</option>
+              <option value="NZ">🇳🇿 New Zealand (NZ)</option>
+              <option value="IN">🇮🇳 India (IN)</option>
+              <option value="PK">🇵🇰 Pakistan (PK)</option>
+              <option value="BD">🇧🇩 Bangladesh (BD)</option>
+              <option value="ID">🇮🇩 Indonesia (ID)</option>
+              <option value="MY">🇲🇾 Malaysia (MY)</option>
+              <option value="SG">🇸🇬 Singapore (SG)</option>
+              <option value="AE">🇦🇪 United Arab Emirates (AE)</option>
+              <option value="SA">🇸🇦 Saudi Arabia (SA)</option>
+              <option value="QA">🇶🇦 Qatar (QA)</option>
+              <option value="KW">🇰🇼 Kuwait (KW)</option>
+              <option value="BH">🇧🇭 Bahrain (BH)</option>
+              <option value="OM">🇴🇲 Oman (OM)</option>
+              <option value="JO">🇯🇴 Jordan (JO)</option>
+              <option value="EG">🇪🇬 Egypt (EG)</option>
+              <option value="MA">🇲🇦 Morocco (MA)</option>
+              <option value="DZ">🇩🇿 Algeria (DZ)</option>
+              <option value="TN">🇹🇳 Tunisia (TN)</option>
+              <option value="TR">🇹🇷 Türkiye (TR)</option>
+              <option value="IQ">🇮🇶 Iraq (IQ)</option>
+              <option value="SY">🇸🇾 Syria (SY)</option>
+              <option value="LB">🇱🇧 Lebanon (LB)</option>
+              <option value="YE">🇾🇪 Yemen (YE)</option>
+              <option value="DE">🇩🇪 Germany (DE)</option>
+              <option value="FR">🇫🇷 France (FR)</option>
+              <option value="NL">🇳🇱 Netherlands (NL)</option>
+              <option value="SE">🇸🇪 Sweden (SE)</option>
+              <option value="NO">🇳🇴 Norway (NO)</option>
+              <option value="DK">🇩🇰 Denmark (DK)</option>
+              <option value="ZA">🇿🇦 South Africa (ZA)</option>
+              <option value="NG">🇳🇬 Nigeria (NG)</option>
+              <option value="KE">🇰🇪 Kenya (KE)</option>
+            </select>
             <button class="btn-fetch" onclick="cbFetchTimes()">⚡ FETCH TIMES</button>
           </div>
-          <div class="cb-fetch-status" id="cb-fetch-status">Enter your city above to auto-fill prayer times, or set them manually below.</div>
+          <div class="cb-fetch-status" id="cb-fetch-status">Enter your city and select a country code to auto-fill prayer times, or set them manually below.</div>
         </div>
 
         <!-- Step 2: Prayer times grid -->
@@ -1858,7 +1897,11 @@ async function cbFetchTimes() {
     status.textContent = '⚠ Please enter a city name first.';
     status.className   = 'cb-fetch-status err'; return;
   }
-  status.textContent = '⏳ Fetching prayer times for ' + city + '…';
+  if (!country) {
+    status.textContent = '⚠ Please select a country code.';
+    status.className   = 'cb-fetch-status err'; return;
+  }
+  status.textContent = '⏳ Fetching prayer times for ' + city + ', ' + country + '…';
   status.className   = 'cb-fetch-status';
   try {
     const url  = 'https://api.aladhan.com/v1/timingsByCity?city=' + encodeURIComponent(city)

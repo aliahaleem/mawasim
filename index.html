@@ -1,0 +1,1737 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mawasim — مَوَاسِم · Islamic Sacred Seasons 1447 AH</title>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Quicksand:wght@400;500;600;700&family=Amiri:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+:root {
+  --bg:          #020810;
+  --surface:     #0a1428;
+  --card:        #0d1830;
+  --card2:       #111f3a;
+  --gold:        #ffd700;
+  --gold-dim:    #c8900a;
+  --gold-lit:    #ffe880;
+  --text:        #e8f0ff;
+  --text-mid:    #a0b4cc;
+  --text-dim:    #506080;
+  --green:       #2ecc71;
+  --red:         #e74c3c;
+  --orange:      #f39c12;
+  --purple:      #8a6aff;
+  --border:      rgba(255,215,0,0.1);
+  --border-gold: rgba(255,215,0,0.3);
+  --radius:      10px;
+  --font-pixel:  'Press Start 2P', monospace;
+  --font-body:   'Quicksand', sans-serif;
+  --font-arabic: 'Amiri', 'Traditional Arabic', serif;
+}
+
+body { background:var(--bg); color:var(--text); font-family:var(--font-body); font-size:14px; min-height:100vh; overflow-x:hidden; }
+#star-bg { position:fixed; inset:0; z-index:0; pointer-events:none; }
+.app { position:relative; z-index:1; max-width:740px; margin:0 auto; padding:16px 16px 80px; }
+
+/* ── Header ── */
+.maw-header { text-align:center; padding:28px 0 20px; }
+.maw-crescent { font-size:66px; display:block; margin-bottom:10px; filter:drop-shadow(0 0 22px rgba(255,215,0,0.65)); animation:moonFloat 4.5s ease-in-out infinite; }
+@keyframes moonFloat { 0%,100%{transform:translateY(0) rotate(-5deg)} 50%{transform:translateY(-10px) rotate(5deg)} }
+.maw-title { font-family:var(--font-pixel); font-size:clamp(14px,4vw,22px); color:var(--gold); text-shadow:0 0 28px rgba(255,215,0,0.6),2px 2px 0 #000; letter-spacing:4px; margin-bottom:6px; }
+.maw-arabic { font-family:var(--font-arabic); font-size:34px; color:var(--gold-lit); direction:rtl; text-shadow:0 0 18px rgba(255,215,0,0.4); margin:6px 0 4px; }
+.maw-subtitle { font-size:11px; color:var(--text-dim); letter-spacing:1px; }
+.maw-meaning { display:inline-block; margin-top:10px; padding:5px 16px; background:rgba(255,215,0,0.08); border:1px solid var(--border-gold); border-radius:20px; font-size:11px; color:var(--gold); font-style:italic; }
+
+/* ── Section Header ── */
+.section-hdr { font-family:var(--font-pixel); font-size:7px; color:var(--gold-dim); letter-spacing:2px; text-transform:uppercase; margin:28px 0 14px; display:flex; align-items:center; gap:10px; }
+.section-hdr::after { content:''; flex:1; height:1px; background:var(--border); }
+
+/* ══════════════════════════════════════════════
+   LOOK AHEAD STRIP
+   ══════════════════════════════════════════════ */
+.look-ahead-wrap { overflow-x:auto; scrollbar-width:none; margin:0 -16px; padding:0 16px 8px; }
+.look-ahead-wrap::-webkit-scrollbar { display:none; }
+.look-ahead-strip { display:flex; gap:10px; min-width:max-content; }
+
+.la-card {
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  padding:14px 16px;
+  min-width:160px;
+  max-width:180px;
+  cursor:pointer;
+  transition:all 0.2s;
+  border-top:3px solid;
+}
+.la-card:hover { transform:translateY(-3px); box-shadow:0 8px 24px rgba(0,0,0,0.4); }
+
+.la-icon { font-size:26px; margin-bottom:8px; display:block; }
+.la-title { font-family:var(--font-pixel); font-size:7px; letter-spacing:0.5px; margin-bottom:4px; line-height:1.5; }
+.la-hijri { font-size:10px; color:var(--text-dim); margin-bottom:8px; }
+.la-countdown { font-family:var(--font-pixel); font-size:11px; }
+.la-countdown span { font-size:8px; color:var(--text-dim); display:block; margin-top:2px; }
+.la-now-badge { font-family:var(--font-pixel); font-size:7px; background:rgba(46,204,113,0.15); color:var(--green); border:1px solid rgba(46,204,113,0.3); padding:2px 8px; border-radius:4px; display:inline-block; margin-bottom:6px; }
+
+/* ══════════════════════════════════════════════
+   SPOTLIGHT
+   ══════════════════════════════════════════════ */
+.spotlight { border-radius:var(--radius); padding:20px; margin:8px 0 20px; border:2px solid; }
+.spot-badge { font-family:var(--font-pixel); font-size:7px; letter-spacing:2px; margin-bottom:10px; display:inline-block; padding:3px 10px; border-radius:4px; }
+.spot-badge.now  { background:rgba(46,204,113,0.15); color:var(--green); border:1px solid rgba(46,204,113,0.3); }
+.spot-badge.soon { background:rgba(255,215,0,0.12); color:var(--gold); border:1px solid var(--border-gold); }
+.spot-icon  { font-size:48px; margin-bottom:8px; display:block; }
+.spot-title { font-family:var(--font-pixel); font-size:clamp(9px,2.5vw,13px); color:var(--gold); letter-spacing:1px; margin-bottom:6px; }
+.spot-arabic { font-family:var(--font-arabic); font-size:28px; color:var(--gold-lit); direction:rtl; margin:4px 0 8px; }
+.spot-hijri  { font-size:11px; color:var(--text-mid); margin-bottom:6px; }
+.spot-desc   { font-size:13px; color:var(--text); line-height:1.7; margin-bottom:12px; }
+.spot-countdown { font-family:var(--font-pixel); font-size:13px; color:var(--gold); letter-spacing:2px; margin-bottom:4px; }
+.spot-countdown-label { font-size:9px; color:var(--text-dim); margin-bottom:2px; }
+.spot-btns { display:flex; gap:8px; flex-wrap:wrap; margin-top:14px; }
+.spot-link { display:inline-block; padding:8px 16px; background:rgba(255,215,0,0.1); border:1px solid var(--gold); border-radius:6px; color:var(--gold); font-family:var(--font-pixel); font-size:7px; text-decoration:none; cursor:pointer; transition:all 0.2s; letter-spacing:1px; }
+.spot-link:hover { background:rgba(255,215,0,0.2); }
+.spot-link.ics { border-color:#4caf50; color:#4caf50; background:rgba(76,175,80,0.08); }
+.spot-link.ics:hover { background:rgba(76,175,80,0.18); }
+
+/* ══════════════════════════════════════════════
+   TIMELINE
+   ══════════════════════════════════════════════ */
+.timeline { position:relative; padding-left:36px; }
+.timeline::before { content:''; position:absolute; left:12px; top:0; bottom:0; width:2px; background:linear-gradient(to bottom,transparent,var(--border-gold) 10%,var(--border-gold) 90%,transparent); }
+
+.occ-card { position:relative; margin-bottom:12px; }
+.occ-dot { position:absolute; left:-30px; top:18px; width:14px; height:14px; border-radius:50%; border:2px solid; background:var(--bg); z-index:2; transition:all 0.2s; }
+.occ-card.current .occ-dot { width:18px; height:18px; left:-32px; top:16px; box-shadow:0 0 12px; animation:dotPulse 2s infinite; }
+@keyframes dotPulse { 0%,100%{transform:scale(1);opacity:1} 50%{transform:scale(1.3);opacity:0.7} }
+
+.occ-inner { background:var(--card); border:1px solid var(--border); border-left-width:3px; border-radius:var(--radius); overflow:hidden; transition:all 0.2s; }
+.occ-card.current .occ-inner { box-shadow:0 0 20px rgba(0,0,0,0.4); }
+.occ-card.past .occ-inner { opacity:0.48; }
+.occ-card.past .occ-inner:hover { opacity:0.82; }
+
+.occ-header { display:flex; align-items:center; gap:12px; padding:14px 16px; cursor:pointer; user-select:none; }
+.occ-icon { font-size:28px; flex-shrink:0; }
+.occ-meta { flex:1; min-width:0; }
+.occ-title { font-family:var(--font-pixel); font-size:clamp(7px,2vw,9px); letter-spacing:1px; margin-bottom:3px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.occ-arabic { font-family:var(--font-arabic); font-size:18px; direction:rtl; color:var(--gold-lit); }
+.occ-dates  { font-size:10px; color:var(--text-dim); margin-top:2px; }
+.occ-right  { flex-shrink:0; text-align:right; }
+.occ-status { font-family:var(--font-pixel); font-size:6px; padding:3px 7px; border-radius:4px; margin-bottom:4px; display:inline-block; }
+.occ-status.past     { background:rgba(255,255,255,0.05); color:var(--text-dim); border:1px solid rgba(255,255,255,0.08); }
+.occ-status.current  { background:rgba(46,204,113,0.15); color:var(--green); border:1px solid rgba(46,204,113,0.3); }
+.occ-status.upcoming { background:rgba(255,215,0,0.1); color:var(--gold); border:1px solid var(--border-gold); }
+.occ-chevron { font-size:10px; color:var(--text-dim); transition:transform 0.2s; display:block; text-align:center; margin-top:4px; }
+.occ-card.open .occ-chevron { transform:rotate(180deg); }
+
+.occ-body { display:none; padding:0 16px 16px; border-top:1px solid rgba(255,255,255,0.05); }
+.occ-card.open .occ-body { display:block; }
+.occ-significance { font-size:13px; color:var(--text-mid); line-height:1.75; padding:12px 0 8px; }
+.occ-significance strong { color:var(--text); }
+.occ-significance em { color:var(--gold-dim); }
+
+.sub-hdr { font-family:var(--font-pixel); font-size:7px; color:var(--gold-dim); letter-spacing:1px; margin:14px 0 8px; }
+
+/* ── Practices ── */
+.practice-list { list-style:none; }
+.practice-list li { display:flex; align-items:flex-start; gap:9px; padding:7px 0; border-bottom:1px solid rgba(255,255,255,0.04); cursor:pointer; transition:opacity 0.2s; user-select:none; font-size:13px; color:var(--text); line-height:1.5; }
+.practice-list li:last-child { border-bottom:none; }
+.practice-list li.done { opacity:0.4; }
+.practice-list li.done .pcheck-text { text-decoration:line-through; }
+.pcheck-box { width:16px; height:16px; border:2px solid var(--border-gold); border-radius:3px; flex-shrink:0; margin-top:2px; display:flex; align-items:center; justify-content:center; font-size:10px; }
+.practice-list li.done .pcheck-box { background:var(--green); border-color:var(--green); color:#fff; }
+.pcheck-text { flex:1; }
+.stag { display:inline-block; background:rgba(255,215,0,0.12); border:1px solid rgba(255,215,0,0.25); color:var(--gold); font-size:8px; padding:1px 5px; border-radius:3px; margin-left:5px; font-weight:700; }
+.htag { display:inline-block; background:rgba(231,76,60,0.12); border:1px solid rgba(231,76,60,0.25); color:var(--red); font-size:8px; padding:1px 5px; border-radius:3px; margin-left:5px; font-weight:700; }
+
+/* ── Duas ── */
+.dua-block { background:rgba(0,0,0,0.2); border-left:3px solid; border-radius:6px; padding:12px; margin:8px 0; }
+.dua-arabic { font-family:var(--font-arabic); font-size:22px; color:var(--gold-lit); direction:rtl; line-height:1.9; margin-bottom:8px; text-align:right; }
+.dua-tr { font-style:italic; font-size:12px; color:var(--text-mid); line-height:1.6; margin-bottom:4px; }
+.dua-en { font-size:12px; color:var(--text); line-height:1.6; }
+.dua-src { font-size:10px; color:var(--text-dim); margin-top:4px; }
+.btn-speak { display:inline-flex; align-items:center; gap:5px; padding:5px 12px; background:rgba(255,215,0,0.07); border:1px solid var(--border-gold); border-radius:5px; color:var(--gold); font-family:var(--font-pixel); font-size:6px; cursor:pointer; margin-top:8px; transition:all 0.2s; letter-spacing:1px; }
+.btn-speak:hover { background:rgba(255,215,0,0.15); }
+.btn-speak.speaking { background:rgba(255,215,0,0.22); box-shadow:0 0 8px rgba(255,215,0,0.3); }
+
+.hadith-block { background:rgba(138,106,255,0.06); border-left:3px solid var(--purple); border-radius:6px; padding:10px 12px; margin:10px 0; font-style:italic; font-size:13px; color:var(--text); line-height:1.7; }
+.hadith-src { font-style:normal; font-size:10px; color:var(--text-dim); margin-top:5px; }
+.hadith-arabic { font-family:var(--font-arabic); font-size:20px; direction:rtl; color:var(--gold-lit); margin-top:6px; font-style:normal; }
+
+.occ-link-btn { display:block; margin-top:14px; padding:10px; background:rgba(255,215,0,0.08); border:1px solid var(--gold); border-radius:7px; color:var(--gold); font-family:var(--font-pixel); font-size:7px; text-decoration:none; text-align:center; cursor:pointer; transition:all 0.2s; letter-spacing:1px; }
+.occ-link-btn:hover { background:rgba(255,215,0,0.15); }
+
+.note-card { background:rgba(243,156,18,0.05); border-left:3px solid var(--orange); border-radius:6px; padding:10px 12px; margin:8px 0; font-size:12px; color:var(--text-mid); line-height:1.65; }
+
+/* ══════════════════════════════════════════════
+   PREPARATION REMINDERS
+   ══════════════════════════════════════════════ */
+.prep-section {
+  background:rgba(76,175,80,0.04);
+  border:1px solid rgba(76,175,80,0.2);
+  border-radius:var(--radius);
+  padding:14px;
+  margin:12px 0;
+}
+
+.prep-section-title {
+  font-family:var(--font-pixel);
+  font-size:7px;
+  color:#4caf50;
+  letter-spacing:1px;
+  margin-bottom:10px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:8px;
+}
+
+.btn-ics-all {
+  display:inline-flex;
+  align-items:center;
+  gap:5px;
+  padding:5px 10px;
+  background:rgba(76,175,80,0.1);
+  border:1px solid rgba(76,175,80,0.4);
+  border-radius:5px;
+  color:#4caf50;
+  font-family:var(--font-pixel);
+  font-size:6px;
+  cursor:pointer;
+  transition:all 0.2s;
+  letter-spacing:0.5px;
+  white-space:nowrap;
+}
+.btn-ics-all:hover { background:rgba(76,175,80,0.2); }
+
+.prep-item {
+  display:flex;
+  align-items:flex-start;
+  gap:10px;
+  padding:9px 0;
+  border-bottom:1px solid rgba(76,175,80,0.1);
+}
+.prep-item:last-child { border-bottom:none; }
+
+.prep-lead {
+  flex-shrink:0;
+  text-align:center;
+  background:rgba(76,175,80,0.1);
+  border:1px solid rgba(76,175,80,0.3);
+  border-radius:6px;
+  padding:4px 6px;
+  min-width:52px;
+}
+.prep-lead-num { font-family:var(--font-pixel); font-size:11px; color:#4caf50; display:block; }
+.prep-lead-unit { font-size:8px; color:var(--text-dim); }
+.prep-lead.overdue { background:rgba(231,76,60,0.08); border-color:rgba(231,76,60,0.3); }
+.prep-lead.overdue .prep-lead-num { color:var(--red); }
+.prep-lead.soon { background:rgba(243,156,18,0.1); border-color:rgba(243,156,18,0.3); }
+.prep-lead.soon .prep-lead-num { color:var(--orange); }
+
+.prep-body { flex:1; min-width:0; }
+.prep-title { font-size:13px; color:var(--text); font-weight:700; margin-bottom:3px; line-height:1.4; }
+.prep-desc { font-size:11px; color:var(--text-dim); line-height:1.55; }
+
+.btn-ics-single {
+  flex-shrink:0;
+  padding:6px 8px;
+  background:rgba(76,175,80,0.08);
+  border:1px solid rgba(76,175,80,0.35);
+  border-radius:5px;
+  color:#4caf50;
+  font-family:var(--font-pixel);
+  font-size:6px;
+  cursor:pointer;
+  transition:all 0.2s;
+  white-space:nowrap;
+  margin-top:2px;
+  letter-spacing:0.5px;
+}
+.btn-ics-single:hover { background:rgba(76,175,80,0.18); }
+.btn-ics-single:active { transform:scale(0.95); }
+
+.btn-gcal {
+  flex-shrink:0;
+  padding:6px 8px;
+  background:rgba(66,133,244,0.08);
+  border:1px solid rgba(66,133,244,0.35);
+  border-radius:5px;
+  color:#4285f4;
+  font-family:var(--font-pixel);
+  font-size:6px;
+  cursor:pointer;
+  transition:all 0.2s;
+  white-space:nowrap;
+  margin-top:2px;
+  letter-spacing:0.5px;
+  text-decoration:none;
+  display:inline-flex;
+  align-items:center;
+  gap:3px;
+}
+.btn-gcal:hover { background:rgba(66,133,244,0.18); }
+.btn-gcal:active { transform:scale(0.95); }
+
+.cal-btn-pair { display:flex; flex-direction:column; gap:4px; flex-shrink:0; }
+
+/* Past seasons toggle */
+.past-toggle {
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin:20px 0 10px;
+  padding:10px 14px;
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  cursor:pointer;
+  font-family:var(--font-pixel);
+  font-size:7px;
+  color:var(--text-dim);
+  letter-spacing:1px;
+  transition:all 0.2s;
+  user-select:none;
+}
+.past-toggle:hover { color:var(--text-mid); border-color:var(--border-gold); }
+.past-toggle-chevron { transition:transform 0.25s; }
+.past-toggle.open .past-toggle-chevron { transform:rotate(90deg); }
+
+#past-occasions { display:none; }
+#past-occasions.open { display:block; }
+
+/* ══════════════════════════════════════════════
+   RAMADAN PLANNER (Suhoor / Iftar ICS)
+   ══════════════════════════════════════════════ */
+.ramadan-planner {
+  background:linear-gradient(135deg,rgba(32,168,64,0.08),rgba(32,168,64,0.03));
+  border:1px solid rgba(32,168,64,0.3);
+  border-radius:var(--radius);
+  padding:18px;
+  margin:10px 0;
+}
+.planner-title { font-family:var(--font-pixel); font-size:8px; color:#20a840; letter-spacing:1px; margin-bottom:14px; }
+.planner-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:14px; }
+.planner-field label { display:block; font-size:10px; color:var(--text-dim); font-weight:700; margin-bottom:4px; }
+.planner-field input, .planner-field select {
+  width:100%; padding:8px 10px;
+  background:var(--card); border:1px solid rgba(32,168,64,0.3);
+  border-radius:6px; color:var(--text); font-family:var(--font-body); font-size:13px;
+}
+.planner-btns { display:flex; gap:8px; flex-wrap:wrap; }
+.btn-ramadan-ics {
+  display:inline-flex; align-items:center; gap:6px;
+  padding:8px 14px;
+  background:rgba(32,168,64,0.1); border:1px solid rgba(32,168,64,0.4);
+  border-radius:7px; color:#20a840; font-family:var(--font-pixel); font-size:7px;
+  cursor:pointer; transition:all 0.2s; letter-spacing:0.5px;
+}
+.btn-ramadan-ics:hover { background:rgba(32,168,64,0.2); }
+.planner-note { font-size:10px; color:var(--text-dim); margin-top:10px; line-height:1.6; }
+
+/* ══════════════════════════════════════════════
+   SHAWWAL TRACKER
+   ══════════════════════════════════════════════ */
+.shawwal-tracker { background:var(--card); border:1px solid var(--border-gold); border-radius:var(--radius); padding:14px 16px; margin:10px 0; }
+.tracker-title { font-family:var(--font-pixel); font-size:7px; color:var(--gold); letter-spacing:1px; margin-bottom:12px; }
+.tracker-dots { display:flex; gap:8px; margin-bottom:8px; flex-wrap:wrap; }
+.tracker-dot { width:38px; height:38px; border-radius:50%; border:2px solid var(--border-gold); display:flex; align-items:center; justify-content:center; font-family:var(--font-pixel); font-size:8px; color:var(--text-dim); cursor:pointer; transition:all 0.2s; user-select:none; }
+.tracker-dot.fasted { background:var(--green); border-color:var(--green); color:#fff; }
+.tracker-dot:hover { border-color:var(--gold); color:var(--gold); }
+.tracker-count { font-size:12px; color:var(--text-mid); }
+
+/* ══════════════════════════════════════════════
+   WEEKLY SUNNAHS
+   ══════════════════════════════════════════════ */
+.weekly-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+.weekly-card { background:var(--card); border:1px solid var(--border); border-radius:var(--radius); padding:14px; }
+.weekly-icon { font-size:28px; margin-bottom:8px; display:block; }
+.weekly-title { font-family:var(--font-pixel); font-size:7px; color:var(--gold); letter-spacing:1px; margin-bottom:6px; }
+.weekly-text { font-size:12px; color:var(--text-mid); line-height:1.65; }
+.weekly-text strong { color:var(--text); }
+
+/* ══════════════════════════════════════════════
+   FULL YEAR EXPORT
+   ══════════════════════════════════════════════ */
+.export-section {
+  background:linear-gradient(135deg,rgba(76,175,80,0.08),rgba(76,175,80,0.03));
+  border:2px solid rgba(76,175,80,0.25);
+  border-radius:var(--radius);
+  padding:20px;
+  text-align:center;
+  margin:16px 0;
+}
+.export-title { font-family:var(--font-pixel); font-size:9px; color:#4caf50; letter-spacing:1px; margin-bottom:8px; }
+.export-desc { font-size:12px; color:var(--text-mid); line-height:1.6; margin-bottom:16px; }
+.btn-export-all {
+  display:inline-flex; align-items:center; gap:8px;
+  padding:12px 28px;
+  background:rgba(76,175,80,0.12); border:2px solid rgba(76,175,80,0.5);
+  border-radius:8px; color:#4caf50; font-family:var(--font-pixel); font-size:8px;
+  cursor:pointer; transition:all 0.2s; letter-spacing:1px;
+}
+.btn-export-all:hover { background:rgba(76,175,80,0.22); box-shadow:0 0 18px rgba(76,175,80,0.2); }
+
+/* Footer */
+.app-footer { text-align:center; font-size:9px; color:var(--text-dim); margin-top:32px; padding:16px 0; border-top:1px solid var(--border); line-height:2.5; }
+.app-footer .arabic-footer { font-family:var(--font-arabic); font-size:20px; color:var(--gold); direction:rtl; }
+
+/* ══════════════════════════════════════════════
+   CALENDAR BUILDER
+   ══════════════════════════════════════════════ */
+.cal-builder {
+  background:linear-gradient(135deg,rgba(138,106,255,0.08),rgba(138,106,255,0.03));
+  border:1px solid rgba(138,106,255,0.3);
+  border-radius:var(--radius);
+  padding:20px;
+  margin:10px 0;
+}
+.cb-section-title { font-family:var(--font-pixel); font-size:8px; color:var(--purple); letter-spacing:1px; margin-bottom:16px; }
+
+.cb-fetch-row { background:rgba(138,106,255,0.06); border:1px solid rgba(138,106,255,0.2); border-radius:8px; padding:14px; margin-bottom:16px; }
+.cb-fetch-label { font-size:11px; color:var(--text-mid); font-weight:700; margin-bottom:8px; }
+.cb-fetch-inputs { display:flex; gap:8px; flex-wrap:wrap; align-items:center; }
+.cb-fetch-inputs input {
+  flex:1; min-width:110px; padding:8px 10px;
+  background:var(--card); border:1px solid rgba(138,106,255,0.3);
+  border-radius:6px; color:var(--text); font-family:var(--font-body); font-size:13px;
+}
+.btn-fetch { padding:8px 14px; background:rgba(138,106,255,0.15); border:1px solid rgba(138,106,255,0.5); border-radius:6px; color:var(--purple); font-family:var(--font-pixel); font-size:7px; cursor:pointer; transition:all 0.2s; white-space:nowrap; }
+.btn-fetch:hover { background:rgba(138,106,255,0.25); }
+.cb-fetch-status { margin-top:7px; font-size:11px; color:var(--text-dim); min-height:16px; line-height:1.5; }
+.cb-fetch-status.ok  { color:var(--green); }
+.cb-fetch-status.err { color:var(--red); }
+
+.cb-times-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin-bottom:16px; }
+.cb-time-field label { display:block; font-size:10px; color:var(--text-dim); font-weight:700; margin-bottom:3px; }
+.cb-time-field input { width:100%; padding:7px 9px; background:var(--card); border:1px solid rgba(138,106,255,0.25); border-radius:6px; color:var(--text); font-family:var(--font-body); font-size:13px; }
+
+.cb-groups { display:flex; flex-direction:column; gap:10px; margin-bottom:18px; }
+.cb-group { background:var(--card); border:1px solid var(--border); border-radius:8px; padding:12px 14px; }
+.cb-group-title { font-family:var(--font-pixel); font-size:7px; color:var(--text-mid); letter-spacing:1px; margin-bottom:10px; }
+
+.cb-check { display:flex; align-items:flex-start; gap:8px; font-size:12px; color:var(--text); cursor:pointer; margin-bottom:8px; line-height:1.5; user-select:none; }
+.cb-check:last-child { margin-bottom:0; }
+.cb-check input[type="checkbox"] { margin-top:2px; accent-color:var(--purple); flex-shrink:0; width:14px; height:14px; }
+
+.cb-sub { margin-top:8px; padding:10px 12px; background:rgba(138,106,255,0.05); border:1px solid rgba(138,106,255,0.15); border-radius:6px; font-size:12px; }
+.cb-sub label { display:flex; align-items:center; gap:8px; margin-bottom:6px; color:var(--text-mid); flex-wrap:wrap; }
+.cb-sub label:last-child { margin-bottom:0; }
+.cb-sub input[type="time"] { padding:5px 8px; background:var(--card2); border:1px solid rgba(138,106,255,0.25); border-radius:5px; color:var(--text); font-size:12px; font-family:var(--font-body); }
+.cb-sub input[type="range"] { accent-color:var(--purple); width:110px; }
+.cb-sub-note { font-size:10px; color:var(--text-dim); margin-top:7px; line-height:1.5; }
+
+.cb-generate { display:flex; gap:8px; flex-wrap:wrap; }
+.btn-generate {
+  flex:1; min-width:180px;
+  display:inline-flex; align-items:center; justify-content:center; gap:6px;
+  padding:12px 18px;
+  background:rgba(138,106,255,0.12); border:2px solid rgba(138,106,255,0.5);
+  border-radius:8px; color:var(--purple); font-family:var(--font-pixel); font-size:7px;
+  cursor:pointer; transition:all 0.2s; letter-spacing:0.5px;
+}
+.btn-generate:hover { background:rgba(138,106,255,0.22); box-shadow:0 0 18px rgba(138,106,255,0.2); }
+.btn-generate.gcal { background:rgba(66,133,244,0.1); border-color:rgba(66,133,244,0.4); color:#4285f4; }
+.btn-generate.gcal:hover { background:rgba(66,133,244,0.2); }
+
+.cb-result {
+  margin-top:12px; padding:12px 14px;
+  background:rgba(46,204,113,0.08); border:1px solid rgba(46,204,113,0.3);
+  border-radius:8px; font-size:11px; color:var(--green); line-height:1.9; display:none;
+}
+.cb-result.show { display:block; }
+.cb-result a { color:#4285f4; }
+
+/* Responsive */
+@media (max-width:480px) {
+  .weekly-grid { grid-template-columns:1fr; }
+  .planner-grid { grid-template-columns:1fr; }
+  .cb-times-grid { grid-template-columns:repeat(2,1fr); }
+  .timeline { padding-left:28px; }
+  .timeline::before { left:8px; }
+  .occ-dot { left:-22px; }
+  .occ-card.current .occ-dot { left:-24px; }
+  .prep-item { flex-wrap:wrap; }
+  .btn-ics-single { align-self:flex-start; }
+}
+</style>
+</head>
+<body>
+<canvas id="star-bg"></canvas>
+<div class="app">
+
+  <!-- HEADER -->
+  <header class="maw-header">
+    <span class="maw-crescent">🌙</span>
+    <div class="maw-title">MAWASIM</div>
+    <div class="maw-arabic">مَوَاسِم</div>
+    <div class="maw-subtitle">Islamic Sacred Seasons · 1447 AH · 2025–2026</div>
+    <div class="maw-meaning">"The appointed seasons of worship"</div>
+  </header>
+
+  <!-- LOOK AHEAD STRIP -->
+  <div class="section-hdr">🔭 Coming Up</div>
+  <div class="look-ahead-wrap">
+    <div class="look-ahead-strip" id="look-ahead"></div>
+  </div>
+
+  <!-- SPOTLIGHT -->
+  <div id="spotlight"></div>
+
+  <!-- FULL YEAR TIMELINE -->
+  <div class="section-hdr">📅 Full Year — 1447 AH</div>
+  <div class="timeline" id="timeline"></div>
+
+  <!-- SHAWWAL TRACKER -->
+  <div class="section-hdr">📿 6 Days of Shawwāl — Tracker</div>
+  <div class="shawwal-tracker">
+    <div class="tracker-title">MARK EACH SHAWWAL FAST YOU COMPLETE</div>
+    <div class="tracker-dots" id="shawwal-dots"></div>
+    <div class="tracker-count" id="shawwal-count">0 / 6 completed</div>
+  </div>
+
+  <!-- RAMADAN PLANNER -->
+  <div class="section-hdr">🌙 Ramadan Planner — Suhoor &amp; Iftar Alarms</div>
+  <div class="ramadan-planner">
+    <div class="planner-title">📥 GENERATE RAMADAN CALENDAR APPOINTMENTS</div>
+    <div class="planner-grid">
+      <div class="planner-field">
+        <label>Suhoor Alarm Time</label>
+        <input type="time" id="suhoor-time" value="04:15">
+      </div>
+      <div class="planner-field">
+        <label>Iftar Reminder Time</label>
+        <input type="time" id="iftar-time" value="18:15">
+      </div>
+      <div class="planner-field">
+        <label>Tarawih Reminder Time</label>
+        <input type="time" id="tarawih-time" value="20:30">
+      </div>
+      <div class="planner-field">
+        <label>Alarm Lead Time</label>
+        <select id="alarm-lead">
+          <option value="15">15 min before</option>
+          <option value="20">20 min before</option>
+          <option value="30" selected>30 min before</option>
+          <option value="45">45 min before</option>
+        </select>
+      </div>
+    </div>
+    <div class="planner-btns">
+      <button class="btn-ramadan-ics" onclick="genSuhoorICS()">⏰ 29 Suhoor Alarms</button>
+      <button class="btn-ramadan-ics" onclick="genIftarICS()">🌅 29 Iftar Reminders</button>
+      <button class="btn-ramadan-ics" onclick="genTarawihICS()">🕌 29 Tarawih Reminders</button>
+      <button class="btn-ramadan-ics" onclick="genFullRamadanICS()" style="border-color:rgba(255,215,0,0.5);color:var(--gold);background:rgba(255,215,0,0.08)">⭐ Full Ramadan Pack (all 3)</button>
+    </div>
+    <div class="planner-note">
+      ℹ️ Suhoor/Iftar times vary by location and day — these are <strong>fixed-time reminders</strong> for your convenience. Verify actual prayer times with your local masjid timetable. Downloads as <code>.ics</code> for Apple Calendar, Google Calendar, Outlook.
+    </div>
+  </div>
+
+  <!-- FULL YEAR EXPORT -->
+  <div class="section-hdr">📥 Smart Calendar Export</div>
+  <div class="export-section">
+    <div class="export-title">📅 DOWNLOAD ALL PREPARATION REMINDERS</div>
+    <div class="export-desc">
+      Get every smart pre-event reminder for the full year — Eid shopping, Ramadan preparation, Dhul Hijjah, Ashura fasts — all timed to fire <strong>days and weeks before</strong> each occasion so you're always prepared.
+    </div>
+    <button class="btn-export-all" onclick="downloadAllPrepICS()">
+      📥 EXPORT FULL YEAR TO CALENDAR (.ics)
+    </button>
+  </div>
+
+  <!-- PERSONAL CALENDAR BUILDER -->
+  <div class="section-hdr">🗓️ Personal Ibadah Calendar Builder</div>
+  <div class="cal-builder">
+    <div class="cb-section-title">✦ BUILD YOUR PERSONALISED IBADAH CALENDAR</div>
+
+    <!-- Step 1: Prayer time source -->
+    <div class="cb-fetch-row">
+      <div class="cb-fetch-label">📍 Step 1 — Auto-fill prayer times for your city (or set manually below)</div>
+      <div class="cb-fetch-inputs">
+        <input type="text" id="cb-city" placeholder="City (e.g. London, Dubai, Toronto)">
+        <input type="text" id="cb-country" placeholder="Country code (e.g. GB)" style="max-width:130px">
+        <button class="btn-fetch" onclick="cbFetchTimes()">⚡ FETCH TIMES</button>
+      </div>
+      <div class="cb-fetch-status" id="cb-fetch-status">Enter your city above to auto-fill prayer times, or set them manually below.</div>
+    </div>
+
+    <!-- Step 2: Prayer times grid -->
+    <div style="font-size:10px;color:var(--text-dim);font-weight:700;margin-bottom:8px;letter-spacing:0.5px">⏱ STEP 2 — YOUR PRAYER TIMES (edit as needed)</div>
+    <div class="cb-times-grid">
+      <div class="cb-time-field"><label>🌅 Fajr</label><input type="time" id="cb-fajr" value="05:30" oninput="cbUpdateSleepPreview()"></div>
+      <div class="cb-time-field"><label>☀️ Dhuhr</label><input type="time" id="cb-dhuhr" value="13:00"></div>
+      <div class="cb-time-field"><label>🌤 Asr</label><input type="time" id="cb-asr" value="16:30"></div>
+      <div class="cb-time-field"><label>🌇 Maghrib</label><input type="time" id="cb-maghrib" value="19:00"></div>
+      <div class="cb-time-field"><label>🌙 Isha</label><input type="time" id="cb-isha" value="20:30"></div>
+      <div class="cb-time-field"><label>💤 Bedtime</label><input type="time" id="cb-bedtime" value="22:30" oninput="cbUpdateSleepPreview()"></div>
+    </div>
+
+    <!-- Step 3: Feature selection -->
+    <div style="font-size:10px;color:var(--text-dim);font-weight:700;margin-bottom:10px;letter-spacing:0.5px">☑ STEP 3 — SELECT WHAT TO INCLUDE</div>
+    <div class="cb-groups">
+
+      <!-- Prayers & Daily Adhkar -->
+      <div class="cb-group">
+        <div class="cb-group-title">🕌 DAILY PRAYERS & ADHKAR</div>
+        <label class="cb-check">
+          <input type="checkbox" id="cb-prayers">
+          5 Daily Prayer blocks — tentative 15-min slots in your calendar (Fajr · Dhuhr · Asr · Maghrib · Isha)
+        </label>
+        <label class="cb-check">
+          <input type="checkbox" id="cb-morning-adhkar">
+          🌅 Morning Adhkar — after Fajr (~15 min, links back to app)
+        </label>
+        <label class="cb-check">
+          <input type="checkbox" id="cb-evening-adhkar">
+          🌆 Evening Adhkar — after Asr (~15 min, links back to app)
+        </label>
+        <label class="cb-check">
+          <input type="checkbox" id="cb-sleep-adhkar" onchange="cbToggleSleep()">
+          💤 Pre-Sleep Routine — Wind Down + Bedtime Adhkar (recurring daily)
+        </label>
+        <div class="cb-sub" id="cb-sleep-sub" style="display:none">
+          <label>Your bedtime: <strong id="cb-sleep-preview">10:30 PM</strong></label>
+          <div class="cb-sub-note">Generates two events: "💤 Wind Down" 15 min before bedtime · "📿 Bedtime Adhkar" 5 min before (Ayat al-Kursi, Ikhlas/Falaq/Nas ×3, sleeping dua) — with link to app.</div>
+        </div>
+      </div>
+
+      <!-- Tahajjud -->
+      <div class="cb-group">
+        <div class="cb-group-title">🌃 TAHAJJUD — NIGHT PRAYER</div>
+        <label class="cb-check">
+          <input type="checkbox" id="cb-tahajjud" onchange="cbToggleTahajjud()">
+          🌃 Tahajjud — Wake up before Fajr for night prayer (recurring daily)
+        </label>
+        <div class="cb-sub" id="cb-tahajjud-sub" style="display:none">
+          <label>
+            Wake up before Fajr by:
+            <input type="range" id="cb-tahajjud-offset" min="20" max="90" value="45" oninput="cbUpdateTahajjudLabel()">
+            <span id="cb-tahajjud-label" style="font-family:var(--font-pixel);font-size:9px;color:var(--purple);min-width:48px">45 min</span>
+          </label>
+          <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--text-dim);margin-top:2px">
+            <span>← Quick 2 rakats</span><span>Full Qiyam al-Layl →</span>
+          </div>
+          <div class="cb-sub-note" id="cb-tahajjud-note">Wake up 45 min before Fajr. Time for 4–6 rakats + dua. "The best prayer after obligatory is the night prayer." (Muslim 1163)</div>
+        </div>
+      </div>
+
+      <!-- Sunnah Fasts -->
+      <div class="cb-group">
+        <div class="cb-group-title">🌙 SUNNAH FASTS</div>
+        <label class="cb-check">
+          <input type="checkbox" id="cb-mon-thu" onchange="cbToggleMonThu()">
+          📅 Mon &amp; Thu Fasting — Suhoor alarm + Iftar reminder (recurring weekly)
+        </label>
+        <div class="cb-sub" id="cb-mon-thu-sub" style="display:none">
+          <label>Suhoor alarm: <input type="time" id="cb-fast-suhoor" value="05:00"></label>
+          <label>Iftar reminder: <input type="time" id="cb-fast-iftar" value="19:00"></label>
+          <div class="cb-sub-note">Generates Suhoor wake-up + Iftar reminder every Monday and Thursday.</div>
+        </div>
+        <label class="cb-check">
+          <input type="checkbox" id="cb-white-days" onchange="cbToggleWhiteDays()">
+          🌕 White Moon Days — 13/14/15 of each Hijri month, Ayyam al-Beed (1447 AH dates)
+        </label>
+        <div class="cb-sub" id="cb-white-sub" style="display:none">
+          <label><input type="checkbox" id="cb-white-same" checked onchange="cbToggleWhiteSame()"> Use same Suhoor/Iftar times as Mon/Thu above</label>
+          <div id="cb-white-times" style="display:none;margin-top:6px">
+            <label>Suhoor: <input type="time" id="cb-white-suhoor" value="05:00"></label>
+            <label>Iftar: <input type="time" id="cb-white-iftar" value="19:00"></label>
+          </div>
+          <div class="cb-sub-note">Suhoor + Iftar events for each White Day across 1447 AH (~10 months). Ramadan omitted — obligatory fasting. Dhul Hijjah 13th omitted — Tashriq (fasting prohibited).</div>
+        </div>
+      </div>
+
+      <!-- Eid al-Adha -->
+      <div class="cb-group">
+        <div class="cb-group-title">🐑 EID AL-ADHA — 3 DAYS</div>
+        <label class="cb-check">
+          <input type="checkbox" id="cb-adha-days">
+          🐑 Eid al-Adha 3-Day guide — Jun 6, 7, 8 2026 (practices, sunnahs, Takbeer al-Tashriq + link to app)
+        </label>
+      </div>
+    </div>
+
+    <!-- Generate -->
+    <div class="cb-generate">
+      <button class="btn-generate" onclick="cbGenerate(false)">📥 Generate · Apple / Outlook (.ics)</button>
+      <button class="btn-generate gcal" onclick="cbGenerate(true)">G+ Generate · Google (.ics → import)</button>
+    </div>
+    <div class="cb-result" id="cb-result"></div>
+  </div>
+
+  <!-- WEEKLY SUNNAHS -->
+  <div class="section-hdr">🔄 Recurring Sunnah Practices</div>
+  <div class="weekly-grid">
+    <div class="weekly-card">
+      <span class="weekly-icon">📅</span>
+      <div class="weekly-title">MON &amp; THU FASTS</div>
+      <div class="weekly-text">The Prophet ﷺ fasted <strong>Mondays and Thursdays</strong>: "Deeds are presented on Monday and Thursday, and I love my deeds to be presented while I am fasting." <em>(Tirmidhi 747)</em></div>
+    </div>
+    <div class="weekly-card">
+      <span class="weekly-icon">🌕</span>
+      <div class="weekly-title">WHITE DAYS — الأيام البيض</div>
+      <div class="weekly-text">Fast the <strong>13th, 14th, 15th</strong> of every Hijri month. "Equivalent to fasting the whole month." <em>(Nasa'i — Sahih)</em></div>
+    </div>
+    <div class="weekly-card">
+      <span class="weekly-icon">🌅</span>
+      <div class="weekly-title">MORNING &amp; EVENING ADHKAR</div>
+      <div class="weekly-text">Recite <strong>morning adhkar after Fajr</strong> and <strong>evening adhkar after Asr</strong>. Includes: Ayat al-Kursi, al-Ikhlas/Falaq/Nas ×3, Sayyid al-Istighfar.</div>
+    </div>
+    <div class="weekly-card">
+      <span class="weekly-icon">📖</span>
+      <div class="weekly-title">SURAH AL-KAHF — FRIDAY</div>
+      <div class="weekly-text">Read <strong>Surah al-Kahf every Friday</strong>. A light will shine between the two Fridays. <em>(Al-Hakim — Sahih)</em></div>
+    </div>
+  </div>
+
+  <footer class="app-footer">
+    <div>Mawasim · Islamic Sacred Seasons · 1447 AH</div>
+    <div>All dates are approximate — subject to moon sighting in your region</div>
+    <div class="arabic-footer">وَبَشِّرِ الصَّابِرِينَ</div>
+  </footer>
+</div>
+
+<script>
+'use strict';
+
+/* ══════════════════════════════════════════════════════════
+   OCCASIONS — 1447 AH · 2025–2026
+   All dates approximate; subject to moon sighting.
+   ══════════════════════════════════════════════════════════ */
+const OCC = [
+  {
+    id:'new-year-1447', date:new Date(2025,6,7), endDate:new Date(2025,6,7),
+    hijri:'1 Muharram 1447', gregorian:'~7 Jul 2025',
+    icon:'🌙', color:'#4080d0',
+    title:'Islamic New Year 1447', arabic:'رَأْسُ السَّنَةِ الْهِجْرِيَّةِ',
+    significance:'The beginning of the Hijri year — named after the <strong>Hijrah</strong> of the Prophet ﷺ. A time for <em>reflection and righteous intentions</em>, not innovation. Muharram is one of the four sacred months.',
+    practices:[
+      {id:'ny-reflect', text:'Reflect on the past year and deeds done for the akhirah', sunnah:false},
+      {id:'ny-intention', text:'Set sincere intentions for the new Hijri year', sunnah:false},
+      {id:'ny-muharram', text:'Increase worship — Muharram is a sacred month', sunnah:true},
+    ],
+    duas:[{id:'dua-newyear', label:'Dua entering a new period', arabic:'اللَّهُمَّ أَدْخِلْهُ عَلَيْنَا بِالْأَمْنِ وَالْإِيمَانِ وَالسَّلَامَةِ وَالإِسْلَامِ وَرِضْوَانٍ مِنَ الرَّحْمَٰنِ', tr:"Allāhumma adkhilhu ʿalaynā bil-amni wal-īmāni was-salāmati wal-islāmi wa riḍwānim mina-r-Raḥmān", en:'"O Allah, bring it upon us with security, faith, safety, Islam, and the pleasure of the Most Merciful."', source:'Based on prophetic supplications for entering new times'}],
+  },
+  {
+    id:'ashura', date:new Date(2025,6,14), endDate:new Date(2025,6,16),
+    hijri:'9–10 Muharram 1447', gregorian:'~14–16 Jul 2025',
+    icon:'⭐', color:'#7040c0',
+    title:"Day of 'Āshūrā", arabic:'يَوْمُ عَاشُورَاء',
+    significance:'The 10th of Muharram — <strong>fasting expiates the sins of the previous year</strong>. On this day Allah saved Musa ﷺ from Pharaoh. Fast the 9th alongside the 10th to differ from other faiths.',
+    practices:[
+      {id:'ash-fast9', text:'Fast the 9th of Muharram — to differ from other faiths', sunnah:true},
+      {id:'ash-fast10', text:'Fast the 10th — the Day of Āshūrā', sunnah:true},
+      {id:'ash-sadaqah', text:'Be generous to your family today', sunnah:false},
+    ],
+    duas:[{id:'dua-ashura', label:"Dua of Musa ﷺ in complete need of Allah", arabic:'رَبِّ إِنِّي لِمَا أَنزَلْتَ إِلَيَّ مِنْ خَيْرٍ فَقِيرٌ', tr:"Rabbi innī limā anzalta ilayya min khayrin faqīr", en:'"My Lord, I am in absolute need of whatever good You send down to me."', source:'Quran 28:24'}],
+    hadith:'"I intend to also fast the 9th." — The Prophet ﷺ, intending to differ from other faiths. (Muslim 1134)',
+  },
+  {
+    id:'rabi', date:new Date(2025,8,5), endDate:new Date(2025,9,3),
+    hijri:'Rabīʿ al-Awwal 1447', gregorian:'~Sep–Oct 2025',
+    icon:'🌿', color:'#20a060',
+    title:"Month of the Prophet ﷺ", arabic:'شَهْرُ النَّبِيِّ ﷺ',
+    significance:'The month the Prophet ﷺ was born and passed. A time to <strong>increase salawat</strong>, study his Seerah, and revive a neglected Sunnah.',
+    practices:[
+      {id:'rabi-salawat', text:'Increase daily salawat on the Prophet ﷺ', sunnah:true},
+      {id:'rabi-seerah', text:'Read or listen to the Seerah of the Prophet ﷺ', sunnah:false},
+      {id:'rabi-sunnah', text:'Revive one Sunnah you have been neglecting', sunnah:true},
+    ],
+    duas:[{id:'dua-salawat', label:'Salawat Ibrahimiyyah — the complete blessing', arabic:'اللَّهُمَّ صَلِّ عَلَىٰ مُحَمَّدٍ وَعَلَىٰ آلِ مُحَمَّدٍ كَمَا صَلَّيْتَ عَلَىٰ إِبْرَاهِيمَ وَعَلَىٰ آلِ إِبْرَاهِيمَ إِنَّكَ حَمِيدٌ مَجِيدٌ', tr:"Allāhumma ṣalli ʿalā Muḥammadin wa ʿalā āli Muḥammadin kamā ṣallayta ʿalā Ibrāhīma — innaka Ḥamīdum Majīd", en:'"O Allah, bestow Your grace upon Muhammad and his family as You did upon Ibrahim and his family."', source:'Bukhari 3370 — in every tashahud'}],
+  },
+  {
+    id:'rajab', date:new Date(2026,0,1), endDate:new Date(2026,0,29),
+    hijri:'Rajab 1447', gregorian:'~1–29 Jan 2026',
+    icon:'💧', color:'#2090b0',
+    title:'Month of Rajab', arabic:'رَجَبٌ الْأَصَمّ',
+    significance:'One of the four sacred months. The beginning of the <em>Ramadan preparation season</em>. Begin making the famous dua to reach Ramadan.',
+    practices:[
+      {id:'raj-dua', text:"Say the dua: Allāhumma bārik lanā fī Rajaba wa Sha'bāna wa ballighna Ramaḍān", sunnah:false},
+      {id:'raj-fast', text:'Increase voluntary fasts — Mondays, Thursdays, and White Days', sunnah:true},
+      {id:'raj-prep', text:'Begin preparing heart and schedule for Ramadan', sunnah:false},
+    ],
+    duas:[{id:'dua-rajab', label:"Dua to reach Ramadan — say throughout Rajab and Sha'bān", arabic:'اللَّهُمَّ بَارِكْ لَنَا فِي رَجَبَ وَشَعْبَانَ وَبَلِّغْنَا رَمَضَانَ', tr:"Allāhumma bārik lanā fī Rajaba wa Shaʿbāna wa ballighnā Ramaḍān", en:'"O Allah, bless us in Rajab and Sha\'bān, and allow us to reach Ramadan."', source:"Ahmad and al-Bayhaqi — some weakness in chain, meaning is sound"}],
+  },
+  {
+    id:'isra-miraj', date:new Date(2026,0,27), endDate:new Date(2026,0,27),
+    hijri:'27 Rajab 1447', gregorian:'~27 Jan 2026',
+    icon:'✨', color:'#7850d0',
+    title:"Isrā' wal-Miʿrāj", arabic:'الإِسْرَاء وَالمِعْرَاج',
+    significance:'The Night Journey and Ascension. The greatest gift this night: <strong>the 5 daily prayers</strong> were given directly from Allah to this Ummah. Note: exact date is disputed by scholars.',
+    practices:[
+      {id:'im-salah', text:'Reflect on the gift of salah — given on this night', sunnah:false},
+      {id:'im-aqsa', text:'Learn about al-Masjid al-Aqsa and make dua for it', sunnah:false},
+      {id:'im-quran', text:'Read Surah al-Isra (17) — remembrance of this night', sunnah:false},
+    ],
+    duas:[{id:'dua-aqsa', label:'Dua for the oppressed believers', arabic:'اللَّهُمَّ انْصُرِ الْمُسْتَضْعَفِينَ مِنَ الْمُؤْمِنِينَ', tr:"Allāhumma-nṣuri-l-mustaḍʿafīna mina-l-mu'minīn", en:'"O Allah, grant victory to the oppressed among the believers."', source:'Based on prophetic supplications'}],
+  },
+  {
+    id:'shaban', date:new Date(2026,1,13), endDate:new Date(2026,1,13),
+    hijri:"15 Sha'bān 1447", gregorian:'~13 Feb 2026',
+    icon:'🌟', color:'#a06830',
+    title:"Mid-Sha'bān", arabic:'نِصْفُ شَعْبَان',
+    significance:"The 15th night of Sha'bān. Some scholars hold that Allah shows special mercy on this night. Scholarly difference exists — those who worship should do so with <em>general ibadah</em>. All agree on maximising Sha'bān in preparation for Ramadan.",
+    practices:[
+      {id:'sha-fast15', text:"Fast the 15th of Sha'bān (it is a White Day)", sunnah:true},
+      {id:'sha-tauba', text:'Make sincere tawbah before Ramadan begins', sunnah:false},
+      {id:'sha-quran', text:'Begin a pre-Ramadan Quran revision schedule', sunnah:false},
+    ],
+    duas:[{id:'dua-shaban', label:'Dua of tawbah — sincere repentance', arabic:'رَبَّنَا ظَلَمْنَا أَنفُسَنَا وَإِن لَّمْ تَغْفِرْ لَنَا وَتَرْحَمْنَا لَنَكُونَنَّ مِنَ الْخَاسِرِينَ', tr:"Rabbanā ẓalamnā anfusanā — wa il-lam taghfir lanā wa tarḥamnā — lanakunanna mina-l-khāsirīn", en:'"Our Lord, we have wronged ourselves — and if You do not forgive us and have mercy upon us, we will be among the losers."', source:"Quran 7:23 — dua of Adam and Hawwa ﷺ"}],
+    note:"Scholarly note: There is difference of opinion about the 15th of Sha'bān. The cautious position is to increase general worship without special congregational practices not reported in the Sunnah.",
+  },
+  {
+    id:'ramadan', date:new Date(2026,1,19), endDate:new Date(2026,2,19),
+    hijri:'Ramadan 1447', gregorian:'~19 Feb – 19 Mar 2026',
+    icon:'🌙', color:'#20a840',
+    title:'Ramadan', arabic:'رَمَضَان',
+    significance:'The holiest month. <strong>Fasting is obligatory</strong> on every sane, healthy adult Muslim. Every good deed is multiplied. The Quran was revealed in this month.',
+    practices:[
+      {id:'ram-niyyah', text:'Make niyyah every night for the next day\'s fast', sunnah:true},
+      {id:'ram-suhoor', text:'Eat suhoor — "Eat suhoor, for in suhoor there is blessing." (Bukhari)', sunnah:true},
+      {id:'ram-tarawih', text:'Pray Tarawih every night — even a few rakats', sunnah:true},
+      {id:'ram-quran', text:'Complete the Quran at least once this Ramadan', sunnah:false},
+      {id:'ram-sadaqah', text:'Give sadaqah daily', sunnah:true},
+    ],
+    duas:[{id:'dua-iftar', label:'Dua when breaking the fast', arabic:'اللَّهُمَّ لَكَ صُمْتُ وَعَلَىٰ رِزْقِكَ أَفْطَرْتُ', tr:"Allāhumma laka ṣumtu wa ʿalā rizqika afṭartu", en:'"O Allah, for You I fasted, and with Your provision I break my fast."', source:'Abu Dawud 2358'}],
+    showPlanner: true,
+  },
+  {
+    id:'last10', date:new Date(2026,2,11), endDate:new Date(2026,2,19),
+    hijri:'21–29 Ramadan 1447', gregorian:'~11–19 Mar 2026',
+    icon:'⭐', color:'#d4b000',
+    title:'Last 10 Nights', arabic:'الْعَشْرُ الأَوَاخِر',
+    significance:'The most powerful nights of the year. Laylat al-Qadr — <strong>better than 1,000 months</strong> — is within these nights. Seek it on the odd nights, especially the 27th.',
+    practices:[
+      {id:'l10-itikaf', text:"Perform I'tikaf in the masjid for the last 10 nights", sunnah:true},
+      {id:'l10-27', text:'Maximise the 27th Ramadan night — most likely Laylat al-Qadr', sunnah:true},
+      {id:'l10-zakat', text:'Pay Zakat al-Fitr — must be before Eid prayer', sunnah:false},
+    ],
+    duas:[{id:'dua-qadr', label:'Laylat al-Qadr dua — say abundantly on odd nights', arabic:'اللَّهُمَّ إِنَّكَ عَفُوٌّ تُحِبُّ الْعَفْوَ فَاعْفُ عَنِّي', tr:"Allāhumma innaka ʿafuwwun tuḥibbu-l-ʿafwa fa-ʿfu ʿannī", en:'"O Allah, You are the Pardoner, You love to pardon, so pardon me."', source:"Tirmidhi 3513 — taught by the Prophet ﷺ specifically for Laylat al-Qadr"}],
+    hadith:'"Seek Laylat al-Qadr in the odd nights of the last ten days of Ramadan." — Bukhari 2017',
+  },
+  {
+    id:'eid-fitr', date:new Date(2026,2,20), endDate:new Date(2026,2,22),
+    hijri:'1–3 Shawwāl 1447', gregorian:'20–22 Mar 2026',
+    icon:'🎉', color:'#ffd700',
+    title:'Eid al-Fitr', arabic:'عِيدُ الْفِطْر',
+    significance:"Allah's reward to the believers. <strong>Fasting on Eid is forbidden.</strong> Ghusl, best clothes, eat dates BEFORE prayer (sunnah specific to Eid al-Fitr), takbeeraat on the way. Go one route, return another.",
+    practices:[
+      {id:'ef-ghusl', text:'Perform ghusl before the prayer', sunnah:true},
+      {id:'ef-dates', text:'Eat an ODD number of dates BEFORE Eid prayer — specific to Eid al-Fitr', sunnah:true},
+      {id:'ef-route', text:'Go to prayer via one route — return via a different route', sunnah:true},
+    ],
+    duas:[{id:'dua-eid', label:'Eid greeting — say to everyone', arabic:'تَقَبَّلَ اللَّهُ مِنَّا وَمِنكُمْ', tr:'Taqabbal Allāhu minnā wa minkum', en:'"May Allah accept from us and from you."', source:'Reported from the Sahabah — most authentic Eid greeting'}],
+    link:'../eid/index.html', linkLabel:'OPEN FULL EID AL-FITR GUIDE →',
+  },
+  {
+    id:'shawwal6', date:new Date(2026,2,21), endDate:new Date(2026,3,17),
+    hijri:'Shawwāl 1447', gregorian:'21 Mar – ~17 Apr 2026',
+    icon:'📿', color:'#c08820',
+    title:'6 Days of Shawwāl', arabic:'سِتٌّ مِنْ شَوَّال',
+    significance:'Fasting 6 days in Shawwal combined with Ramadan equals <strong>fasting the entire year</strong>. Any time in Shawwal, consecutive or spread out.',
+    practices:[
+      {id:'sw-intention', text:'Make intention to fast 6 days in Shawwal', sunnah:true},
+      {id:'sw-makeup', text:'Make up any missed Ramadan fasts first if applicable', sunnah:false},
+    ],
+    duas:[{id:'dua-fasting', label:'Intention for voluntary fasting', arabic:'نَوَيْتُ صَوْمَ غَدٍ لِلَّهِ تَعَالَىٰ', tr:"Nawaytu ṣawma ghadin lillāhi taʿālā", en:'"I intend to fast tomorrow for the sake of Allah the Most High."', source:'General fasting intention — said the night before'}],
+    hadith:'"Whoever fasts Ramadan then follows it with six days of Shawwal, it will be as if they fasted the whole year." — Muslim 1164',
+  },
+  {
+    id:'dhul10', date:new Date(2026,4,18), endDate:new Date(2026,4,27),
+    hijri:'1–10 Dhul Hijjah 1447', gregorian:'~18–27 May 2026',
+    icon:'🕋', color:'#c04028',
+    title:'Ten Days of Dhul Hijjah', arabic:'عَشْرُ ذِي الْحِجَّة',
+    significance:'"There are no days on which righteous deeds are more beloved to Allah than these ten days." (Bukhari 969) <strong>Best days of the year</strong> for those not on Hajj.',
+    practices:[
+      {id:'d10-takbeer', text:'Begin takbeeraat from 1st Dhul Hijjah', sunnah:true},
+      {id:'d10-fast', text:'Fast the first 9 days — or at least the Day of Arafah', sunnah:true},
+      {id:'d10-hair', text:'If doing Qurbani — do not cut hair or nails from 1st Dhul Hijjah', sunnah:true},
+      {id:'d10-sadaqah', text:'Give extra sadaqah — deeds are most beloved to Allah now', sunnah:true},
+    ],
+    duas:[{id:'dua-dhul10', label:'Takbeeraat al-Tashrīq — say from 1 Dhul Hijjah', arabic:'اللَّهُ أَكْبَرُ اللَّهُ أَكْبَرُ لَا إِلَهَ إِلَّا اللَّهُ وَاللَّهُ أَكْبَرُ اللَّهُ أَكْبَرُ وَلِلَّهِ الْحَمْدُ', tr:'Allāhu akbar, Allāhu akbar — lā ilāha illā-Llāh — wa-Llāhu akbar, Allāhu akbar — wa lillāhi-l-ḥamd', en:'"Allah is Greatest... there is no god but Allah... and to Allah belongs all praise."', source:'Narrated from Ibn Masud (RA)'}],
+    hadith:'"There are no days greater in the sight of Allah than these ten days." — Bukhari 969',
+  },
+  {
+    id:'arafah', date:new Date(2026,4,26), endDate:new Date(2026,4,26),
+    hijri:'9 Dhul Hijjah 1447', gregorian:'~26 May 2026',
+    icon:'🤲', color:'#e05040',
+    title:'Day of Arafah', arabic:'يَوْمُ عَرَفَة',
+    significance:'The greatest day of the year. <strong>Fasting expiates 2 years of sins.</strong> Allah frees more people from the Fire than any other day. Make dua from Dhuhr to Maghrib.',
+    practices:[
+      {id:'ara-fast', text:'FAST the Day of Arafah — expiates 2 years of sins', sunnah:true, highlight:true},
+      {id:'ara-dua', text:'Make dua from Dhuhr to Maghrib — the prime time', sunnah:true},
+    ],
+    duas:[{id:'dua-arafah', label:'Best dua of the Day of Arafah', arabic:'لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَىٰ كُلِّ شَيْءٍ قَدِيرٌ', tr:"Lā ilāha illā-Llāhu waḥdahu lā sharīka lah — lahu-l-mulku wa lahu-l-ḥamdu — wa huwa ʿalā kulli shay'in Qadīr", en:'"There is no god but Allah alone, with no partner — His is the dominion, His is all praise, and He has power over all things."', source:'Tirmidhi 3585 — "The best dua is the dua of the Day of Arafah" (Muwatta)'}],
+    hadith:'"Fasting the Day of Arafah expiates the sins of the previous year and the coming year." — Muslim 1162',
+  },
+  {
+    id:'eid-adha', date:new Date(2026,4,27), endDate:new Date(2026,4,30),
+    hijri:'10–13 Dhul Hijjah 1447', gregorian:'~27–30 May 2026',
+    icon:'🐑', color:'#b84828',
+    title:'Eid al-Adha', arabic:'عِيدُ الْأَضْحَى',
+    significance:'The Festival of Sacrifice. <strong>Do NOT eat before the prayer</strong> — eat from Qurbani first. Days 11–13 are Days of Tashreeq — <em>fasting forbidden</em>.',
+    practices:[
+      {id:'ea-ghusl', text:'Perform ghusl before the prayer', sunnah:true},
+      {id:'ea-noeat', text:'Do NOT eat before Eid prayer — eat from Qurbani after', sunnah:true},
+      {id:'ea-qurbani', text:'Arrange Qurbani — obligation for those able', sunnah:true},
+      {id:'ea-tashreeq', text:'Days 11, 12, 13 Dhul Hijjah — NO fasting allowed', sunnah:false},
+    ],
+    duas:[{id:'dua-adha', label:'Eid greeting', arabic:'تَقَبَّلَ اللَّهُ مِنَّا وَمِنكُمْ', tr:'Taqabbal Allāhu minnā wa minkum', en:'"May Allah accept from us and from you."', source:'Reported from the Sahabah'}],
+    hadith:'"The days of Tashreeq are days of eating, drinking, and remembrance of Allah." — Muslim 1141',
+  },
+  {
+    id:'new-year-1448', date:new Date(2026,5,27), endDate:new Date(2026,5,27),
+    hijri:'1 Muharram 1448', gregorian:'~27 Jun 2026',
+    icon:'🌙', color:'#4080d0',
+    title:'Islamic New Year 1448', arabic:'رَأْسُ السَّنَةِ 1448',
+    significance:'A new Hijri year begins. Reflect, reset, and renew intentions. The cycle of sacred seasons begins again.',
+    practices:[
+      {id:'ny2-reflect', text:'Reflect — what did you achieve for your akhirah this year?', sunnah:false},
+      {id:'ny2-intention', text:'Set three righteous intentions for 1448 AH', sunnah:false},
+    ],
+    duas:[{id:'dua-ny2', label:'Dua entering a new period', arabic:'اللَّهُمَّ أَدْخِلْهُ عَلَيْنَا بِالْأَمْنِ وَالْإِيمَانِ وَالسَّلَامَةِ وَالإِسْلَامِ وَرِضْوَانٍ مِنَ الرَّحْمَٰنِ', tr:"Allāhumma adkhilhu ʿalaynā bil-amni wal-īmāni was-salāmati wal-islāmi wa riḍwānim mina-r-Raḥmān", en:'"O Allah, bring it upon us with security, faith, safety, Islam, and the pleasure of the Most Merciful."', source:'Based on prophetic supplications'}],
+  },
+];
+
+/* ══════════════════════════════════════════════════════════
+   PREPARATION REMINDERS — smart lead-time per occasion
+   dBefore = days before the occasion starts
+   ══════════════════════════════════════════════════════════ */
+const PREP = {
+  'ramadan': [
+    { dBefore:28, title:'🛒 Buy Eid Gifts & Shopping — Before Ramadan Starts', desc:"Buy Eid gifts for children, new clothes, treats, and sweets NOW — 4 weeks before Ramadan. Keep Ramadan free for worship, not shopping. This is one of the best gifts you can give your family." },
+    { dBefore:21, title:'🧹 Prepare Home & Iftar Supplies — 3 Weeks Before Ramadan', desc:'Deep clean the home. Stock up on dates, non-perishables, and iftar essentials. Organize the kitchen for easy suhoor and iftar preparation.' },
+    { dBefore:14, title:'📖 Start Quran Schedule — 2 Weeks Before Ramadan', desc:'Set your daily Quran target for Ramadan (e.g., 1 juz per day = complete in 30 days). Download a Quran app for offline use. Begin reading now to build the habit.' },
+    { dBefore:7, title:'🌙 Spiritual Readiness — 1 Week Before Ramadan', desc:'Begin waking earlier for tahajjud. Reduce social media and entertainment. Make tawbah. Learn the fiqh of fasting (what breaks the fast, makeup fasts, fidyah).' },
+    { dBefore:3, title:'⏰ Set Suhoor Alarms — 3 Days Before Ramadan', desc:'Set up recurring suhoor alarms using the Ramadan Planner section above. Confirm your local suhoor/iftar timetable. Share the schedule with your household.' },
+    { dBefore:1, title:'🤲 Eve of Ramadan — Make Your Intention Tonight', desc:'Make your niyyah for the first fast. Set your suhoor alarm. Recite the dua for welcoming Ramadan. Read Surah al-Mulk or al-Baqarah before sleeping.' },
+  ],
+  'eid-fitr': [
+    { dBefore:50, title:'🎁 Buy Eid Gifts — 3 Weeks Before Ramadan', desc:"Purchase Eid gifts (Eidi money, toys, clothing) for children and close family BEFORE Ramadan starts. You won't want to be shopping once Ramadan begins." },
+    { dBefore:43, title:'👗 Buy New Eid Clothes — 2 Weeks Before Ramadan', desc:"Buy new or best clothes for Eid day. Have them clean, ironed, and ready weeks in advance so there's no last-minute stress." },
+    { dBefore:30, title:'📅 Plan Eid Family Visits — Week Before Ramadan', desc:'Plan which relatives you will visit on each of the 3 days of Eid. Coordinate with family. Book travel if needed. The best Eid is one where no calls go unmade.' },
+    { dBefore:5, title:'💳 Pay Zakat al-Fitr — 5 Days Before Eid', desc:'Pay Zakat al-Fitr for every person in your household. Amount varies by year — check with local masjid. Options: Islamic Relief, NZF UK, Muslim Hands, local masjid collection.' },
+    { dBefore:1, title:"🌙 Laylat al-Eid — Prepare Tonight for Tomorrow's Eid", desc:'Lay out Eid clothes for every family member. Prepare dates and a small breakfast for before the prayer (sunnah). Set alarm for Fajr. Begin takbeeraat after Maghrib.' },
+  ],
+  'ashura': [
+    { dBefore:7, title:'📅 Plan Ashura Fasting — 1 Week Before', desc:'Prepare to fast the 9th and 10th of Muharram. Check your local Hijri dates. Inform your household of the suhoor plan. The 9th is recommended to differ from other faiths.' },
+    { dBefore:2, title:'🍽️ Arrange Suhoor for Ashura Fast', desc:'Arrange suhoor for the 9th and 10th. The Ashura fast is sunnah and expiates the previous year of sins. A meal before sleep or an early alarm suffices.' },
+  ],
+  'dhul10': [
+    { dBefore:21, title:'🐑 Book Qurbani / Udhiyah — 3 Weeks Before Dhul Hijjah', desc:"Book your Qurbani with a local butcher or Islamic charity (Islamic Relief, Muslim Hands, LaunchGood). Prices rise closer to Eid al-Adha. Don't leave it to the last week." },
+    { dBefore:10, title:'✂️ Final Haircut Before Dhul Hijjah Begins', desc:'If you plan to offer Qurbani, the sunnah is to not cut hair or nails from 1st Dhul Hijjah until after the sacrifice. Get your haircut before the month begins.' },
+    { dBefore:7, title:'📿 Prepare for the 10 Best Days', desc:'Plan your ibadah schedule for the first 10 days: extra dhikr, fasting (at least the Day of Arafah), Quran, sadaqah. From Day 1 say takbeeraat abundantly.' },
+    { dBefore:1, title:'🕋 Dhul Hijjah Begins Tomorrow — Start Takbeeraat', desc:'Begin saying Allahu Akbar from tonight (the night before 1st Dhul Hijjah). Plan fasting for the first 9 days. Day of Arafah fast is the single most rewarding act.' },
+  ],
+  'arafah': [
+    { dBefore:3, title:'⭐ Prepare for Day of Arafah Fast — 3 Days Before', desc:"Day of Arafah (9 Dhul Hijjah) is the most rewarding day to fast — expiates 2 years of sins. Arrange suhoor. Block your calendar from Dhuhr to Maghrib for dua." },
+    { dBefore:1, title:'🤲 Eve of Arafah — Prepare for the Best Day', desc:'Tomorrow is the Day of Arafah. Sleep early. Set suhoor alarm. Write a personal dua list. Keep the afternoon (Dhuhr to Maghrib) completely free for dua and dhikr.' },
+  ],
+  'eid-adha': [
+    { dBefore:7, title:'🐑 Confirm Qurbani Arrangements', desc:'Confirm your Qurbani is booked and will be completed on or after the 10th of Dhul Hijjah. Check with your local masjid or Islamic charity.' },
+    { dBefore:1, title:"🌙 Eve of Eid al-Adha — Remember: No Eating Before Prayer", desc:"Unlike Eid al-Fitr, on Eid al-Adha you do NOT eat before the Eid prayer. Prepare Eid clothes tonight. Set alarm for early morning prayer." },
+  ],
+  'rajab': [
+    { dBefore:7, title:'🌙 Rajab Begins Soon — Start Ramadan Preparation', desc:"Rajab is the beginning of the 3-month Ramadan preparation season. Begin saying the Rajab dua. Start reducing bad habits now so they're gone before Ramadan." },
+  ],
+  'last10': [
+    { dBefore:7, title:"🕌 Plan I'tikaf — 1 Week Before Last 10 Nights", desc:"I'tikaf in the last 10 nights is an established Sunnah. Speak to your local masjid about arrangements. Even a few nights has great reward. Plan your work schedule around it." },
+    { dBefore:3, title:'⭐ Prepare for Laylat al-Qadr Nights', desc:'Plan your ibadah for the odd nights (21, 23, 25, 27, 29 Ramadan). Prepare a personal dua list. Learn the Laylat al-Qadr dua by heart. Arrange childcare if needed.' },
+  ],
+};
+
+/* ══════════════════════════════════════════════════════════
+   RAMADAN DATES
+   ══════════════════════════════════════════════════════════ */
+const RAMADAN_START = new Date(2026, 1, 19); // Feb 19
+const RAMADAN_DAYS  = 29;
+
+/* ══════════════════════════════════════════════════════════
+   STATE & STORAGE
+   ══════════════════════════════════════════════════════════ */
+const STORAGE_KEY = 'mawasim1447';
+let state = { checked:{}, shawwal:[], openId:null };
+function save() { try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch(e){} }
+function load() { try { const r = localStorage.getItem(STORAGE_KEY); if(r) Object.assign(state, JSON.parse(r)); } catch(e){} }
+
+/* ══════════════════════════════════════════════════════════
+   HELPERS
+   ══════════════════════════════════════════════════════════ */
+function occStatus(o) {
+  const now = new Date();
+  const s = new Date(o.date);    s.setHours(0,0,0,0);
+  const e = new Date(o.endDate); e.setHours(23,59,59,999);
+  if (now > e)    return 'past';
+  if (now >= s)   return 'current';
+  return 'upcoming';
+}
+
+function daysUntil(d) {
+  const now = new Date(); now.setHours(0,0,0,0);
+  const t   = new Date(d); t.setHours(0,0,0,0);
+  return Math.ceil((t - now) / 86400000);
+}
+
+function icsDate(d) {
+  return d.getFullYear()
+    + String(d.getMonth()+1).padStart(2,'0')
+    + String(d.getDate()).padStart(2,'0');
+}
+
+function icsDateTime(d) {
+  return icsDate(d)
+    + 'T' + String(d.getHours()).padStart(2,'0')
+    + String(d.getMinutes()).padStart(2,'0')
+    + '00';
+}
+
+function nowTs() { return new Date().toISOString().replace(/[-:]/g,'').split('.')[0]+'Z'; }
+
+// Shared ICS string escaper — used by makeICS and the Calendar Builder
+const icsEsc = s => String(s).replace(/[,;\\]/g,'\\$&').replace(/\n/g,'\\n');
+
+function makeICS(events) {
+  const lines = ['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Mawasim1447//EN','CALSCALE:GREGORIAN','X-WR-CALNAME:Mawasim Islamic Reminders 1447'];
+  events.forEach((e,i) => {
+    lines.push('BEGIN:VEVENT',
+      'UID:maw1447-'+i+'-'+Date.now()+'@mawasim',
+      'DTSTAMP:'+nowTs());
+    if (e.allDay) {
+      lines.push('DTSTART;VALUE=DATE:'+e.start, 'DTEND;VALUE=DATE:'+e.end);
+    } else {
+      lines.push('DTSTART:'+e.start, 'DTEND:'+e.end);
+    }
+    lines.push('SUMMARY:'+icsEsc(e.title), 'DESCRIPTION:'+icsEsc(e.desc||''));
+    if (e.alarm) {
+      lines.push('BEGIN:VALARM',
+        'ACTION:DISPLAY',
+        'TRIGGER:'+e.alarm,
+        'DESCRIPTION:'+icsEsc(e.title),
+        'END:VALARM');
+    }
+    lines.push('END:VEVENT');
+  });
+  lines.push('END:VCALENDAR');
+  return lines.join('\r\n');
+}
+
+function downloadICS(content, filename) {
+  const blob = new Blob([content], {type:'text/calendar;charset=utf-8'});
+  const url  = URL.createObjectURL(blob);
+  const a    = Object.assign(document.createElement('a'), {href:url, download:filename});
+  a.click();
+  setTimeout(() => URL.revokeObjectURL(url), 2000);
+}
+
+/* ══════════════════════════════════════════════════════════
+   PREP REMINDER ICS BUILDERS
+   ══════════════════════════════════════════════════════════ */
+function prepRemindersForOcc(occId) {
+  const occ   = OCC.find(o => o.id === occId);
+  const items = PREP[occId];
+  if (!occ || !items) return [];
+  return items.map(p => {
+    const d    = new Date(occ.date);
+    d.setDate(d.getDate() - p.dBefore);
+    const ds   = icsDate(d);
+    const de   = icsDate(new Date(d.getTime() + 86400000));
+    return { allDay:true, start:ds, end:de, title:p.title, desc:p.desc, alarm:'-PT8H' };
+  });
+}
+
+function downloadOccPrepICS(occId) {
+  const events = prepRemindersForOcc(occId);
+  if (!events.length) return;
+  downloadICS(makeICS(events), 'mawasim-'+occId+'-prep.ics');
+}
+
+function downloadSinglePrepICS(occId, idx) {
+  const events = prepRemindersForOcc(occId);
+  if (!events[idx]) return;
+  downloadICS(makeICS([events[idx]]), 'mawasim-reminder.ics');
+}
+
+function downloadAllPrepICS() {
+  const all = [];
+  Object.keys(PREP).forEach(id => all.push(...prepRemindersForOcc(id)));
+  all.sort((a,b) => a.start.localeCompare(b.start));
+  downloadICS(makeICS(all), 'mawasim-1447-all-reminders.ics');
+}
+
+/* ══════════════════════════════════════════════════════════
+   GOOGLE CALENDAR HELPERS
+   ══════════════════════════════════════════════════════════ */
+function googleCalURL(ev) {
+  const enc = s => encodeURIComponent(String(s));
+  return `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${enc(ev.title)}&dates=${ev.start}/${ev.end}&details=${enc(ev.desc||'')}`;
+}
+
+function addToGoogle(occId, idx) {
+  const events = prepRemindersForOcc(occId);
+  if (!events[idx]) return;
+  window.open(googleCalURL(events[idx]), '_blank');
+}
+
+function addSpotlightToGoogle(occId) {
+  const occ   = OCC.find(o => o.id === occId);
+  if (!occ) return;
+  const start = icsDate(new Date(occ.date));
+  const end   = icsDate(new Date(new Date(occ.endDate).getTime() + 86400000));
+  const ev    = { allDay:true, start, end, title: occ.icon+' '+occ.title, desc: occ.significance.replace(/<[^>]+>/g,'').slice(0,200) };
+  window.open(googleCalURL(ev), '_blank');
+}
+
+/* ══════════════════════════════════════════════════════════
+   RAMADAN SUHOOR / IFTAR / TARAWIH ICS
+   ══════════════════════════════════════════════════════════ */
+function parseTime(str) { const [h,m] = str.split(':').map(Number); return {h,m}; }
+
+function genDailyICS(label, emoji, timeInputId, leadMin, filename) {
+  const {h,m}  = parseTime(document.getElementById(timeInputId).value);
+  const lead   = parseInt(document.getElementById('alarm-lead').value);
+  const events = [];
+  for (let day = 0; day < RAMADAN_DAYS; day++) {
+    const d = new Date(RAMADAN_START);
+    d.setDate(d.getDate() + day);
+    const start = new Date(d); start.setHours(h, m, 0, 0);
+    const end   = new Date(start.getTime() + 30*60000);
+    events.push({
+      allDay: false,
+      start:  icsDateTime(start),
+      end:    icsDateTime(end),
+      title:  emoji+' '+label+' — Day '+(day+1)+' of Ramadan',
+      desc:   label+' on Day '+(day+1)+' of Ramadan 1447. Check your local timetable for exact times.',
+      alarm:  '-PT'+lead+'M',
+    });
+  }
+  downloadICS(makeICS(events), filename);
+}
+
+function genSuhoorICS()  { genDailyICS('Suhoor',  '🌙', 'suhoor-time',  30, 'ramadan-suhoor-alarms.ics'); }
+function genIftarICS()   { genDailyICS('Iftar',   '🌅', 'iftar-time',   15, 'ramadan-iftar-reminders.ics'); }
+function genTarawihICS() { genDailyICS('Tarawih', '🕌', 'tarawih-time', 30, 'ramadan-tarawih-reminders.ics'); }
+
+function genFullRamadanICS() {
+  const lead     = parseInt(document.getElementById('alarm-lead').value);
+  const suhoor   = parseTime(document.getElementById('suhoor-time').value);
+  const iftar    = parseTime(document.getElementById('iftar-time').value);
+  const tarawih  = parseTime(document.getElementById('tarawih-time').value);
+  const events   = [];
+  for (let day = 0; day < RAMADAN_DAYS; day++) {
+    const d = new Date(RAMADAN_START);
+    d.setDate(d.getDate() + day);
+    const make = (lbl, emoji, hh, mm) => {
+      const s = new Date(d); s.setHours(hh,mm,0,0);
+      const e = new Date(s.getTime() + 30*60000);
+      return { allDay:false, start:icsDateTime(s), end:icsDateTime(e),
+        title:emoji+' '+lbl+' — Day '+(day+1),
+        desc:lbl+' on Day '+(day+1)+' of Ramadan 1447. Verify times with local timetable.',
+        alarm:'-PT'+lead+'M' };
+    };
+    events.push(
+      make('Suhoor',  '🌙', suhoor.h,  suhoor.m),
+      make('Iftar',   '🌅', iftar.h,   iftar.m),
+      make('Tarawih', '🕌', tarawih.h, tarawih.m)
+    );
+  }
+  downloadICS(makeICS(events), 'ramadan-1447-full-schedule.ics');
+}
+
+/* ══════════════════════════════════════════════════════════
+   WEB SPEECH API
+   ══════════════════════════════════════════════════════════ */
+let arabicVoice = null;
+function loadVoices() { const v = window.speechSynthesis ? speechSynthesis.getVoices():[];  arabicVoice = v.find(x=>x.lang.startsWith('ar'))||null; }
+if (window.speechSynthesis) { speechSynthesis.addEventListener('voiceschanged', loadVoices); loadVoices(); }
+function speak(text, btn) {
+  if (!window.speechSynthesis) return;
+  speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang='ar-SA'; u.rate=0.72;
+  if (arabicVoice) u.voice=arabicVoice;
+  if (btn) { btn.classList.add('speaking'); u.onend=u.onerror=()=>btn.classList.remove('speaking'); }
+  speechSynthesis.speak(u);
+}
+
+/* ══════════════════════════════════════════════════════════
+   CHECKLIST
+   ══════════════════════════════════════════════════════════ */
+function toggleCheck(id, ev) {
+  if (ev) ev.stopPropagation();
+  state.checked[id] = !state.checked[id];
+  save();
+  const li  = document.querySelector('[data-check="'+id+'"]');
+  const box = li && li.querySelector('.pcheck-box');
+  if (!li) return;
+  if (state.checked[id]) { li.classList.add('done'); if(box) box.textContent='✓'; }
+  else                    { li.classList.remove('done'); if(box) box.textContent=''; }
+}
+
+/* ══════════════════════════════════════════════════════════
+   LOOK AHEAD
+   ══════════════════════════════════════════════════════════ */
+function renderLookAhead() {
+  const upcoming = OCC.filter(o => occStatus(o) !== 'past').slice(0, 5);
+  if (!upcoming.length) { document.getElementById('look-ahead').innerHTML = '<div style="color:var(--text-dim);font-size:12px;padding:10px">All occasions for 1447 AH have passed. Jazakallahu khayran!</div>'; return; }
+  document.getElementById('look-ahead').innerHTML = upcoming.map(o => {
+    const status = occStatus(o);
+    const days   = daysUntil(o.date);
+    const badge  = status==='current' ? '<div class="la-now-badge">● NOW</div>' : '';
+    const cdNum  = status==='current' ? '●' : days===0 ? 'TODAY' : days===1 ? 'TMRW' : days+'d';
+    const cdLbl  = status==='current' ? 'Active' : days<=1 ? '' : 'to go';
+    return `<div class="la-card" style="border-top-color:${o.color}" onclick="openOccasion('${o.id}')">
+      <span class="la-icon">${o.icon}</span>
+      ${badge}
+      <div class="la-title" style="color:${o.color}">${o.title}</div>
+      <div class="la-hijri">${o.hijri}</div>
+      <div class="la-countdown" style="color:${o.color}">${cdNum}<span>${cdLbl}</span></div>
+    </div>`;
+  }).join('');
+}
+
+/* ══════════════════════════════════════════════════════════
+   SPOTLIGHT
+   ══════════════════════════════════════════════════════════ */
+function renderSpotlight() {
+  const target = OCC.find(o => occStatus(o)==='current') || OCC.find(o => occStatus(o)==='upcoming');
+  if (!target) return;
+  const status = occStatus(target);
+  const days   = daysUntil(target.date);
+  const cd     = status==='current' ? '<div class="spot-countdown-label">CURRENTLY ACTIVE</div><div class="spot-countdown" style="color:'+target.color+'">● HAPPENING NOW</div>'
+                 : days===0 ? '<div class="spot-countdown-label">BEGINS</div><div class="spot-countdown" style="color:'+target.color+'">TODAY</div>'
+                 : days===1 ? '<div class="spot-countdown-label">BEGINS</div><div class="spot-countdown" style="color:'+target.color+'">TOMORROW</div>'
+                 : '<div class="spot-countdown-label">BEGINS IN</div><div class="spot-countdown" style="color:'+target.color+'">'+days+' DAYS</div>';
+  const prepItems = (PREP[target.id]||[]).slice(0,2).map(p=>'• '+p.title.replace(/^[^\s]+\s/,'')).join('<br>');
+  const prepTip  = prepItems ? '<div style="margin-top:10px;padding:8px 10px;background:rgba(76,175,80,0.07);border:1px solid rgba(76,175,80,0.2);border-radius:6px;font-size:11px;color:#4caf50;line-height:1.7">📋 Prepare in advance:<br>'+prepItems+'</div>' : '';
+  const linkBtn  = target.link ? `<a class="spot-link" href="${target.link}">${target.linkLabel||'OPEN FULL GUIDE →'}</a>` : `<button class="spot-link" onclick="openOccasion('${target.id}')">VIEW DETAILS →</button>`;
+  const calBtns  = PREP[target.id]
+    ? `<div style="display:flex;gap:6px;flex-wrap:wrap;justify-content:center;margin-top:4px">
+        <button class="spot-link ics" style="font-size:7px" onclick="downloadOccPrepICS('${target.id}')">📥 Prep .ics · Apple/Outlook</button>
+        <button class="spot-link" style="font-size:7px;background:rgba(66,133,244,0.1);border-color:rgba(66,133,244,0.4);color:#4285f4" onclick="addSpotlightToGoogle('${target.id}')">G+ Add Event · Google Cal</button>
+      </div>` : '';
+  document.getElementById('spotlight').innerHTML =
+    `<div class="spotlight" style="border-color:${target.color}44;background:linear-gradient(135deg,${target.color}14,${target.color}06)">
+      <div class="spot-badge ${status==='current'?'now':'soon'}">${status==='current'?'● HAPPENING NOW':'COMING SOON'}</div>
+      <span class="spot-icon">${target.icon}</span>
+      <div class="spot-title" style="color:${target.color}">${target.title.toUpperCase()}</div>
+      <div class="spot-arabic">${target.arabic}</div>
+      <div class="spot-hijri">${target.hijri} · ${target.gregorian}</div>
+      <div class="spot-desc">${target.significance.replace(/<[^>]+>/g,'').slice(0,150)}…</div>
+      ${cd}${prepTip}
+      <div class="spot-btns">${linkBtn}</div>
+      ${calBtns}
+    </div>`;
+}
+
+/* ══════════════════════════════════════════════════════════
+   PREP SECTION HTML (inside each occasion body)
+   ══════════════════════════════════════════════════════════ */
+function prepSectionHTML(occId) {
+  const occ   = OCC.find(o => o.id === occId);
+  const items = PREP[occId];
+  if (!items || !items.length) return '';
+  const rows = items.map((p, idx) => {
+    const d    = new Date(occ.date); d.setDate(d.getDate() - p.dBefore);
+    const days = daysUntil(d);
+    let cls = 'prep-lead';
+    let num = p.dBefore+'d';
+    let unit = 'before';
+    if (days < 0)  { cls += ' overdue'; num = 'PAST'; unit = 'due'; }
+    else if (days <= 7) { cls += ' soon'; }
+    return `<div class="prep-item">
+      <div class="${cls}"><span class="prep-lead-num">${num}</span><span class="prep-lead-unit">${unit}</span></div>
+      <div class="prep-body">
+        <div class="prep-title">${p.title}</div>
+        <div class="prep-desc">${p.desc}</div>
+      </div>
+      <div class="cal-btn-pair">
+        <button class="btn-ics-single" onclick="downloadSinglePrepICS('${occId}',${idx})" title="Download .ics — imports to Apple Calendar or Outlook">📥 Apple</button>
+        <button class="btn-gcal" onclick="addToGoogle('${occId}',${idx})" title="Open in Google Calendar">G+</button>
+      </div>
+    </div>`;
+  }).join('');
+  return `<div class="prep-section">
+    <div class="prep-section-title">
+      <span>📋 PREPARE IN ADVANCE</span>
+      <div style="display:flex;gap:6px">
+        <button class="btn-ics-all" onclick="downloadOccPrepICS('${occId}')" title="Download all reminders as .ics for Apple/Outlook">📥 All · Apple</button>
+        <button class="btn-ics-all" style="background:rgba(66,133,244,0.08);border-color:rgba(66,133,244,0.35);color:#4285f4" onclick="downloadOccPrepICS('${occId}');alert('File downloaded. In Google Calendar: Settings ⚙ → Import & Export → Import .ics')" title="For Google Calendar: download .ics then import via Settings → Import">G+ All</button>
+      </div>
+    </div>
+    ${rows}
+  </div>`;
+}
+
+/* ══════════════════════════════════════════════════════════
+   OCCASION BODY HTML
+   ══════════════════════════════════════════════════════════ */
+function occBodyHTML(o) {
+  const practices = o.practices.map(p => {
+    const done = state.checked[p.id]?'done':'';
+    const tick = state.checked[p.id]?'✓':'';
+    const tag  = p.sunnah ? '<span class="stag">SUNNAH</span>' : '';
+    const htag = p.highlight ? '<span class="htag">KEY</span>' : '';
+    return `<li class="${done}" data-check="${p.id}" onclick="toggleCheck('${p.id}',event)">
+      <div class="pcheck-box">${tick}</div>
+      <span class="pcheck-text">${p.text}${tag}${htag}</span>
+    </li>`;
+  }).join('');
+
+  const duas = o.duas.map(d =>
+    `<div class="dua-block" style="border-color:${o.color}55">
+      <div style="font-size:9px;color:${o.color};font-family:var(--font-pixel);letter-spacing:1px;margin-bottom:8px;text-transform:uppercase">${d.label}</div>
+      <div class="dua-arabic">${d.arabic}</div>
+      <div class="dua-tr">${d.tr}</div>
+      <div class="dua-en">${d.en}</div>
+      <div class="dua-src">📖 ${d.source}</div>
+      <button class="btn-speak" onclick="speak(${JSON.stringify(d.arabic)},this)">🔊 HEAR DUA</button>
+    </div>`).join('');
+
+  const hadith = o.hadith ? `<div class="hadith-block">"${o.hadith}"</div>` : '';
+  const note   = o.note   ? `<div class="note-card">📝 ${o.note}</div>` : '';
+  const link   = o.link   ? `<a class="occ-link-btn" href="${o.link}" style="border-color:${o.color};color:${o.color}">${o.linkLabel||'OPEN FULL GUIDE →'}</a>` : '';
+
+  // Ramadan planner hint
+  const plannerHint = o.showPlanner ? `<div class="note-card" style="border-color:rgba(32,168,64,0.3);background:rgba(32,168,64,0.04)">⏰ Use the <strong>Ramadan Planner</strong> section above to download personalised Suhoor, Iftar, and Tarawih alarms for all 29 days.</div>` : '';
+
+  return `
+    <div class="occ-significance">${o.significance}</div>
+    ${hadith}${note}
+    ${prepSectionHTML(o.id)}
+    <div class="sub-hdr">PRACTICES & CHECKLIST</div>
+    <ul class="practice-list">${practices}</ul>
+    <div class="sub-hdr">DUAS</div>
+    ${duas}${plannerHint}${link}`;
+}
+
+/* ══════════════════════════════════════════════════════════
+   TIMELINE
+   ══════════════════════════════════════════════════════════ */
+function occCardHTML(o) {
+  const status = occStatus(o);
+  const isOpen = state.openId === o.id;
+  const days   = status==='upcoming' ? daysUntil(o.date) : null;
+  const lbl    = status==='past' ? 'PASSED' : status==='current' ? '● NOW'
+               : days===0 ? 'TODAY' : days===1 ? 'TOMORROW' : 'IN '+days+'d';
+  return `<div class="occ-card ${status} ${isOpen?'open':''}" id="occ-${o.id}">
+    <div class="occ-dot" style="border-color:${o.color};${status==='current'?'box-shadow:0 0 10px '+o.color:''}"></div>
+    <div class="occ-inner" style="border-left-color:${o.color}">
+      <div class="occ-header" onclick="toggleOcc('${o.id}')">
+        <div class="occ-icon">${o.icon}</div>
+        <div class="occ-meta">
+          <div class="occ-title" style="color:${o.color}">${o.title}</div>
+          <div class="occ-arabic">${o.arabic}</div>
+          <div class="occ-dates">${o.hijri} · ${o.gregorian}</div>
+        </div>
+        <div class="occ-right">
+          <div class="occ-status ${status}">${lbl}</div>
+          <div class="occ-chevron">▼</div>
+        </div>
+      </div>
+      <div class="occ-body">${occBodyHTML(o)}</div>
+    </div>
+  </div>`;
+}
+
+function renderTimeline() {
+  const active = OCC.filter(o => occStatus(o) !== 'past');
+  const past   = OCC.filter(o => occStatus(o) === 'past');
+  let html = active.map(occCardHTML).join('');
+  if (past.length) {
+    html += `<div class="past-toggle" id="past-toggle" onclick="togglePast()">
+      <span class="past-toggle-chevron">▶</span>
+      <span>PAST SEASONS — ${past.length} occasion${past.length>1?'s':''} this year</span>
+    </div>
+    <div id="past-occasions">${past.map(occCardHTML).join('')}</div>`;
+  }
+  document.getElementById('timeline').innerHTML = html;
+}
+
+function togglePast() {
+  const tog = document.getElementById('past-toggle');
+  const box = document.getElementById('past-occasions');
+  if (!tog || !box) return;
+  const isOpen = box.classList.contains('open');
+  box.classList.toggle('open', !isOpen);
+  tog.classList.toggle('open', !isOpen);
+}
+
+function syncOccOpenState(openId) {
+  OCC.forEach(o => {
+    const c = document.getElementById('occ-' + o.id);
+    if (c) c.classList.toggle('open', o.id === openId);
+  });
+}
+
+function toggleOcc(id) {
+  state.openId = (state.openId === id) ? null : id;
+  save();
+  syncOccOpenState(state.openId);
+}
+
+function openOccasion(id) {
+  state.openId = id;
+  save();
+  // If this occasion is in the past section, reveal that section first
+  const occ = OCC.find(o => o.id === id);
+  if (occ && occStatus(occ) === 'past') {
+    document.getElementById('past-occasions')?.classList.add('open');
+    document.getElementById('past-toggle')?.classList.add('open');
+  }
+  const el = document.getElementById('occ-' + id);
+  if (el) { el.classList.add('open'); setTimeout(() => el.scrollIntoView({behavior:'smooth', block:'start'}), 150); }
+  syncOccOpenState(id);
+}
+
+/* ══════════════════════════════════════════════════════════
+   SHAWWAL TRACKER
+   ══════════════════════════════════════════════════════════ */
+function renderShawwal() {
+  const f = state.shawwal||[];
+  document.getElementById('shawwal-dots').innerHTML = Array.from({length:6},(_,i)=>
+    `<div class="tracker-dot ${f.includes(i)?'fasted':''}" onclick="toggleShawwal(${i})">${f.includes(i)?'✓':i+1}</div>`).join('');
+  document.getElementById('shawwal-count').textContent = f.length+' / 6 completed'+(f.length===6?' — Alhamdulillah! 🎉':'');
+}
+
+function toggleShawwal(i) {
+  if (!state.shawwal) state.shawwal=[];
+  const idx = state.shawwal.indexOf(i);
+  if (idx===-1) state.shawwal.push(i); else state.shawwal.splice(idx,1);
+  save(); renderShawwal();
+}
+
+/* ══════════════════════════════════════════════════════════
+   STAR CANVAS
+   ══════════════════════════════════════════════════════════ */
+function initStars() {
+  const c=document.getElementById('star-bg'), ctx=c.getContext('2d'); let stars=[];
+  function resize() {
+    c.width=window.innerWidth; c.height=window.innerHeight;
+    stars=Array.from({length:180},()=>({x:Math.random()*c.width,y:Math.random()*c.height,r:Math.random()*1.4+0.2,sp:Math.random()*0.022+0.005,ph:Math.random()*Math.PI*2}));
+  }
+  function draw() {
+    ctx.clearRect(0,0,c.width,c.height); const t=performance.now()*0.001;
+    stars.forEach(s=>{const br=0.25+0.75*Math.abs(Math.sin(t*s.sp+s.ph)); ctx.fillStyle=`rgba(200,220,255,${br})`; ctx.beginPath(); ctx.arc(s.x,s.y,s.r,0,Math.PI*2); ctx.fill();});
+    requestAnimationFrame(draw);
+  }
+  window.addEventListener('resize',resize); resize(); draw();
+}
+
+/* ══════════════════════════════════════════════════════════
+   CALENDAR BUILDER — WHITE MOON DAYS 1447 AH
+   Approximate Gregorian dates; subject to moon sighting.
+   Ramadan omitted (obligatory fasting). DH 13 = Tashriq.
+   ══════════════════════════════════════════════════════════ */
+const WMD = [
+  { m:'Muharram',        d:[[2025,6,19],[2025,6,20],[2025,6,21]] },
+  { m:'Safar',           d:[[2025,7,18],[2025,7,19],[2025,7,20]] },
+  { m:"Rabi' al-Awwal",  d:[[2025,8,16],[2025,8,17],[2025,8,18]] },
+  { m:"Rabi' al-Thani",  d:[[2025,9,16],[2025,9,17],[2025,9,18]] },
+  { m:'Jumada al-Ula',   d:[[2025,10,14],[2025,10,15],[2025,10,16]] },
+  { m:'Jumada al-Thani', d:[[2025,11,14],[2025,11,15],[2025,11,16]] },
+  { m:'Rajab',           d:[[2026,0,12],[2026,0,13],[2026,0,14]] },
+  { m:"Sha'ban",         d:[[2026,1,10],[2026,1,11],[2026,1,12]] },
+  // Ramadan 1447 skipped — obligatory fasting already
+  { m:'Shawwal',         d:[[2026,3,1],[2026,3,2],[2026,3,3]] },
+  { m:"Dhul Qa'dah",     d:[[2026,3,30],[2026,4,1],[2026,4,2]] },
+  { m:'Dhul Hijjah',     d:[[2026,5,10],[2026,5,11]] }, // 13 DH = Tashriq (fasting prohibited) — omitted
+];
+
+/* ══════════════════════════════════════════════════════════
+   CALENDAR BUILDER — PRAYER TIME AUTO-FETCH (Aladhan API)
+   Falls back gracefully if offline or city not found.
+   ══════════════════════════════════════════════════════════ */
+async function cbFetchTimes() {
+  const city    = (document.getElementById('cb-city').value    || '').trim();
+  const country = (document.getElementById('cb-country').value || '').trim();
+  const status  = document.getElementById('cb-fetch-status');
+  if (!city) {
+    status.textContent = '⚠ Please enter a city name first.';
+    status.className   = 'cb-fetch-status err'; return;
+  }
+  status.textContent = '⏳ Fetching prayer times for ' + city + '…';
+  status.className   = 'cb-fetch-status';
+  try {
+    const url  = 'https://api.aladhan.com/v1/timingsByCity?city=' + encodeURIComponent(city)
+               + '&country=' + encodeURIComponent(country) + '&method=2';
+    const resp = await fetch(url);
+    if (!resp.ok) throw new Error('HTTP ' + resp.status);
+    const json = await resp.json();
+    const t    = json.data.timings;
+    document.getElementById('cb-fajr').value    = t.Fajr.slice(0,5);
+    document.getElementById('cb-dhuhr').value   = t.Dhuhr.slice(0,5);
+    document.getElementById('cb-asr').value     = t.Asr.slice(0,5);
+    document.getElementById('cb-maghrib').value = t.Maghrib.slice(0,5);
+    document.getElementById('cb-isha').value    = t.Isha.slice(0,5);
+    cbUpdateSleepPreview();
+    status.textContent = '✓ Times loaded for ' + city + (country ? ', ' + country : '')
+                       + ' · ' + json.data.date.readable + '. Adjust as needed for your masjid.';
+    status.className   = 'cb-fetch-status ok';
+  } catch(e) {
+    status.textContent = '⚠ Could not auto-fetch (check city name or internet connection). Set times manually above.';
+    status.className   = 'cb-fetch-status err';
+  }
+}
+
+/* ══════════════════════════════════════════════════════════
+   CALENDAR BUILDER — UI INTERACTION HELPERS
+   ══════════════════════════════════════════════════════════ */
+function cbToggleSleep()     { document.getElementById('cb-sleep-sub').style.display    = document.getElementById('cb-sleep-adhkar').checked ? 'block':'none'; cbUpdateSleepPreview(); }
+function cbToggleTahajjud()  { document.getElementById('cb-tahajjud-sub').style.display = document.getElementById('cb-tahajjud').checked      ? 'block':'none'; cbUpdateTahajjudLabel(); }
+function cbToggleMonThu()    { document.getElementById('cb-mon-thu-sub').style.display  = document.getElementById('cb-mon-thu').checked        ? 'block':'none'; }
+function cbToggleWhiteDays() { document.getElementById('cb-white-sub').style.display    = document.getElementById('cb-white-days').checked     ? 'block':'none'; }
+function cbToggleWhiteSame() { document.getElementById('cb-white-times').style.display  = document.getElementById('cb-white-same').checked     ? 'none':'block'; }
+
+function cbUpdateSleepPreview() {
+  const el = document.getElementById('cb-sleep-preview'); if (!el) return;
+  const [h,m] = (document.getElementById('cb-bedtime').value || '22:30').split(':').map(Number);
+  el.textContent = (h > 12 ? h-12 : h === 0 ? 12 : h) + ':' + String(m).padStart(2,'0') + (h >= 12 ? ' PM' : ' AM');
+}
+
+function cbUpdateTahajjudLabel() {
+  const v = parseInt(document.getElementById('cb-tahajjud-offset').value);
+  document.getElementById('cb-tahajjud-label').textContent = v + ' min';
+  const note = document.getElementById('cb-tahajjud-note');
+  if (note) note.textContent = 'Wake up ' + v + ' min before Fajr. '
+    + (v <= 30 ? 'Quick 2 rakats then rest until Fajr.'
+     : v <= 55 ? 'Time for 4–6 rakats + dua in sujood.'
+     : 'Full Qiyam al-Layl — extended Quran, dua, & night prayer.');
+}
+
+/* ══════════════════════════════════════════════════════════
+   CALENDAR BUILDER — ICS LINE BUILDERS
+   Uses floating time (no Z / no TZID) = local device time.
+   icsEsc is shared with makeICS — defined at module level above.
+   ══════════════════════════════════════════════════════════ */
+function cbHHMMtoDate(baseDate, hhmm) {
+  const [h,m] = hhmm.split(':').map(Number);
+  const d = new Date(baseDate); d.setHours(h, m, 0, 0); return d;
+}
+
+// Single builder for both recurring (opts.rrule set) and one-off (opts.rrule absent) events.
+function cbEventLines(opts) {
+  const end = new Date(opts.start.getTime() + opts.durationMin * 60000);
+  const uid = 'maw-cb-' + Date.now() + Math.floor(Math.random()*99999) + '@mawasim';
+  const l   = [
+    'BEGIN:VEVENT', 'UID:'+uid, 'DTSTAMP:'+nowTs(),
+    'DTSTART:'+icsDateTime(opts.start), 'DTEND:'+icsDateTime(end),
+    ...(opts.rrule ? ['RRULE:'+opts.rrule] : []),
+    'SUMMARY:'+icsEsc(opts.title),
+    'DESCRIPTION:'+icsEsc(opts.desc||''),
+    'TRANSP:'+(opts.transparent ? 'TRANSPARENT' : 'OPAQUE'),
+  ];
+  if (opts.alarm != null) l.push('BEGIN:VALARM','ACTION:DISPLAY','TRIGGER:-PT'+opts.alarm+'M','DESCRIPTION:'+icsEsc(opts.title),'END:VALARM');
+  l.push('END:VEVENT'); return l;
+}
+
+/* ══════════════════════════════════════════════════════════
+   CALENDAR BUILDER — CATEGORY GENERATORS
+   All generators push cbEventLines(opts) into the ev array.
+   ══════════════════════════════════════════════════════════ */
+function cbBase() { const d = new Date(); d.setHours(0,0,0,0); return d; }
+function cbAppURL() { return window.location.href.split('#')[0]; }
+
+function cbGenPrayers(ev, fajr, dhuhr, asr, maghrib, isha) {
+  const b = cbBase(), url = cbAppURL();
+  [['🌅 Fajr Prayer',    fajr,    20],
+   ['☀️ Dhuhr Prayer',   dhuhr,   15],
+   ['🌤 Asr Prayer',     asr,     15],
+   ['🌇 Maghrib Prayer', maghrib, 10],
+   ['🌙 Isha Prayer',    isha,    20],
+  ].forEach(([title, t, dur]) =>
+    ev.push(...cbEventLines({
+      start: cbHHMMtoDate(b, t), durationMin: dur,
+      title, alarm: 5, rrule: 'FREQ=DAILY', transparent: true,
+      desc: title + ' (~' + dur + ' min). Tentative block — adjust in your calendar.\n\nMawasim app: ' + url,
+    }))
+  );
+}
+
+// Shared helper: recurring daily adhkar block offset from a base prayer time
+function cbGenAdhkar(ev, baseTime, offsetMin, title, desc) {
+  const s = cbHHMMtoDate(cbBase(), baseTime); s.setMinutes(s.getMinutes() + offsetMin);
+  ev.push(...cbEventLines({ start:s, durationMin:15, title, desc, alarm:0, rrule:'FREQ=DAILY', transparent:true }));
+}
+
+function cbGenMorningAdhkar(ev, fajr) {
+  cbGenAdhkar(ev, fajr, 10, '🌅 Morning Adhkar — أذكار الصباح',
+    'After Fajr:\n• Ayat al-Kursi\n• Al-Ikhlas / Al-Falaq / An-Nas ×3\n• Sayyid al-Istighfar\n• Morning dua\n\nFull text + audio: ' + cbAppURL());
+}
+
+function cbGenEveningAdhkar(ev, asr) {
+  cbGenAdhkar(ev, asr, 10, '🌆 Evening Adhkar — أذكار المساء',
+    'After Asr:\n• Ayat al-Kursi\n• Al-Ikhlas / Al-Falaq / An-Nas ×3\n• Sayyid al-Istighfar\n• Evening dua\n\nFull text + audio: ' + cbAppURL());
+}
+
+function cbGenSleepAdhkar(ev, bedtime) {
+  const b = cbBase();
+  const wind = cbHHMMtoDate(b, bedtime); wind.setMinutes(wind.getMinutes() - 15);
+  const adhk = cbHHMMtoDate(b, bedtime); adhk.setMinutes(adhk.getMinutes() - 5);
+  ev.push(...cbEventLines({
+    start: wind, durationMin: 10, rrule: 'FREQ=DAILY', transparent: false, alarm: 0,
+    title: '💤 Wind Down — Prepare for Sleep',
+    desc: 'Put the phone down. Prepare for sleep.\n"The Prophet ﷺ disliked staying up after Isha without good reason." (Bukhari)',
+  }));
+  ev.push(...cbEventLines({
+    start: adhk, durationMin: 10, rrule: 'FREQ=DAILY', transparent: false, alarm: 5,
+    title: '📿 Bedtime Adhkar — أذكار النوم',
+    desc: 'Before sleep:\n• Ayat al-Kursi (1×)\n• Al-Ikhlas / Al-Falaq / An-Nas (×3 — blow into hands, wipe over body)\n• Sleeping dua: اللَّهُمَّ بِاسْمِكَ أَمُوتُ وَأَحْيَا\n• Lie on right side\n\nFull text + audio: ' + cbAppURL(),
+  }));
+}
+
+function cbGenTahajjud(ev, fajr, offsetMin) {
+  const s = cbHHMMtoDate(cbBase(), fajr); s.setMinutes(s.getMinutes() - offsetMin);
+  ev.push(...cbEventLines({
+    start: s, durationMin: Math.max(Math.min(offsetMin - 5, 40), 15),
+    title: '🌃 Tahajjud — قيام الليل (' + offsetMin + ' min before Fajr)',
+    alarm: 5, rrule: 'FREQ=DAILY', transparent: false,
+    desc: 'Night prayer — ' + offsetMin + ' min before Fajr.\n• Pray 2, 4, 6 or 8 rakats (pairs)\n• Long dua in sujood\n• Recite Quran\n• End with Witr if not prayed after Isha\n\n"The best prayer after the obligatory is the night prayer." (Muslim 1163)\n\n' + cbAppURL(),
+  }));
+}
+
+const IFTAR_DUA = 'اللَّهُمَّ لَكَ صُمْتُ وَبِكَ آمَنْتُ وَعَلَى رِزْقِكَ أَفْطَرْتُ';
+
+function cbGenMonThu(ev, suhoor, iftar) {
+  const today = cbBase();
+  const dToMon = (1 - today.getDay() + 7) % 7 || 7;
+  const mon = new Date(today); mon.setDate(today.getDate() + dToMon);
+  ev.push(...cbEventLines({
+    start: cbHHMMtoDate(mon, suhoor), durationMin: 30,
+    title: '⏰ Suhoor — Mon & Thu Fast · الإثنين والخميس', alarm: 10,
+    rrule: 'FREQ=WEEKLY;BYDAY=MO,TH', transparent: false,
+    desc: 'Pre-dawn meal for Mon/Thu sunnah fast.\n"The Prophet ﷺ fasted Mondays and Thursdays." (Tirmidhi 747)\n\nBreak fast at Maghrib (~' + iftar + ').',
+  }));
+  ev.push(...cbEventLines({
+    start: cbHHMMtoDate(mon, iftar), durationMin: 20,
+    title: '🌅 Iftar — Break Mon/Thu Fast', alarm: 10,
+    rrule: 'FREQ=WEEKLY;BYDAY=MO,TH', transparent: false,
+    desc: 'Break your Monday/Thursday sunnah fast.\nDua: ' + IFTAR_DUA,
+  }));
+}
+
+function cbGenWhiteDays(ev, suhoor, iftar) {
+  WMD.forEach(wm => {
+    wm.d.forEach((dd, i) => {
+      const base = new Date(dd[0], dd[1], dd[2]);
+      const ord  = ['13th','14th','15th'][i];
+      const day  = i + 13;
+      ev.push(...cbEventLines({
+        start: cbHHMMtoDate(base, suhoor), durationMin: 30,
+        title: '⏰ Suhoor · ' + ord + ' ' + wm.m + ' — White Day Fast', alarm: 10,
+        desc: 'Ayyam al-Beed — ' + ord + ' ' + wm.m + ' 1447 AH.\n"Fasting 3 days of each month equals fasting the whole month." (Nasa\'i — Sahih)\nBreak at Maghrib (~' + iftar + ').',
+      }));
+      ev.push(...cbEventLines({
+        start: cbHHMMtoDate(base, iftar), durationMin: 20,
+        title: '🌕 Iftar · ' + ord + ' ' + wm.m + ' — White Day Fast', alarm: 10,
+        desc: 'Break your White Day fast (' + ord + ' ' + wm.m + ' 1447).\nDua: ' + IFTAR_DUA,
+      }));
+    });
+  });
+}
+
+function cbGenAdha3Days(ev) {
+  const url = cbAppURL();
+  [
+    { date:[2026,5,6], alarm:60, title:'🐑 Eid al-Adha — Day 1 · 10 Dhul Hijjah',
+      desc:'EID AL-ADHA MUBARAK!\n\n• Ghusl before Eid prayer\n• Wear best clothes\n• Do NOT eat before prayer — eat from sacrifice after\n• Takbeer on way to masjid\n• Eid prayer (2 rakats with extra takbeers)\n• Udhiyah valid today through 13 Dhul Hijjah\n• Return home via different route (Sunnah)\n\n' + url },
+    { date:[2026,5,7], alarm:0,  title:'🌙 Eid al-Adha Day 2 · 11 Dhul Hijjah (Tashriq)',
+      desc:'Ayyam al-Tashriq:\n\n• Takbeer al-Tashriq after every fard prayer\n• Continue Udhiyah if not done\n• Days of eating, drinking, dhikr — fasting PROHIBITED\n\n' + url },
+    { date:[2026,5,8], alarm:0,  title:'🌙 Eid al-Adha Day 3 · 12 Dhul Hijjah (Tashriq)',
+      desc:'Final Tashriq Day:\n\n• Takbeer al-Tashriq after every fard prayer\n• Last day for Udhiyah\n• Hajj pilgrims: last day to stone the Jamarat\n\n' + url },
+  ].forEach(e => {
+    const s = new Date(e.date[0], e.date[1], e.date[2]); s.setHours(7, 0, 0, 0);
+    ev.push(...cbEventLines({ start:s, durationMin:60, title:e.title, desc:e.desc, alarm:e.alarm }));
+  });
+}
+
+/* ══════════════════════════════════════════════════════════
+   CALENDAR BUILDER — MAIN GENERATE
+   ══════════════════════════════════════════════════════════ */
+function cbGenerate(forGoogle) {
+  const checks = {
+    prayers:       document.getElementById('cb-prayers').checked,
+    morningAdhkar: document.getElementById('cb-morning-adhkar').checked,
+    eveningAdhkar: document.getElementById('cb-evening-adhkar').checked,
+    sleepAdhkar:   document.getElementById('cb-sleep-adhkar').checked,
+    tahajjud:      document.getElementById('cb-tahajjud').checked,
+    monThu:        document.getElementById('cb-mon-thu').checked,
+    whiteDays:     document.getElementById('cb-white-days').checked,
+    adhaDays:      document.getElementById('cb-adha-days').checked,
+  };
+  const r = document.getElementById('cb-result');
+  if (!Object.values(checks).some(Boolean)) {
+    r.innerHTML = '⚠ Please select at least one option above.';
+    r.style.cssText = 'background:rgba(231,76,60,0.08);border-color:rgba(231,76,60,0.3);color:var(--red);display:block';
+    return;
+  }
+  r.style.cssText = '';
+  const fajr    = document.getElementById('cb-fajr').value    || '05:30';
+  const dhuhr   = document.getElementById('cb-dhuhr').value   || '13:00';
+  const asr     = document.getElementById('cb-asr').value     || '16:30';
+  const maghrib = document.getElementById('cb-maghrib').value || '19:00';
+  const isha    = document.getElementById('cb-isha').value    || '20:30';
+  const bedtime = document.getElementById('cb-bedtime').value || '22:30';
+  const tahOff  = parseInt(document.getElementById('cb-tahajjud-offset').value) || 45;
+  const fSuhoor = document.getElementById('cb-fast-suhoor').value || '05:00';
+  const fIftar  = document.getElementById('cb-fast-iftar').value  || '19:00';
+  const wSame   = document.getElementById('cb-white-same').checked;
+  const wSuhoor = wSame ? fSuhoor : (document.getElementById('cb-white-suhoor').value || fSuhoor);
+  const wIftar  = wSame ? fIftar  : (document.getElementById('cb-white-iftar').value  || fIftar);
+
+  const ev = [], done = [];
+  if (checks.prayers)       { cbGenPrayers(ev, fajr, dhuhr, asr, maghrib, isha);  done.push('5 Daily Prayer blocks (recurring daily)'); }
+  if (checks.morningAdhkar) { cbGenMorningAdhkar(ev, fajr);                        done.push('Morning Adhkar — after Fajr (recurring daily)'); }
+  if (checks.eveningAdhkar) { cbGenEveningAdhkar(ev, asr);                         done.push('Evening Adhkar — after Asr (recurring daily)'); }
+  if (checks.sleepAdhkar)   { cbGenSleepAdhkar(ev, bedtime);                       done.push('Pre-Sleep Wind Down + Bedtime Adhkar (recurring daily)'); }
+  if (checks.tahajjud)      { cbGenTahajjud(ev, fajr, tahOff);                     done.push('Tahajjud — ' + tahOff + ' min before Fajr (recurring daily)'); }
+  if (checks.monThu)        { cbGenMonThu(ev, fSuhoor, fIftar);                    done.push('Mon & Thu Fasting — Suhoor + Iftar (recurring weekly)'); }
+  if (checks.whiteDays)     { cbGenWhiteDays(ev, wSuhoor, wIftar);                 done.push('White Moon Days — Suhoor + Iftar across 1447 AH'); }
+  if (checks.adhaDays)      { cbGenAdha3Days(ev);                                  done.push('Eid al-Adha — 3-Day guide events (Jun 6–8, 2026)'); }
+
+  const header = [
+    'BEGIN:VCALENDAR','VERSION:2.0',
+    'PRODID:-//Mawasim1447//CalBuilder//EN',
+    'CALSCALE:GREGORIAN',
+    'X-WR-CALNAME:Mawasim — My Ibadah Calendar 1447',
+  ];
+  downloadICS([...header, ...ev, 'END:VCALENDAR'].join('\r\n'), 'mawasim-my-ibadah-calendar.ics');
+
+  r.innerHTML = '✓ <strong>' + done.length + ' feature' + (done.length > 1 ? 's' : '') + ' generated</strong>:<br>'
+    + done.map(g => '· ' + g).join('<br>')
+    + '<br><br>📱 <strong>Apple Calendar / Outlook:</strong> The .ics file opens automatically — accept the import prompt.<br>'
+    + '📋 <strong>Google Calendar:</strong> Go to <a href="https://calendar.google.com" target="_blank">calendar.google.com</a> → Settings ⚙ → Import & Export → Import the downloaded .ics file.';
+  r.classList.add('show');
+}
+
+/* ══════════════════════════════════════════════════════════
+   INIT
+   ══════════════════════════════════════════════════════════ */
+document.addEventListener('DOMContentLoaded', () => {
+  load();
+  initStars();
+  renderLookAhead();
+  renderSpotlight();
+  renderTimeline();
+  renderShawwal();
+
+  // Auto-open and scroll to the current or next upcoming occasion
+  const anchor = OCC.find(o => occStatus(o)==='current') || OCC.find(o => occStatus(o)==='upcoming');
+  if (anchor) {
+    if (!state.openId) {
+      state.openId = anchor.id;
+      const el = document.getElementById('occ-'+anchor.id);
+      if (el) el.classList.add('open');
+    }
+    // Scroll to the "TIMELINE" section header, so user lands just above the timeline
+    setTimeout(() => {
+      const el = document.getElementById('occ-'+anchor.id);
+      if (el) el.scrollIntoView({ behavior:'smooth', block:'start' });
+    }, 400);
+  }
+});
+</script>
+</body>
+</html>
